@@ -86,16 +86,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#类金字塔型题<br>###解法：把复杂的整体分解成几个部分（包括空白部分），再分别用循环语句实现（一般有几个部分就有几个for语句）。<br><br>##1.输出：<br>正输：<br><br>0<br><br>00<br><br>000<br><br>0000<br>  </p>
-<p>反输：<br><br>0000<br><br>000<br><br>00<br><br>0<br><br>语句1（正输）：<br><br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br><br>{<br><br>for(j=1;j&lt;=n;j=j+1)  //输出j个(个数变化取决于两个’ ; ‘之间的表达式)<br><br>{<br><br>printf(“0/%d/%c”[,    ]) //输出0，输出字符取决于“  ”和[ ]之间的表达式<br><br>}<br><br>}<br></p>
+        <p>#类金字塔型题<br>###解法：把复杂的整体分解成几个部分（包括空白部分），再分别用循环语句实现（一般有几个部分就有几个for语句）。<br>##1.输出：<br>正输：<br>0<br>00<br>000<br>0000</p>
+<p>反输：<br>0000<br>000<br>00<br>0<br>语句1（正输）：<br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br>{<br>for(j=1;j&lt;=n;j=j+1)  //输出j个(个数变化取决于两个’ ; ‘之间的表达式)<br>{<br>printf(“0/%d/%c”[,    ]) //输出0，输出字符取决于“  ”和[ ]之间的表达式<br>}<br>}  </p>
 <ul>
-<li>tips1:输入正反（左右）<br><code>printf中[]的表达式：正输：a+j ；反输：a-j。</code><br><br><code>其中a为常数,可从题目中求出，且以上表达式可能会用到&#39; i &#39;</code><br></li>
-<li>tips2:输入正反（上下）<br><code>第二个for语句中两个&#39; ; &#39;的表达式：正输：a*i+b ；反输：a*n-b*i+c。</code><br><br><code>其中a，b，c为常数，可从题目求出</code><br></li>
+<li>tips1:输入正反（左右）<br><code>printf中[]的表达式：正输：a+j ；反输：a-j。</code><br><code>其中a为常数,可从题目中求出，且以上表达式可能会用到&#39; i &#39;</code>  </li>
+<li>tips2:输入正反（上下）<br><code>第二个for语句中两个&#39; ; &#39;的表达式：正输：a*i+b ；反输：a*n-b*i+c。</code><br><code>其中a，b，c为常数，可从题目求出</code>  </li>
 </ul>
-<p>##2.输出：<br><br>正输:  <br><br>0001<br><br>00111<br><br>011111<br><br>1111111<br>                      </p>
-<p>反输：<br><br>1111111<br><br>011111<br><br>00111<br><br>0001<br><br>###分解成0三角和1三角<br><br>语句2（0三角反输，1三角正输）：<br><br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br><br>{<br><br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出0三角<br><br>{<br><br>printf(“0”) <br><br>}<br><br>for(j=1;j&lt;=2*i-1;j=j+1) //输出1三角<br><br>{<br><br>printf(“1”)<br><br>}<br><br>}<br></p>
-<p>##3.输出：<br><br>正输:   <br><br>0001222<br><br>0011122<br><br>0111112<br><br>1111111<br>                           </p>
-<p>反输：<br><br>1111111<br><br>0111112<br><br>0011122<br><br>0001222<br><br>###分解成0三角，1三角和2三角<br><br>语句3（0三角反输，1三角正输，2三角反输）：<br><br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br><br>{<br><br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出0三角<br><br>{<br><br>printf(“0”) <br><br>}<br><br>for(j=1;j&lt;=2*i-1;j=j+1) //输出1三角<br><br>{<br><br>printf(“1”)<br><br>}<br><br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出2三角<br><br>{<br><br>printf(“2”) <br><br>}<br><br>}<br></p>
+<p>##2.输出：<br>正输:<br>0001<br>00111<br>011111<br>1111111                        </p>
+<p>反输：<br>1111111<br>011111<br>00111<br>0001<br>###分解成0三角和1三角<br>语句2（0三角反输，1三角正输）：<br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br>{<br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出0三角<br>{<br>printf(“0”)<br>}<br>for(j=1;j&lt;=2*i-1;j=j+1) //输出1三角<br>{<br>printf(“1”)<br>}<br>}  </p>
+<p>##3.输出：<br>正输:<br>0001222<br>0011122<br>0111112<br>1111111                             </p>
+<p>反输：<br>1111111<br>0111112<br>0011122<br>0001222<br>###分解成0三角，1三角和2三角<br>语句3（0三角反输，1三角正输，2三角反输）：<br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br>{<br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出0三角<br>{<br>printf(“0”)<br>}<br>for(j=1;j&lt;=2*i-1;j=j+1) //输出1三角<br>{<br>printf(“1”)<br>}<br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出2三角<br>{<br>printf(“2”)<br>}<br>}  </p>
 <p>有例子</p>
 
       
