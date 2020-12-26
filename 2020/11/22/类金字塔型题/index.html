@@ -14,10 +14,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="#类金字塔型题###解法：把复杂的整体分解成几个部分（包括空白部分），再分别用循环语句实现（一般有几个部分就有几个for语句）。##1.输出：正输：0000000000 反输：0000000000语句1（正输）：for(i&#x3D;1;i&lt;&#x3D;n;i&#x3D;i+1)  &#x2F;&#x2F;输出i列(基本没什么变化){for(j&#x3D;1;j&lt;&#x3D;n;j&#x3D;j+1)  &#x2F;&#x2F;输出j个(个数变化取决于两个’ ; ‘之间的表达式){p">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/blob/master/2020/11/22/%E7%B1%BB%E9%87%91%E5%AD%97%E5%A1%94%E9%A2%98%E5%9E%8B/1.PNG">
 <meta property="article:published_time" content="2020-11-22T10:30:07.000Z">
-<meta property="article:modified_time" content="2020-12-07T08:36:14.640Z">
+<meta property="article:modified_time" content="2020-12-10T09:03:53.615Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/blob/master/2020/11/22/%E7%B1%BB%E9%87%91%E5%AD%97%E5%A1%94%E9%A2%98%E5%9E%8B/1.PNG">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -98,7 +100,7 @@
 <p>反输：<br>1111111<br>011111<br>00111<br>0001<br>###分解成0三角和1三角<br>语句2（0三角反输，1三角正输）：<br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br>{<br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出0三角<br>{<br>printf(“0”)<br>}<br>for(j=1;j&lt;=2*i-1;j=j+1) //输出1三角<br>{<br>printf(“1”)<br>}<br>}  </p>
 <p>##3.输出：<br>正输:<br>0001222<br>0011122<br>0111112<br>1111111                             </p>
 <p>反输：<br>1111111<br>0111112<br>0011122<br>0001222<br>###分解成0三角，1三角和2三角<br>语句3（0三角反输，1三角正输，2三角反输）：<br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br>{<br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出0三角<br>{<br>printf(“0”)<br>}<br>for(j=1;j&lt;=2*i-1;j=j+1) //输出1三角<br>{<br>printf(“1”)<br>}<br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出2三角<br>{<br>printf(“2”)<br>}<br>}  </p>
-<p>有例子</p>
+<p>有例子<br><img src="https://github.com/yzhk/yzhk.github.io/blob/master/2020/11/22/%E7%B1%BB%E9%87%91%E5%AD%97%E5%A1%94%E9%A2%98%E5%9E%8B/1.PNG"></p>
 
       
     </div>
@@ -111,6 +113,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/12/26/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          插入排序
+        
+      </div>
+    </a>
   
   
     <a href="/2020/10/20/%E7%94%A8scanf%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E6%97%B6%E5%AD%97%E7%AC%A6%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
@@ -139,7 +150,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li></ul>
     </div>
   </div>
 
@@ -150,6 +161,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/12/26/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">插入排序</a>
+          </li>
         
           <li>
             <a href="/2020/11/22/%E7%B1%BB%E9%87%91%E5%AD%97%E5%A1%94%E5%9E%8B%E9%A2%98/">类金字塔型题</a>
