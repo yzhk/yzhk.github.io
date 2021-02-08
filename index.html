@@ -64,9 +64,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-sql-labs-Less-13" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-sql-labs-Less-13~14" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/07/sql-labs-Less-13/" class="article-date">
+    <a href="/2021/02/07/sql-labs-Less-13~14/" class="article-date">
   <time datetime="2021-02-07T03:04:58.000Z" itemprop="datePublished">2021-02-07</time>
 </a>
     
@@ -78,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/07/sql-labs-Less-13/">sql-labs-Less-13~14</a>
+      <a class="article-title" href="/2021/02/07/sql-labs-Less-13~14/">sql-labs-Less-13~14</a>
     </h1>
   
 
@@ -91,7 +91,7 @@
 
 <p><img src alt="1"><br>登入成功，但没有信息的回显，这时候就想到可能要用布尔盲注。<br>在账号后面加上’，显示如下：</p>
 <p><img src alt="2"><br>说明有注入漏洞，而且错误显示<code>admin&#39;) LIMIT 0,1</code>，说明可能要用’)字符注入。<br>测试一下’)：在账号后面加上’)#，在输入密码，显示登入成功，说明是用’)字符注入的。<br>也可以把’)改成\，不输入密码再次登入，显示如下：</p>
-<p><img src alt="3"><br>\的后面是’)，说明是用’)注入的。<br>在账号后面加上’) order by 2#，登入正常无回显，说明有两列数据。<br>在输入admin’) and <code>length(database())=8</code>#登入正常，说明库名长度为8。<br>剩下的跟Less-5~6一样，在上一句的阴影部分改一下就行了。</p>
+<p><img src alt="3"><br>\的后面是’)，说明是用’)注入的。<br>在账号后面加上’) order by 2#，登入正常，说明有两列数据。<br>在输入admin’) and <code>length(database())=8</code>#登入正常，说明库名长度为8。<br>剩下的跟Less-5~6一样，在上一句的阴影部分改一下就行了。</p>
 <h1>Less-14</h1>
 和13一样，只是把')改成"
 
@@ -136,7 +136,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/07/sql-labs-Less-13/" data-id="ckkuzsa0u0000d8ux7pj0et63" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/07/sql-labs-Less-13~14/" data-id="ckkw12zvg0000ywuxb763gtid" class="article-share-link">Share</a>
       
       
     </footer>
@@ -679,7 +679,7 @@
       <ul>
         
           <li>
-            <a href="/2021/02/07/sql-labs-Less-13/">sql-labs-Less-13~14</a>
+            <a href="/2021/02/07/sql-labs-Less-13~14/">sql-labs-Less-13~14</a>
           </li>
         
           <li>
