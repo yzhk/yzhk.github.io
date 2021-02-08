@@ -15,7 +15,7 @@
 <meta property="og:description" content="Less-13 首先进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-13&#x2F;，输入账号和密码，显示如下：  登入成功，但没有信息的回显，这时候就想到可能要用布尔盲注。在账号后面加上’，显示如下： 说明有注入漏洞，而且错误显示admin&#39;) LIMIT 0,1，说明可能要用’)字符注入。测试一下’)：在账号后面加上’)#，在输入密码，显示登入成功，说明是用’)字符注入的。也可以把’)改">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-07T03:04:58.000Z">
-<meta property="article:modified_time" content="2021-02-08T03:21:56.651Z">
+<meta property="article:modified_time" content="2021-02-08T03:42:10.485Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -92,8 +92,7 @@
 首先进入http://127.0.0.1/sql/Less-13/，输入账号和密码，显示如下：
 
 <p><img src alt="1"><br>登入成功，但没有信息的回显，这时候就想到可能要用布尔盲注。<br>在账号后面加上’，显示如下：</p>
-<p><img src alt="2"><br>说明有注入漏洞，而且错误显示<code>admin&#39;) LIMIT 0,1</code>，说明可能要用’)字符注入。<br>测试一下’)：在账号后面加上’)#，在输入密码，显示登入成功，说明是用’)字符注入的。<br>也可以把’)改成\，不输入密码再次登入，显示如下：</p>
-<p><img src alt="3"><br>\的后面是’)，说明是用’)注入的。<br>在账号后面加上’) order by 2#，登入正常，说明有两列数据。<br>在输入admin’) and <code>length(database())=8</code>#登入正常，说明库名长度为8。<br>剩下的跟Less-5~6一样，在上一句的阴影部分改一下就行了。</p>
+<p><img src alt="2"><br>说明有注入漏洞，而且错误显示<code>admin&#39;) LIMIT 0,1</code>，说明可能要用’)字符注入。<br>测试一下’)：在账号后面加上’)#，在输入密码，显示登入成功，说明是用’)字符注入的。<br>也可以把’)改成\，不输入密码再次登入，\的后面是’)，说明是用’)注入的。<br>在账号后面加上’) order by 2#，登入正常，说明有两列数据。<br>在输入admin’) and <code>length(database())=8</code>#登入正常，说明库名长度为8。<br>剩下的跟Less-5~6一样，在上一句的阴影部分改一下就行了。</p>
 <h1>Less-14</h1>
 和13一样，只是把')改成"
 
