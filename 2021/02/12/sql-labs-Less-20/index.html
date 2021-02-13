@@ -14,15 +14,15 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-20&#x2F;，和前两关一样，打开http header live再登陆： 我们可以看到我们的user agent、IP地址、cookie、登录名和密码，由20关的题目可以知道要在cookie里注入。打开hackerbar,把相应的地方先填好: 在cookie输入’，发生报错： 再输入#(这里如果用’会没有报错，但有一部分会没有输出,但也是可以用的)">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/1.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/2.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/3.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/1.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/2.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/3.png">
 <meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/4.png">
 <meta property="article:published_time" content="2021-02-12T10:08:42.000Z">
-<meta property="article:modified_time" content="2021-02-13T16:12:44.657Z">
+<meta property="article:modified_time" content="2021-02-13T16:14:27.570Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/1.png">
+<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -94,9 +94,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-20/%EF%BC%8C%E5%92%8C%E5%89%8D%E4%B8%A4%E5%85%B3%E4%B8%80%E6%A0%B7%EF%BC%8C%E6%89%93%E5%BC%80http">http://127.0.0.1/sql/Less-20/，和前两关一样，打开http</a> header live再登陆：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/1.png" alt="1"><br>我们可以看到我们的user agent、IP地址、cookie、登录名和密码，由20关的题目可以知道要在cookie里注入。<br>打开hackerbar,把相应的地方先填好:</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/2.png" alt="2"><br>在cookie输入’，发生报错：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/3.png" alt="3"><br>再输入#(这里如果用’会没有报错，但有一部分会没有输出,但也是可以用的)，正常输出了，说明可以用’注入（也可以看报错中有<code>&#39;admin&#39;</code>）。<br>可以注入了：<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)#<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)and’<br>，接下来跟前两关差不多了。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/1.png" alt="1"><br>我们可以看到我们的user agent、IP地址、cookie、登录名和密码，由20关的题目可以知道要在cookie里注入。<br>打开hackerbar,把相应的地方先填好:</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/2.png" alt="2"><br>在cookie输入’，发生报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/3.png" alt="3"><br>再输入#(这里如果用’会没有报错，但有一部分会没有输出,但也是可以用的)，正常输出了，说明可以用’注入（也可以看报错中有<code>&#39;admin&#39;</code>）。<br>可以注入了：<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)#<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)and’<br>，接下来跟前两关差不多了。</p>
 <p>ps：cookie也可以登录后再刷新一次，再打开已经打开的http header live，查看：</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/4.png" alt="4"></p>
 

