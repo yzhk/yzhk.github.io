@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/15/sql-labs-Less-25/1.png">
 <meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/15/sql-labs-Less-25/1.png">
 <meta property="article:published_time" content="2021-02-15T12:10:44.000Z">
-<meta property="article:modified_time" content="2021-02-16T05:43:55.745Z">
+<meta property="article:modified_time" content="2021-02-16T14:32:24.071Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/15/sql-labs-Less-25/1.png">
@@ -104,7 +104,7 @@ WAF绕过<br>
 （3）union/*aaaaaaaaaabbbbbbbbbcccccccccccdddddddddddeeeeeeeeeeee%%%%%%%%%*/select  构造较大数据<br>
 （4）/*!union select*/内联注释        我们使用内联注释，mysql特有<br>
 2.空白符绕过   <br>           
-（1）mysql空白符：%09；%0A;  %0B;  %0D;  %20;  %0C;  %A0;  /*XXX*/<br>
+（1）mysql空白符：%09（TAB键（水平））；%0A（新建一行）;  %0B（TAB键（垂直））;  %0D（return功能）;  %20（空格）;  %0C（新的一页）;  %A0（空格）;  /*XXX*/<br>
 （2）正则空白符： %09；%0A;  %0B;  %0D;  %20; <br>
      %25其实就是百分号  %25A0  就是空白符  <br>    
 3.函数分割符号<br>
@@ -136,7 +136,7 @@ Or  aNd  UniOn<br>
 OORr >> or (既Less-25的方法一)<br>
 9.关键字替换<br>
 如果还是无法绕过，可以考虑替换的方法<br>
-and >> &&    or >> ||(既Less-25的方法二)   like可以替换 =    <> 等价于 !=  <br>
+and >> &&    or >> ||(既Less-25的方法二)   like可以替换 =    <> 等价于 !=  --+、#可以替换为;%00 <br>
 
 
 
@@ -201,6 +201,10 @@ and >> &&    or >> ||(既Less-25的方法二)   like可以替换 =    <> 等价�
       <ul>
         
           <li>
+            <a href="/2021/02/16/sql-labs-Less-26/">sql-labs-Less-26</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/16/sql-labs-Less-25a/">sql-labs-Less-25a</a>
           </li>
         
@@ -214,10 +218,6 @@ and >> &&    or >> ||(既Less-25的方法二)   like可以替换 =    <> 等价�
         
           <li>
             <a href="/2021/02/13/sql-labs-Less-23/">sql-labs-Less-23</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/12/sql-labs-Less-21~22/">sql-labs-Less-21~22</a>
           </li>
         
       </ul>
