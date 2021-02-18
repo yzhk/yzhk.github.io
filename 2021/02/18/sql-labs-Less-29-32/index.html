@@ -5,25 +5,19 @@
   
 
   
-  <title>sql-labs-Less-17 | Hexo</title>
+  <title>sql-labs-Less-29~32 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Less-17  进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-17&#x2F;，显示如下： 在username里输入admin，password里输入1’（这里是因为不知道密码）,报错了： 再把password的1’改成1’#。正常输出，说明可以用’注入。接下来就在password那里进行注入可以用布尔盲注、延时注入和报错注入。然后求出表名：users，列名：username和password。">
+  <meta name="description" content="电脑搭建了jspstudy，但是出错了，做不了。这几关方法差不多。教程： https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1JE411b7kz 小结 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;lcamry&#x2F;p&#x2F;5762961.html">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sql-labs-Less-17">
-<meta property="og:url" content="http://example.com/2021/02/09/sql-labs-Less-17/index.html">
+<meta property="og:title" content="sql-labs-Less-29~32">
+<meta property="og:url" content="http://example.com/2021/02/18/sql-labs-Less-29-32/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Less-17  进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-17&#x2F;，显示如下： 在username里输入admin，password里输入1’（这里是因为不知道密码）,报错了： 再把password的1’改成1’#。正常输出，说明可以用’注入。接下来就在password那里进行注入可以用布尔盲注、延时注入和报错注入。然后求出表名：users，列名：username和password。">
+<meta property="og:description" content="电脑搭建了jspstudy，但是出错了，做不了。这几关方法差不多。教程： https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1JE411b7kz 小结 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;lcamry&#x2F;p&#x2F;5762961.html">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/1.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/2.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/3.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/4.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/5.png">
-<meta property="article:published_time" content="2021-02-09T08:35:56.000Z">
-<meta property="article:modified_time" content="2021-02-09T16:52:59.306Z">
+<meta property="article:published_time" content="2021-02-18T08:54:44.000Z">
+<meta property="article:modified_time" content="2021-02-18T09:08:38.347Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -72,10 +66,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-sql-labs-Less-17" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-sql-labs-Less-29-32" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/09/sql-labs-Less-17/" class="article-date">
-  <time datetime="2021-02-09T08:35:56.000Z" itemprop="datePublished">2021-02-09</time>
+    <a href="/2021/02/18/sql-labs-Less-29-32/" class="article-date">
+  <time datetime="2021-02-18T08:54:44.000Z" itemprop="datePublished">2021-02-18</time>
 </a>
     
   </div>
@@ -86,7 +80,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      sql-labs-Less-17
+      sql-labs-Less-29~32
     </h1>
   
 
@@ -94,23 +88,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1>Less-17</h1>
-
-<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-17/%EF%BC%8C%E6%98%BE%E7%A4%BA%E5%A6%82%E4%B8%8B%EF%BC%9A">http://127.0.0.1/sql/Less-17/，显示如下：</a></p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/1.png" alt="1"><br>在username里输入admin，password里输入1’（这里是因为不知道密码）,报错了：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/2.png" alt="2"><br>再把password的1’改成1’#。正常输出，说明可以用’注入。<br>接下来就在password那里进行注入可以用布尔盲注、延时注入和报错注入。<br>然后求出表名：users，列名：username和password。</p>
+        <p>电脑搭建了jspstudy，但是出错了，做不了。<br>这几关方法差不多。<br>教程：<br> <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1JE411b7kz">https://www.bilibili.com/video/BV1JE411b7kz</a></p>
 <h1>小结</h1>
-1.这次我们为什么不在username进行注入而是在password进行注入呢？
-
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/3.png" alt="3"><br>我们查看源代码发现一个check_input()函数。<br>check_input()函数有什么用呢,先说一下下面这些函数：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/4.png" alt="4"><br><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/09/sql-labs-Less-17/5.png" alt="5"><br>在我们less17的check_input()中，对username进行各种转义的处理，所以此处不能使用username进行注入。</p>
-<p>2.报错注入<br>select extractvalue(1,concat(0x7e,(构造的语句),0x7e));<br>//select extractvalue(1,concat(0x7e,(select database()),0x7e));</p>
-<p>select updatexml(1,concat(0x7e,(构造的语句),0x7e),1);<br>//select updatexml(1,concat(0x7e,(select database()),0x7e),1);</p>
+https://www.cnblogs.com/lcamry/p/5762961.html
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/09/sql-labs-Less-17/" data-id="ckky8po0o00006oux6wfogw23" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/18/sql-labs-Less-29-32/" data-id="cklan6xl20000gwuxhcpv3hsn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -119,19 +104,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/02/10/sql-labs-Less-18/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          sql-labs-Less-18
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/02/07/sql-labs-Less-13~16/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/17/sql-labs-Less-28-28a/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">sql-labs-Less-13~16</div>
+      <div class="article-nav-title">sql-labs-Less-28-28a</div>
     </a>
   
 </nav>

