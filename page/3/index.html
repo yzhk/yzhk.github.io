@@ -64,6 +64,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-9-10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/03/sql-labs-Less-9-10/" class="article-date">
+  <time datetime="2021-02-03T09:21:11.000Z" itemprop="datePublished">2021-02-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/03/sql-labs-Less-9-10/">sql-labs Less-9~10</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-9</h1>
+进入http://127.0.0.1/sql/Less-8，输入/?id=1,正常输出，加上'，正常输出，再加上--+，还是正常输出，换其他字符尝试，还是正常输出。
+这时要换其他方法判断能不能注入以及注入字符，这里可以用延迟注入(?)，即在1'后面加and sleep(5)--+,如果能用'注入，则会在加载5秒后再输出，否则会较快的输出。
+接下来的步骤和Less-5~6或Less-8一样。
+
+<h1>Less-10</h1>
+和Less-9一样，只是把'换成"。
+
+<h1>小结</h1>
+延迟注入：用sleep函数，如果可以注入则会再加载指定时间后输出，否则会较快的输出。
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/03/sql-labs-Less-9-10/" data-id="ckkp9f5vo0000swux5wmihkxs" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-8" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/02/sql-labs-Less-8/" class="article-date">
@@ -548,15 +593,15 @@
           </li>
         
           <li>
+            <a href="/2021/02/20/sql-labs-Less-32~33-35/">sql-labs-Less-32~33</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/18/sql-labs-Less-29-31/">sql-labs-Less-29~31</a>
           </li>
         
           <li>
             <a href="/2021/02/17/sql-labs-Less-28-28a/">sql-labs-Less-28-28a</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/17/sql-labs-Less-27a/">sql-labs-Less-27a</a>
           </li>
         
       </ul>
