@@ -64,6 +64,96 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-13~16" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/07/sql-labs-Less-13~16/" class="article-date">
+  <time datetime="2021-02-07T03:04:58.000Z" itemprop="datePublished">2021-02-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/07/sql-labs-Less-13~16/">sql-labs-Less-13~16</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-13</h1>
+首先进入http://127.0.0.1/sql/Less-13/，输入账号和密码，显示如下：
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/07/sql-labs-Less-13~16/1.png" alt="1"><br>登入成功，但没有信息的回显，这时候就想到可能要用布尔盲注。<br>在账号后面加上’，显示如下：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/07/sql-labs-Less-13~16/2.png" alt="2"><br>说明有注入漏洞，而且错误显示<code>admin&#39;) LIMIT 0,1</code>，说明可能要用’)字符注入。<br>测试一下’)：在账号后面加上’)#，在输入密码，显示登入成功，说明是用’)字符注入的。<br>也可以把’)改成\，不输入密码再次登入，\的后面是’)，说明是用’)注入的。<br>在账号后面加上’) order by 2#，登入正常，说明有两列数据。<br>在输入admin’) and <code>length(database())=8</code>#登入正常，说明库名长度为8。<br>剩下的跟Less-5~6一样，在上一句的阴影部分改一下就行了。</p>
+<h1>Less-14</h1>
+和13一样，只是把')改成"。
+
+<h1>Less-15</h1>
+和上面一样，注入字符换成'。
+
+<h1>Less-16</h1>
+和上面一样，注入字符换成")。
+
+<h1>小结</h1>
+也可以用延时注入的方法(if函数和sleep函数)。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/07/sql-labs-Less-13~16/" data-id="ckkwiqjij0000uwuxbjj07h0w" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-11~12" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/06/sql-labs-Less-11~12/" class="article-date">
@@ -561,60 +651,11 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/10/03/hello-world/" class="article-date">
-  <time datetime="2020-10-03T13:15:06.711Z" itemprop="datePublished">2020-10-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/03/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/03/hello-world/" data-id="ckftpds0g0000s4uxd05p2361" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -646,6 +687,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/22/sql-labs-Less-42~45/">sql-labs-Less-42~45</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/21/sql-labs-Less-38~41/">sql-labs-Less-38~41</a>
           </li>
         
@@ -659,10 +704,6 @@
         
           <li>
             <a href="/2021/02/20/sql-labs-Less-32~33-35/">sql-labs-Less-32~33-35</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/18/sql-labs-Less-29-31/">sql-labs-Less-29~31</a>
           </li>
         
       </ul>

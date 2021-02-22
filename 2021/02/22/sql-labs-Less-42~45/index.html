@@ -5,19 +5,25 @@
   
 
   
-  <title>用scanf输入字符时字符无效的解决办法 | Hexo</title>
+  <title>sql-labs-Less-42~45 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于用scanf输入字符时字符无效的解决办法问题用scanf输入字符串，运行后出现提示:   0x796B98F1 (ucrtbased.dll)处(位于 1.exe 中)引发的异常:     0xC0000005: 写入位置 0x007D1343 时发生访问冲突。   以及下方提示：  &lt;字符串中的字符无效&gt;  错误的地方: #include &lt;stdio.h&gt;int m">
+  <meta name="description" content="Less-42 进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-42&#x2F;，这关乍一看和前面二十几关的二次注入很像，但其实并不是。 我们打开源代码：  看到它只对username进行了处理，对password没有，所以我们可以在password那里进行注入。输入admin|admin’，发生报错，有报错回显信息，再输入admin|admin’#登录成功（如果没有输入username，就只会登录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="用scanf输入字符时字符无效的解决办法">
-<meta property="og:url" content="http://example.com/2020/10/20/%E7%94%A8scanf%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E6%97%B6%E5%AD%97%E7%AC%A6%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/index.html">
+<meta property="og:title" content="sql-labs-Less-42~45">
+<meta property="og:url" content="http://example.com/2021/02/22/sql-labs-Less-42~45/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="关于用scanf输入字符时字符无效的解决办法问题用scanf输入字符串，运行后出现提示:   0x796B98F1 (ucrtbased.dll)处(位于 1.exe 中)引发的异常:     0xC0000005: 写入位置 0x007D1343 时发生访问冲突。   以及下方提示：  &lt;字符串中的字符无效&gt;  错误的地方: #include &lt;stdio.h&gt;int m">
+<meta property="og:description" content="Less-42 进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-42&#x2F;，这关乍一看和前面二十几关的二次注入很像，但其实并不是。 我们打开源代码：  看到它只对username进行了处理，对password没有，所以我们可以在password那里进行注入。输入admin|admin’，发生报错，有报错回显信息，再输入admin|admin’#登录成功（如果没有输入username，就只会登录">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-10-20T09:49:47.000Z">
-<meta property="article:modified_time" content="2020-10-20T11:46:54.685Z">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/1.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/2.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/3.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/4.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/5.png">
+<meta property="article:published_time" content="2021-02-22T08:10:00.000Z">
+<meta property="article:modified_time" content="2021-02-22T11:14:03.053Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -66,10 +72,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-用scanf输入字符时字符无效的解决办法" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-sql-labs-Less-42~45" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/10/20/%E7%94%A8scanf%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E6%97%B6%E5%AD%97%E7%AC%A6%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="article-date">
-  <time datetime="2020-10-20T09:49:47.000Z" itemprop="datePublished">2020-10-20</time>
+    <a href="/2021/02/22/sql-labs-Less-42~45/" class="article-date">
+  <time datetime="2021-02-22T08:10:00.000Z" itemprop="datePublished">2021-02-22</time>
 </a>
     
   </div>
@@ -80,7 +86,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      用scanf输入字符时字符无效的解决办法
+      sql-labs-Less-42~45
     </h1>
   
 
@@ -88,24 +94,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="关于用scanf输入字符时字符无效的解决办法"><a href="#关于用scanf输入字符时字符无效的解决办法" class="headerlink" title="关于用scanf输入字符时字符无效的解决办法"></a>关于用scanf输入字符时字符无效的解决办法</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>用scanf输入字符串，运行后出现提示:</p>
-<blockquote>
-<blockquote>
-<p>0x796B98F1 (ucrtbased.dll)处(位于 1.exe 中)引发的异常:<br><br>     0xC0000005: 写入位置 0x007D1343 时发生访问冲突。<br></p>
-</blockquote>
-</blockquote>
-<p>以及下方提示：</p>
-<blockquote>
-<p>&lt;字符串中的字符无效&gt;</p>
-</blockquote>
-<p>错误的地方:</p>
-<p>#include &lt;stdio.h&gt;<br><br>int main()<br><br>{<br><br>     char a, b, c;<br><br>     scanf_s(“%c %c %c”,<code> &amp;a, &amp;b, &amp;c</code>);&lt;&lt;&lt;&lt;&lt;&lt;(错误)<br><br>     printf(“%d,%d,%d”, a,b,c);<br><br>     return 0;<br><br>}</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>可在scanf中输入的字符后输入“整数，”，如下：<br>#include &lt;stdio.h&gt;<br><br>int main()<br><br>{<br><br>     char a, b, c;<br><br>     scanf_s(“%c %c %c”, <code>&amp;a, 1，&amp;b, 1，&amp;c，1</code>);<br><br>     printf(“%d,%d,%d”, a,b,c);<br><br>     return 0;<br><br>}</p>
+        <h1>Less-42</h1>
+进入http://127.0.0.1/sql/Less-42/，这关乍一看和前面二十几关的二次注入很像，但其实并不是。
+我们打开源代码：
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/1.png" alt="1"><br>看到它只对username进行了处理，对password没有，所以我们可以在password那里进行注入。<br>输入admin|admin’，发生报错，有报错回显信息，再输入admin|admin’#登录成功（如果没有输入username，就只会登录失败，没有报错回显）。<br>由上面可知可以用’进行注入，可以延时注入和报错注入，布尔盲注也可以。不能用联合注入，因为用union select 1,2,3后不知道输出位置在哪里。<br>admin|admin’;create table test like users#<br>在数据库中增加了一个新表</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/2.png" alt="2"><br>admin|admin’;drop table test# </p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/3.png" alt="3"><br>刚才的表没了。</p>
+<p>PS：按F12，打开查看器，按下图把红圈里的password改成test，这样输入password时就可以看见了。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/4.png" alt="4"></p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/22/sql-labs-Less-42~45/5.png" alt="5"></p>
+<h1>Less-43</h1>
+
+<p>和Less-42一样，只是注入字符改成’)。</p>
+<h1>Less-44</h1>
+
+<p>和Less-42一样，只是这关要盲注。</p>
+<h1>Less-45</h1>
+
+<p>和Less-44一样，只是注入字符改成’)。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/20/%E7%94%A8scanf%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E6%97%B6%E5%AD%97%E7%AC%A6%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" data-id="ckght635y0000owuxax9x6h4k" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/22/sql-labs-Less-42~45/" data-id="cklghg8dt00002wuxffko5xow" class="article-share-link">Share</a>
       
       
     </footer>
@@ -114,19 +126,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/11/22/%E7%B1%BB%E9%87%91%E5%AD%97%E5%A1%94%E5%9E%8B%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          类金字塔型题
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/10/03/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/21/sql-labs-Less-38~41/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">sql-labs-Less-38~41</div>
     </a>
   
 </nav>
