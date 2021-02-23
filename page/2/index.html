@@ -64,43 +64,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-sql-labs-Less-27a" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/17/sql-labs-Less-27a/" class="article-date">
-  <time datetime="2021-02-17T07:12:02.000Z" itemprop="datePublished">2021-02-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/17/sql-labs-Less-27a/">sql-labs-Less-27a</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27a/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1&#39;%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%EF%BC%8C%E6%8A%8A&#39;%E6%8D%A2%E6%88%90&quot;%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%E4%BD%86%E6%B2%A1%E6%9C%89%E5%9B%9E%E6%98%BE%EF%BC%8C%E5%9C%A8%E8%BE%93%E5%85%A5%E4%B8%80%E4%B8%AA&quot;%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%E3%80%82">http://127.0.0.1/sql/Less-27a/，输入?id=1&#39;，正常输出，把&#39;换成&quot;出现错误但没有回显，在输入一个&quot;正常输出。</a><br>说明可以用”注入，但不可以用报错注入。剩下的和Less-26a差不多，这关用闭合法。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/17/sql-labs-Less-27a/" data-id="ckl9ceyb80000q8uxa5wt9rb3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-sql-labs-Less-27" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/17/sql-labs-Less-27/" class="article-date">
@@ -512,6 +475,46 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
 
 
   
+    <article id="post-sql-labs-Less-19" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/11/sql-labs-Less-19/" class="article-date">
+  <time datetime="2021-02-11T06:56:08.000Z" itemprop="datePublished">2021-02-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/11/sql-labs-Less-19/">sql-labs-Less-19</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-19/">http://127.0.0.1/sql/Less-19/</a> ，并登入，显示IP地址和referer与Less-18相似：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/1.png" alt="1"><br>因为显示了referer，又因为与Less-18相似，所以我们尝试一下在referer注入。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/2.png" alt="2"><br>画横线的部分可以按照Less-18的方法找出来，在referer里输入’，发现报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/3.png" alt="3"><br>且报错语句中有<code>127.0.0.1&#39;)</code>，这时我们可以联想到Less-18，推测出原语句可能是(‘abc’,…,’abc’)这样的。<br>再输入一个’，发现正常登入了，说明可以用’注入。<br>注入语句：<br>1)闭合法：’and updatexml(1,concat(0x7e,(相应的语句),0x7e),1) and’<br>2)注释法：’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1) ,’’)#<br>接下来跟Less-18差不多了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/11/sql-labs-Less-19/" data-id="ckl0zmcaa0000w4uxcoqw4e94" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
 
 
   <nav id="page-nav">
@@ -548,10 +551,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
       <ul>
         
           <li>
-            <a href="/2021/02/23/aaa/">aaa</a>
-          </li>
-        
-          <li>
             <a href="/2021/02/23/sql-labs-Less-50-53/">sql-labs-Less-50~53</a>
           </li>
         
@@ -565,6 +564,10 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
         
           <li>
             <a href="/2021/02/21/sql-labs-Less-38~41/">sql-labs-Less-38~41</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/sql-labs-Less-36-37/">sql-labs-Less-36~37</a>
           </li>
         
       </ul>
