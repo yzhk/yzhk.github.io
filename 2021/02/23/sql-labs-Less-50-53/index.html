@@ -5,24 +5,22 @@
   
 
   
-  <title>sql-labs-Less-24 | Hexo</title>
+  <title>sql-labs-Less-50~53 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-24&#x2F; 注册一个新账号：admin’#,密码：123 再登录，然后把密码改成123456,改好后再用admin，123456登录。 登陆成功。查看数据库：  小结 二次注入：sql注入语句-&gt;被转义-&gt;进入数据库后被还原成原来的sql注入语句-&gt;将数据库里的sql注入语句原样取出，这时就造成注入 详细：https:&#x2F;&#x2F;www.jianshu.">
+  <meta name="description" content="Less-50 进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-50&#x2F;，我们查看源代码：  和前面几关的源代码： 不一样，区别在于mysqli_multi_query()可以执行多个sql语句，而mysqli_query()只能执行一个sql语句，那么我们此处就可以执行多个sql语句进行注入就像之前的堆叠注入。我们输入?sort&#x3D;1’，发生报错，从报错信息可以看出这关是整型，所以我们直接构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sql-labs-Less-24">
-<meta property="og:url" content="http://example.com/2021/02/14/sql-labs-Less-24/index.html">
+<meta property="og:title" content="sql-labs-Less-50~53">
+<meta property="og:url" content="http://example.com/2021/02/23/sql-labs-Less-50-53/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-24&#x2F; 注册一个新账号：admin’#,密码：123 再登录，然后把密码改成123456,改好后再用admin，123456登录。 登陆成功。查看数据库：  小结 二次注入：sql注入语句-&gt;被转义-&gt;进入数据库后被还原成原来的sql注入语句-&gt;将数据库里的sql注入语句原样取出，这时就造成注入 详细：https:&#x2F;&#x2F;www.jianshu.">
+<meta property="og:description" content="Less-50 进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-50&#x2F;，我们查看源代码：  和前面几关的源代码： 不一样，区别在于mysqli_multi_query()可以执行多个sql语句，而mysqli_query()只能执行一个sql语句，那么我们此处就可以执行多个sql语句进行注入就像之前的堆叠注入。我们输入?sort&#x3D;1’，发生报错，从报错信息可以看出这关是整型，所以我们直接构">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/1.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/2.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/3.png">
-<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/4.png">
-<meta property="article:published_time" content="2021-02-14T06:11:13.000Z">
-<meta property="article:modified_time" content="2021-02-21T10:56:00.859Z">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-50~53/1.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-50~53/2.png">
+<meta property="article:published_time" content="2021-02-23T14:55:43.000Z">
+<meta property="article:modified_time" content="2021-02-23T15:10:52.703Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/1.png">
+<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-50~53/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -71,10 +69,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-sql-labs-Less-24" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-sql-labs-Less-50-53" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/02/14/sql-labs-Less-24/" class="article-date">
-  <time datetime="2021-02-14T06:11:13.000Z" itemprop="datePublished">2021-02-14</time>
+    <a href="/2021/02/23/sql-labs-Less-50-53/" class="article-date">
+  <time datetime="2021-02-23T14:55:43.000Z" itemprop="datePublished">2021-02-23</time>
 </a>
     
   </div>
@@ -85,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      sql-labs-Less-24
+      sql-labs-Less-50~53
     </h1>
   
 
@@ -93,19 +91,27 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-24/">http://127.0.0.1/sql/Less-24/</a></p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/1.png" alt="1"><br>注册一个新账号：admin’#,密码：123</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/2.png" alt="2"><br>再登录，然后把密码改成123456,改好后再用admin，123456登录。</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/3.png" alt="3"><br>登陆成功。<br>查看数据库：</p>
-<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/14/sql-labs-Less-24/4.png" alt="4"></p>
-<h2>小结</h2>
-二次注入：sql注入语句->被转义->进入数据库后被还原成原来的sql注入语句->将数据库里的sql注入语句原样取出，这时就造成注入<br>
-详细：https://www.jianshu.com/p/3fe7904683ac    <br>
-https://www.cnblogs.com/cute-puli/p/11145758.html 
+        <h1>Less-50</h1>
+进入http://127.0.0.1/sql/Less-50/，我们查看源代码：
+
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-50~53/1.png" alt="1"><br>和前面几关的源代码：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-50~53/2.png" alt="2"><br>不一样，区别在于mysqli_multi_query()可以执行多个sql语句，而mysqli_query()只能执行一个sql语句，那么我们此处就可以执行多个sql语句进行注入就像之前的堆叠注入。<br>我们输入?sort=1’，发生报错，从报错信息可以看出这关是整型，所以我们直接构造出语句：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-50/?sort=1;create">http://127.0.0.1/sql/Less-50/?sort=1;create</a> table test like users–+<br>查看数据库的话会发现多了一个名为test的表。<br>删除表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-50/?sort=1;drop">http://127.0.0.1/sql/Less-50/?sort=1;drop</a> table test–+</p>
+<h1>Less-51</h1>
+
+<p>和Less-50一样，注入字符是’。</p>
+<h1>Less-52</h1>
+
+<p>和Less-50一样，只是不能报错。</p>
+<h1>Less-53</h1>
+
+<p>和Less-51一样，只是不能报错。</p>
+<h1>小结</h1>
+mysqli_multi_query()：https://www.runoob.com/php/func-mysqli-multi-query.html
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/14/sql-labs-Less-24/" data-id="ckl54fzm40000o8uxewbqa1dx" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/23/sql-labs-Less-50-53/" data-id="ckli58ltn00008gux4pxz61rp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -114,19 +120,10 @@ https://www.cnblogs.com/cute-puli/p/11145758.html
     
 <nav id="article-nav">
   
-    <a href="/2021/02/15/sql-labs-Less-25/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          sql-labs-Less-25
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/02/13/sql-labs-Less-23/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/23/sql-labs-Less-46~49/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">sql-labs-Less-23</div>
+      <div class="article-nav-title">sql-labs-Less-46~49</div>
     </a>
   
 </nav>
