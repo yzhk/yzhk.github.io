@@ -64,6 +64,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-19" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/11/sql-labs-Less-19/" class="article-date">
+  <time datetime="2021-02-11T06:56:08.000Z" itemprop="datePublished">2021-02-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/11/sql-labs-Less-19/">sql-labs-Less-19</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-19/">http://127.0.0.1/sql/Less-19/</a> ，并登入，显示IP地址和referer与Less-18相似：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/1.png" alt="1"><br>因为显示了referer，又因为与Less-18相似，所以我们尝试一下在referer注入。</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/2.png" alt="2"><br>画横线的部分可以按照Less-18的方法找出来，在referer里输入’，发现报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/11/sql-labs-Less-19/3.png" alt="3"><br>且报错语句中有<code>127.0.0.1&#39;)</code>，这时我们可以联想到Less-18，推测出原语句可能是(‘abc’,…,’abc’)这样的。<br>再输入一个’，发现正常登入了，说明可以用’注入。<br>注入语句：<br>1)闭合法：’and updatexml(1,concat(0x7e,(相应的语句),0x7e),1) and’<br>2)注释法：’and updatexml(1,concat(0x7e,(构造的语句),0x7e),1) ,’’)#<br>接下来跟Less-18差不多了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/11/sql-labs-Less-19/" data-id="ckl0zmcaa0000w4uxcoqw4e94" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-18" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/10/sql-labs-Less-18/" class="article-date">
@@ -609,43 +649,6 @@
 
 
   
-    <article id="post-插入排序" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/26/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" class="article-date">
-  <time datetime="2020-12-26T11:39:10.000Z" itemprop="datePublished">2020-12-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/26/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">插入排序</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="http://c.biancheng.net/cpp/html/2492.html">http://c.biancheng.net/cpp/html/2492.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/26/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" data-id="ckj5mthc100006cuxer7r9qxl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -682,6 +685,10 @@
       <ul>
         
           <li>
+            <a href="/2021/02/23/aaa/">aaa</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/23/sql-labs-Less-50-53/">sql-labs-Less-50~53</a>
           </li>
         
@@ -695,10 +702,6 @@
         
           <li>
             <a href="/2021/02/21/sql-labs-Less-38~41/">sql-labs-Less-38~41</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/21/sql-labs-Less-36-37/">sql-labs-Less-36~37</a>
           </li>
         
       </ul>
